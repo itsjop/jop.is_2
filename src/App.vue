@@ -1,14 +1,10 @@
 <template lang="pug">
   #app
-    #os-bg
-      <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><g fill-rule="evenodd"><g><path opacity=".5" d="M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z" /><path d="M6 5V0H5v5H0v1h5v94h1V6h94V5H6z" /></g></g></svg>
-    //- #nav
-    //-   router-link(to="/") Home
-    //-   router-link(to="/about") About
     #os
-      window(:info="window" :window_id="index" :key="'window_'+index" v-for="(window, index) in windows" @popWindow="popWindow")
-        cooldog
-      taskbar
+      desktop
+      window(:info="window" :window_id="index" :key="'window_'+index" v-for="(window, index) in windows" @popWindow="popWindow" @closeWindow="closeWindow")
+        component(:is="window.component" @newWindow="newWindow" :args="window.args") 
+      taskbar(@newWindow="newWindow")
     //- router-view
   </div>
 </template>
@@ -16,20 +12,45 @@
 <script>
 import Window from './components/Window/Window'
 import Taskbar from './components/Taskbar/Taskbar'
+import Desktop from './components/Desktop/Desktop'
 import CoolDog from './components/Webpages/CoolDog/CoolDog'
+import CoolCat from './components/Webpages/CoolCat/CoolCat'
+import DuckRotation from './components/Webpages/DuckRotation/DuckRotation'
+import Explorer from './components/Explorer/Explorer'
+import Empty from './components/Empty'
 export default {
   name: 'App',
   data() {
     return {
       windows:[
         {
-          title:"lolwhat",
-          active: false
+          title:"Explorer",
+          active: true,
+          zIndex: 1,
+          component:'explorer',
+          args:this.folder
         },
+      ],
+      folder:[
         {
-          title:"catTime",
-          active: true
-        },
+          img: "ring.png",
+          title: "The Ring",
+          component:"duckrotation",
+          args:{
+          }
+        },{
+          img: "ring.png",
+          title: "The Ring 2",
+          component:"duckrotation",
+          args:{
+          }
+        },{
+          img: "ring.png",
+          title: "The Ring 3",
+          component:"duckrotation",
+          args:{
+          }
+        }
       ]
     }
   },
@@ -40,16 +61,35 @@ export default {
     updateTitle(){
       this.windows[0].title = "dog"
     },
-    popWindow(index){
-      let tempArr = this.window[index]
-      this.window.splice(index,1)
-      this.window.push(tempArr)
+    popWindow(newIndex){
+      this.windows.map((window, winIndex) =>{ 
+        if(window.zIndex >= this.windows[newIndex].zIndex) {
+          window.zIndex -= 1
+        }
+        if (winIndex === newIndex){
+          window.zIndex= this.windows.length 
+        }
+      });
+    },
+    newWindow(payload={title:"New window",component:"blank"}){
+      this.windows.push({
+        title: payload.title,
+        component: payload.component,
+        zIndex: this.windows.length + 1,
+        active: true,
+        args:(payload.component="explorer"?this.folder:{})
+      })
     }
   },
   components:{
     window: Window,
+    empty: Empty,
     cooldog: CoolDog,
-    taskbar: Taskbar
+    coolcat: CoolCat,
+    duckrotation: DuckRotation,
+    desktop: Desktop,
+    taskbar: Taskbar,
+    explorer: Explorer
   }
 }
 </script>
@@ -62,32 +102,28 @@ export default {
   --accent: #f47142
   --accent-dark: #bf522b
   --accent-darker: #7f3318
+  --accent-darkest: #441909
   --accent-light: #ea8662
   --accent-lighter: #eaa991
-  --accent-lightst: #edcfc4
+  --accent-lightest: #edcfc4
   --text-light: #eee
   --text-dark: #222
   --text: #111
   --dark: #111
 
+fullpage()
+  width 100vw
+  height 100vh
+  z-index -100
+  position absolute
 body
   overflow hidden
   font-family: 'Nunito', sans-serif;
   //from http://www.heropatterns.com/
   background-color: #f9eccd;
+  fullpage()
+#app 
+  fullpage()
 #os
-  width 100vw
-  height 100vh
-#os-bg
-  width 100vw
-  height 100vh
-  position absolute
-  top 0 
-  left 0
-  pointer-events none
-  background var(--accent-lightest)
-  svg 
-    width 100vw
-    height 100vh
-    fill var(--accent-lighter)
+  fullpage()
 </style>

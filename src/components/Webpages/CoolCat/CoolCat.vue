@@ -1,13 +1,13 @@
 <template lang="pug">
    section
-      h1 Hey What's Up I'm A Cool Dog
+      h1 Hey What's Up I'm A Cool Cat
       button(@click="count+=1") Count {{count}}
-      img(src="https://i.kym-cdn.com/entries/icons/original/000/002/203/20533_cooldog.jpg")
+      img(src="https://cdn.shopify.com/s/files/1/1511/4266/products/Fashion-Glasses-Small-Pet-Dogs-Cat-Glasses-Sunglasses-Eye-wear-Protection-Pet-Cool-Glasses-Pet-Photos.jpg?v=1521388987")
 </template>
 
 <script>
 export default {
-   name: 'CoolDog',
+   name: 'CoolCat',
    data() {
       return {
          count: 0

@@ -1,13 +1,7 @@
 <template lang="pug">
-
-//- .windowpane(:id="'windowpane-'+window_id")
-//- .dragframe( @mousemove="doDrag" @click="preventDefault()" @mouseup="stopDrag" @mouseleave="stopDrag" v-bind:style="{zIndex: window_id }")
-.windowpane(:id="'windowpane-'+window_id" v-bind:style="{ transform: 'translate('+ xPerc +'%,' + yPerc +'%)'}")
-	//- .window(v-draggable="draggableValue" :class="info.active ? 'active' : 'inactive'")
-	.window(:class="info.active ? 'active' : 'inactive'" ref="window" @click="popWindow(window_id)" v-bind:style="{ width: width+'px', height: height+'px'}")
-		.content
-			slot
-		//- @click="setWindowCoordinates(busstop)"
+.windowpane(:id="'windowpane-'+info.zIndex" v-bind:style="{ transform: 'translate('+ xPerc +'%,' + yPerc +'%)', zIndex: info.zIndex}")
+	.window(:class="info.active ? 'active' : 'inactive'" ref="window" @mousedown="popWindow(window_id)" :style="{ width: width+'px', height: height+'px',  }")
+		.shadow(:style="{transform: 'translate('+ xShadow +'%,' + yShadow +'%)',}")
 		.toolbar(@mousedown="startDrag" ref="toolbar")
 			.blank
 			.bg
@@ -15,7 +9,9 @@
 			.buddins
 				.maximize +
 				.minimize _
-				.close 	  X
+				.close(@click="closeWindow(window_id)") 	  X
+		.content
+			slot
 		.scalar.scalar-t(@mousedown="startScale('top')")
 		.scalar.scalar-tl(@mousedown="startScale('top','left')")
 		.scalar.scalar-l(@mousedown="startScale('left')")
@@ -34,15 +30,17 @@ export default {
 	data() {
 		return {
 			x: 0,
-			xPerc:0,
+			xPerc:10,
 			xOffset:0,
 			xOrigin:0,
 			xStart:0,
+			xShadow:0,
 			y: 0,
-			yPerc:0,
+			yPerc:10,
 			yOffset: 0,
 			yOrigin: 0,
 			yStart: 0,
+			yShadow:0,
 			width: 600,
 			height: 400,
 			rescale: {
@@ -61,12 +59,14 @@ export default {
 				active:{
 					type: Boolean,
 					default: false
+				},
+				zIndex:{
+					type:Number
 				}
 			}
 		},
-		window_id: {
-			type: Number,
-			default: "0"
+		window_id:{
+			type:Number
 		},
 		active:{
 			type: Boolean
@@ -100,8 +100,11 @@ export default {
       if (this.dragging) {
 				// Calculates the position on the screen with the offset of the element
 				// And then makes it a percentage to use transform translate()
-				this.xPerc = (this.x - this.xOffset)/(window.innerWidth)*100
-				this.yPerc = (this.y - this.yOffset)/(window.innerHeight)*100				
+				// Also clamps the output so it can't go offscreen
+				this.xPerc = Math.min(Math.max(((this.x - this.xOffset)/(window.innerWidth)*100),-((this.width/window.innerWidth)*95)),95)
+				this.yPerc = Math.min(Math.max(((this.y - this.yOffset -20)/(window.innerHeight)*100),-3),80)
+				this.xShadow = (-1 + (.04 * this.xPerc))
+				this.yShadow = (-1 + (.08 * this.yPerc)) 
 			}
 			// Covers rescaling and adjustment for all the different directions
 			if (this.rescale.scaling){
@@ -114,19 +117,16 @@ export default {
 				if (this.rescale.left){
 					this.xPerc = (this.x )/(window.innerWidth)*100
 					this.width =  this.xStart - this.x
-					console.log("scaleX")
 				}
 				if (this.rescale.top){					
 					this.yPerc = (this.y)/(window.innerHeight)*100
 					this.height =  this.yStart - this.y
-					console.log("scaleY")
 				}
 			}}
 		},   
     stopDrag() {
 			this.x = this.y = ''
-      this.dragging = this.rescale.scaling = false			
-			console.log("stopDrag")
+      this.dragging = this.rescale.scaling = false
     }, 
 		setGlobalMouse(){
 			this.x = event.clientX;
@@ -138,25 +138,27 @@ export default {
 			this.yOrigin = this.$refs.toolbar.getBoundingClientRect().top
 			this.xOffset = event.clientX - this.xOrigin
 			this.yOffset = event.clientY - this.yOrigin
-    },
+		},
+		popWindow(index){
+			this.activateListener()
+			this.$emit('popWindow',this.window_id)
+		},
+		activateListener(){
+			window.addEventListener('mouseup', this.stopDrag);
+			window.addEventListener('mouseleave', this.stopDrag);
+			window.addEventListener('mousemove', this.doDrag);
+		}
 	},
 	mounted() {
-    window.addEventListener('mouseup', this.stopDrag);
-    window.addEventListener('mouseleave', this.stopDrag);
-    window.addEventListener('mousemove', this.doDrag);
+		this.activateListener()
+		this.xPerc+=(Math.random()*30)
+		this.yPerc+=(Math.random()*30)
 	}
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="stylus" scoped>
-.dragframe
-	width 100vw
-	height 100vh
-	position absolute 
-	top 0
-	left 0
-	background #33333333
 .windowpane
 	width 100vw
 	height 100vh
@@ -173,14 +175,25 @@ export default {
 		height 40vh
 		display grid
 		pointer-events auto
+		animation window-creation .5s forwards
+		transform scale(0)
 		grid-template:\
 		"sc-tl sc-t sc-tr" 10px\
 		"sc-l   .   sc-r" 25px\
 		"sc-l   .   sc-r" auto\
 		"sc-bl sc-b sc-br" 10px\
 		/ 10px auto 10px
+		.shadow
+			grid-column 1/4
+			grid-row 2/4
+			border-radius 10px 10px 0 0
+			// box-shadow 0px 0px 20px var(--accent-darkest)
+			filter blur(5px)
+			opacity .4
+			background var(--accent-darkest)
+			z-index -1
 		.toolbar
-			grid-column 2/3
+			grid-column 1/4
 			grid-row 2/3   
 			cursor grab
 			user-select none
@@ -272,8 +285,9 @@ export default {
 			scalar(sc-r, ew-resize)
 
 		.content
-			grid-column 2/3
+			grid-column 1/4
 			grid-row 3/4
+			height 100%
 			color var(--text)
 			overflow-y scroll
 			iframe
@@ -301,6 +315,14 @@ export default {
 	}
 	to{
 		transform:translateX(-2%)
+	}
+}
+@keyframes window-creation{
+	from{
+		transform: scale(0)
+	}
+	to{
+		transform: scale(1)
 	}
 }
 </style>

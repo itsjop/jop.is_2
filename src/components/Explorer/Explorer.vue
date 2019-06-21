@@ -1,6 +1,6 @@
 <template lang="pug">
 section.explorer
-  .icons(v-for="file in args.folder" v-on:dblclick="newWindow(file.title, file.component)")
+  .icons(v-for="file in args.folder.contents" v-on:dblclick="newWindow(file.title, file.component)")
     img(:alt="file.img" :src="file.img")
     label {{file.title}}
 </template>
@@ -15,14 +15,7 @@ export default {
 	},
 	props: {
 		args:{
-			type: Array,
-			default:()=>[{
-				img: "ring.png",
-				title: "The Ring",
-				component:"duckrotation",
-				args:{
-				}
-			}]
+			type: Object,
 		}
 	},
 	methods:{

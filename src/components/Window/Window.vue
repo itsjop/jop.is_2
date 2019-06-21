@@ -33,7 +33,7 @@ export default {
 	data() {
 		return {
 			closing: false,
-			 zed: false,
+			minimized: false,
 			width: 600,
 			height: 400,
 			rescale: {
@@ -165,6 +165,8 @@ export default {
 				console.log("closing real")
 				this.$emit('closeWindow',this.window_id)
 			}, 500);
+		},
+		minimizeWindow(){
 		}
 	},
 	mounted() {

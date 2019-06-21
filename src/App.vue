@@ -7,7 +7,7 @@
   #app
     #os
       desktop
-      window(:info="window" :window_id="index" :key="'window_'+index" v-for="(window, index) in windows" @popWindow="popWindow" )
+      window(:info="window" :window_id="index" :key="'window_'+index" v-for="(window, index) in windows" @popWindow="popWindow" @closeWindow="closeWindow" )
         component(:is="window.component" @newWindow="newWindow" :args="window.args") 
       taskbar(@newWindow="newWindow" )
     //- router-view
@@ -62,43 +62,55 @@ export default {
       // if it is, it brings it to the foreground instead of making a new one
       console.log("newWindow",payload)
       if(this.checkUnique(payload.component)){
-        console.log("making now")
         // Creates a new window components and seeds the vars needed in to it
         this.windows.push({
-        title: payload.title,
-        component: payload.component,
-        zIndex: this.windows.length + 1,
-        active: true,
-        args:{
-          folder: this.folders[payload.folderPath],
-          allFolders: this.folders
-        },
-      })}
+          title: payload.title,
+          component: payload.component,
+          zIndex: this.windows.length + 1,
+          active: true,
+          args:{
+            folder: this.folders[this.findNameInArray(this.folders, payload.folderPath)],
+            allFolders: this.folders
+          },
+        })
+      }
     },
     checkUnique(component){
       // Checks to see if the listed component is in the unique category
+      let result = true
       console.log("checking unique")
       if(this.uniqueList.includes(component)) {
         // If it is, it sees if it already exists
+        console.log("component",component)
         this.windows.map((window, winIndex) =>{
+          console.log("window.component",window.component)
           if(window.component === component){
-            this.popWindow(index)
+            this.popWindow(winIndex)
             console.log("found")
-            return false
+            result = false
           }          
         })
-        // If it doesn't it goes ahead and creates a new one
-        console.log("not found")
-        return true
       }else{
+        // If it doesn't it goes ahead and creates a new one
         // Or if it doesn't care if there's multiples
         console.log("not unique")
-        return true
       }
+      return result
+    },
+    findNameInArray(array, name, id="name"){
+      // finds name by selector (default 'name')
+      let please = ""
+      array.map((arr, thisIndex) =>{
+        if(arr[id] === name){
+          please = thisIndex
+        }
+      })
+      return please
     },
     closeWindow(winIndex){
       // actually removes the window from data
-      this.windows.slice(winIndex,1)
+      console.log("closing window", winIndex)
+      this.windows.splice(winIndex,1)
     },
   },
   components:{

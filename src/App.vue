@@ -1,7 +1,3 @@
-// TODO: Change style based on user agent
-// Create Mobile View Version
-
-// Personal Clippy Assistant
 
 <template lang="pug">
   #app
@@ -15,16 +11,19 @@
 </template>
 
 <script>
+// External
 import folders_json from './assets/data/Folders'
-
-import Window from './components/Window/Window'
-import Taskbar from './components/Taskbar/Taskbar'
+// Core Elements
 import Desktop from './components/Desktop/Desktop'
+import Taskbar from './components/Taskbar/Taskbar'
+import Window from './components/Window/Window'
+// Window files
+import Explorer from './components/Explorer/Explorer'
 import CoolDog from './components/Webpages/CoolDog/CoolDog'
 import CoolCat from './components/Webpages/CoolCat/CoolCat'
 import DuckRotation from './components/Webpages/DuckRotation/DuckRotation'
-import Explorer from './components/Explorer/Explorer'
 import Empty from './components/Empty'
+
 export default {
   name: 'App',
   data() {

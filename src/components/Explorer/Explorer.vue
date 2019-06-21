@@ -1,8 +1,8 @@
 <template lang="pug">
 section.explorer
-  .icons(v-for="file in args" v-on:dblclick="newWindow(file.title, file.component)")
-    p {{file.img}}
-    p {{file.title}}
+  .icons(v-for="file in args.folder" v-on:dblclick="newWindow(file.title, file.component)")
+    img(:alt="file.img" :src="file.img")
+    label {{file.title}}
 </template>
 
 <script>
@@ -15,8 +15,8 @@ export default {
 	},
 	props: {
 		args:{
-			type: Object,
-			default:[{
+			type: Array,
+			default:()=>[{
 				img: "ring.png",
 				title: "The Ring",
 				component:"duckrotation",
@@ -27,7 +27,6 @@ export default {
 	},
 	methods:{
 		newWindow(title, component){
-      alert(title+", "+ component)
 			this.$emit('newWindow',{title: title, component: component})
     },
   }
@@ -39,8 +38,22 @@ export default {
 
 .explorer
   display grid
+  grid-auto-flow row 
+  padding 20px
+  grid-template-columns repeat(auto-fit, minmax(50px, 1fr))
+  grid-template-rows repeat(auto-fit, 100px)
+  min-height 100%
   .icons
     cursor pointer
     user-select none
+    display grid
+    justify-content center
+    img
+      width 80px
+      height 80px
+      background lightgreen
+      color gray
+    label
+      text-align center
 
 </style>

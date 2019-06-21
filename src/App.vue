@@ -1,15 +1,22 @@
+// TODO: Change style based on user agent
+// Create Mobile View Version
+
+// Personal Clippy Assistant
+
 <template lang="pug">
   #app
     #os
       desktop
-      window(:info="window" :window_id="index" :key="'window_'+index" v-for="(window, index) in windows" @popWindow="popWindow" @closeWindow="closeWindow")
+      window(:info="window" :window_id="index" :key="'window_'+index" v-for="(window, index) in windows" @popWindow="popWindow" )
         component(:is="window.component" @newWindow="newWindow" :args="window.args") 
-      taskbar(@newWindow="newWindow")
+      taskbar(@newWindow="newWindow" )
     //- router-view
   </div>
 </template>
 
 <script>
+import folders_json from './assets/data/Folders'
+
 import Window from './components/Window/Window'
 import Taskbar from './components/Taskbar/Taskbar'
 import Desktop from './components/Desktop/Desktop'
@@ -23,34 +30,11 @@ export default {
   data() {
     return {
       windows:[
-        {
-          title:"Explorer",
-          active: true,
-          zIndex: 1,
-          component:'explorer',
-          args:this.folder
-        },
       ],
-      folder:[
-        {
-          img: "ring.png",
-          title: "The Ring",
-          component:"duckrotation",
-          args:{
-          }
-        },{
-          img: "ring.png",
-          title: "The Ring 2",
-          component:"duckrotation",
-          args:{
-          }
-        },{
-          img: "ring.png",
-          title: "The Ring 3",
-          component:"duckrotation",
-          args:{
-          }
-        }
+      folders: folders_json,
+      uniqueList:[
+        "cooldog",
+        "coolcat"
       ]
     }
   },
@@ -63,23 +47,59 @@ export default {
     },
     popWindow(newIndex){
       this.windows.map((window, winIndex) =>{ 
+        // Anything that is in front of the new window gets pulled back
         if(window.zIndex >= this.windows[newIndex].zIndex) {
           window.zIndex -= 1
         }
+        // And the new index gets popped to the front
         if (winIndex === newIndex){
           window.zIndex= this.windows.length 
         }
       });
     },
     newWindow(payload={title:"New window",component:"blank"}){
-      this.windows.push({
+      // First sees if the selected component is listed as unique
+      // if it is, it brings it to the foreground instead of making a new one
+      console.log("newWindow",payload)
+      if(this.checkUnique(payload.component)){
+        console.log("making now")
+        // Creates a new window components and seeds the vars needed in to it
+        this.windows.push({
         title: payload.title,
         component: payload.component,
         zIndex: this.windows.length + 1,
         active: true,
-        args:(payload.component="explorer"?this.folder:{})
-      })
-    }
+        args:{
+          folder: this.folders[payload.folderPath],
+          allFolders: this.folders
+        },
+      })}
+    },
+    checkUnique(component){
+      // Checks to see if the listed component is in the unique category
+      console.log("checking unique")
+      if(this.uniqueList.includes(component)) {
+        // If it is, it sees if it already exists
+        this.windows.map((window, winIndex) =>{
+          if(window.component === component){
+            this.popWindow(index)
+            console.log("found")
+            return false
+          }          
+        })
+        // If it doesn't it goes ahead and creates a new one
+        console.log("not found")
+        return true
+      }else{
+        // Or if it doesn't care if there's multiples
+        console.log("not unique")
+        return true
+      }
+    },
+    closeWindow(winIndex){
+      // actually removes the window from data
+      this.windows.slice(winIndex,1)
+    },
   },
   components:{
     window: Window,

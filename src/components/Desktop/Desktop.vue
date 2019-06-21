@@ -1,7 +1,7 @@
  <template lang="pug">
 
 section.desktop
-  .icon(v-for="icon in icons" v-on:dblclick="alert()")
+  .icon(v-for="icon in icons" v-on:dblclick="")
     img(src="https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/WPVG_icon_2016.svg/1024px-WPVG_icon_2016.svg.png")
     .name {{icon.name}}
 

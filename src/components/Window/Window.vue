@@ -1,6 +1,9 @@
 <template lang="pug">
-.windowpane(:id="'windowpane-'+info.zIndex" v-bind:style="{ transform: 'translate('+ xPerc +'%,' + yPerc +'%)', zIndex: info.zIndex}")
-	.window(:class="info.active ? 'active' : 'inactive'" ref="window" @mousedown="popWindow(window_id)" :style="{ width: width+'px', height: height+'px',  }")
+.windowpane(:id="'windowpane-'+info.zIndex"
+		v-bind:style="{ transform: 'translate('+ xPerc +'%,' + yPerc +'%)', zIndex: info.zIndex}")
+	.window(ref="window" 
+			:class="(closing ? 'closing' : '')+' '+(minimized ? 'minimized' : '')" 
+			@mousedown="popWindow(window_id)" :style="{ width: width+'px', height: height+'px',  }")
 		.shadow(:style="{transform: 'translate('+ xShadow +'%,' + yShadow +'%)',}")
 		.toolbar(@mousedown="startDrag" ref="toolbar")
 			.blank
@@ -29,6 +32,13 @@ export default {
 	name: 'Window',
 	data() {
 		return {
+			closing: false,
+			 zed: false,
+			width: 600,
+			height: 400,
+			rescale: {
+				scaling: false
+			},
 			x: 0,
 			xPerc:10,
 			xOffset:0,
@@ -41,13 +51,8 @@ export default {
 			yOrigin: 0,
 			yStart: 0,
 			yShadow:0,
-			width: 600,
-			height: 400,
-			rescale: {
-				scaling: false
-			}
 		};
-	},
+	},   
 	props: {
 		info:{
 			type: Object,
@@ -125,10 +130,12 @@ export default {
 			}}
 		},   
     stopDrag() {
+			// disables anything being used for tracking
 			this.x = this.y = ''
       this.dragging = this.rescale.scaling = false
     }, 
 		setGlobalMouse(){
+			// sets the global mouse coordinate in to data
 			this.x = event.clientX;
 			this.y = event.clientY;
 		},
@@ -139,14 +146,25 @@ export default {
 			this.xOffset = event.clientX - this.xOrigin
 			this.yOffset = event.clientY - this.yOrigin
 		},
-		popWindow(index){
-			this.activateListener()
-			this.$emit('popWindow',this.window_id)
-		},
 		activateListener(){
+			// assigns the listener for the viewport to the current window
 			window.addEventListener('mouseup', this.stopDrag);
 			window.addEventListener('mouseleave', this.stopDrag);
 			window.addEventListener('mousemove', this.doDrag);
+		},
+		popWindow(index){
+			// pops the window to the top of the stack
+			this.activateListener()
+			this.$emit('popWindow',this.window_id)
+		},
+		closeWindow(){
+			// waits 500ms for the close animation to finish and then passes the close function
+			this.closing = true
+			console.log("closing")
+			setTimeout(() => {				
+				console.log("closing real")
+				this.$emit('closeWindow',this.window_id)
+			}, 500);
 		}
 	},
 	mounted() {
@@ -175,7 +193,7 @@ export default {
 		height 40vh
 		display grid
 		pointer-events auto
-		animation window-creation .5s forwards
+		animation window-creation .3s cubic-bezier(0.590, 0.160, 0.265, 1.550) forwards
 		transform scale(0)
 		grid-template:\
 		"sc-tl sc-t sc-tr" 10px\
@@ -183,6 +201,9 @@ export default {
 		"sc-l   .   sc-r" auto\
 		"sc-bl sc-b sc-br" 10px\
 		/ 10px auto 10px
+		&.closing
+			// Theoretically I could just play the last animation backwards but boy it fought me there
+			animation window-closing .3s cubic-bezier(0.575, -0.545, 0.265, 0.670) forwards 
 		.shadow
 			grid-column 1/4
 			grid-row 2/4
@@ -323,6 +344,14 @@ export default {
 	}
 	to{
 		transform: scale(1)
+	}
+}
+@keyframes window-closing{
+	from{
+		transform: scale(1)
+	}
+	to{
+		transform: scale(0)
 	}
 }
 </style>

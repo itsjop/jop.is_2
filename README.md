@@ -1,4 +1,9 @@
 # jop.os
+Hey, I'm Jordan Crandall and this is my personal portfolio site project. It's shaping up to be a whole read-only OS. I'm writing it in vue as it's my new personal favorite framework. At the moment there are no external production libraries and I've created the whole interface myself. Who knows though, maybe later. 
+
+Oh, and, here's the standard boilerplate nonsense.
+
+---------------------------------------------------------------------
 
 ## Project setup
 ```

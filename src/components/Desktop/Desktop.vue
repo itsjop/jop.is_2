@@ -9,7 +9,7 @@ section.desktop
 
 <script>
 export default {
-	name: 'taskbar',
+	name: 'Desktop',
 	data() {
 		return {
 			icons:[

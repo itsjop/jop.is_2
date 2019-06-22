@@ -21,7 +21,7 @@ Rendering it to the Taskbar
           @minimizeWindow="minimizeWindow" 
         )
         component(:is="window.component" @newWindow="newWindow" :args="window.args") 
-      taskbar(:windows="windows" @newWindow="newWindow")
+      taskbar(:windows="windows" @newWindow="newWindow" @restoreWindow="restoreWindow")
   </div>
 </template>
 
@@ -39,17 +39,28 @@ import CoolCat from './components/Webpages/CoolCat/CoolCat'
 import DuckRotation from './components/Webpages/DuckRotation/DuckRotation'
 import Empty from './components/Empty'
 
+/* 
+-- All Window Properties --
+title     (str) Title of Application.
+component (str) Name/ID of component to render in slot.
+zIndex    (num) Literally the z-index. Tracks the visual stacking order of the windows.
+active    (bül) Whether or not the window is in front. Used for optimisation purposes.
+minimized (bül) For whether or not the component is minimized. 
+args      (obj) Miscellanous arguments. Fed directly to the component slot.
+  folder      (arr) For <explorer>. Name of current folder.
+  allFolders  (arr) For <explorer>. All folders directly from folder_structure. Used for navigation later.
+*/
+
 export default {
   name: 'App',
   data() {
     return {
-      windows:[
-      ],
       folders: folder_structure,
+      windows:[],
       uniqueList:[
         "cooldog",
         "coolcat"
-      ]
+      ],// Tracks the list of unique windows, only one of each Unique window can exist at a time. 
     }
   },
   props: {
@@ -130,13 +141,19 @@ export default {
       return please
     },
     closeWindow(winIndex){
-      // actually removes the window from data
-      console.log("closing window", winIndex)
+      // Actually removes the window from data
       this.windows.splice(winIndex,1)
     },
     minimizeWindow(payload){
-      // receives the information about the minimized window
+      // Receives the information about the minimized window
       this.windows[payload.index].minimized = true
+      console.log("minimize start")
+      setTimeout(() => {				
+        console.log("minimize real")
+      }, 500);
+    },
+    restoreWindow(winIndex){
+      this.windows[winIndex].minimized = false  
     }
   },
   components:{

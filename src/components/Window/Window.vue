@@ -1,8 +1,11 @@
 <template lang="pug">
+
+//- Overrides the styling for the window positioning if minimized. Also, can't be line-broken :/
 .windowpane(:id="'windowpane-'+info.zIndex"
-		v-bind:style="{ transform: 'translate('+ xPerc +'%,' + yPerc +'%)', zIndex: info.zIndex}")
+		v-bind:style="info.minimized ? {transform: 'translate('+ xPerc +'%, 200%)', zIndex: info.zIndex} : {transform: 'translate('+ xPerc +'%,' + yPerc +'%)', zIndex: info.zIndex}"
+    :class="info.minimized ? 'minimized' : '' ")
 	.window(ref="window" 
-			:class="(closing ? 'closing' : '')+' '+(minimized ? 'minimized' : '')" 
+			:class="(closing ? 'closing' : '')+' '+(info.minimized ? 'minimized' : '')" 
 			@mousedown="popWindow(window_id)" :style="{ width: width+'px', height: height+'px',  }")
 		.shadow(:style="{transform: 'translate('+ xShadow +'%,' + yShadow +'%)',}")
 		.toolbar(@mousedown="startDrag" ref="toolbar")
@@ -11,8 +14,8 @@
 			.tidle {{info.title}}
 			.buddins
 				.maximize +
-				.minimize _
-				.close(@click="closeWindow(window_id)") 	  X
+				.minimize(@click="minimizeWindow(window_id)") _
+				.close(@click="closeWindow(window_id)") X
 		.content
 			slot
 		.scalar.scalar-t(@mousedown="startScale('top')")
@@ -33,7 +36,6 @@ export default {
 	data() {
 		return {
 			closing: false,
-			minimized: false,
 			width: 600,
 			height: 400,
 			rescale: {
@@ -167,15 +169,8 @@ export default {
 		}, 500);
 	},
 	minimizeWindow(){
-		// waits 500ms for the minimiw animation to finish and then passes the function
-		this.closing = true
-		console.log("minimize start")
-		setTimeout(() => {				
-			console.log("minimize real")
-			this.$emit('minimizeWindow',{index: this.window_id, info: this.info})
-		}, 500);
-
-	}
+    this.$emit('minimizeWindow',{index: this.window_id, info: this.info})
+  },
 	},
 	mounted() {
 		this.activateListener()
@@ -188,32 +183,33 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="stylus" scoped>
 .windowpane
-	width 100vw
-	height 100vh
-	transform translate(0%, 0%)
-	position absolute	
-	z-index 1
-	pointer-events none
-	// background #33334444
-	// transition .05s ease-out
-	// background-image: url(https://images.unsplash.com/photo-1557411732-1797a9171fcf?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ);
-	// background-size stretch
+  width 100vw
+  height 100vh
+  transform translate(0%, 0%)
+  position absolute	
+  z-index 1
+  pointer-events none
+  will-change transform
+  transform translateZ(0)
+  &.minimized
+    transition .3s cubic-bezier(0.470, -0.570, 0.750, 0.750)
 	.window
-		width 80vw
-		height 40vh
-		display grid
-		pointer-events auto
-		animation window-creation .3s cubic-bezier(0.590, 0.160, 0.265, 1.550) forwards
-		transform scale(0)
-		grid-template:\
-		"sc-tl sc-t sc-tr" 10px\
-		"sc-l   .   sc-r" 25px\
-		"sc-l   .   sc-r" auto\
-		"sc-bl sc-b sc-br" 10px\
-		/ 10px auto 10px
-		&.closing
-			// Theoretically I could just play the last animation backwards but boy it fought me there
-			animation window-closing .3s cubic-bezier(0.575, -0.545, 0.265, 0.670) forwards 
+    width 80vw
+    height 40vh
+    display grid
+    pointer-events auto
+    animation window-creation .3s cubic-bezier(0.590, 0.160, 0.265, 1.550) forwards
+    transform scale(0) translateZ(0)
+    will-change transform
+    grid-template:\
+    "sc-tl sc-t sc-tr" 10px\
+    "sc-l   .   sc-r" 25px\
+    "sc-l   .   sc-r" auto\
+    "sc-bl sc-b sc-br" 10px\
+    / 10px auto 10px
+    &.closing
+      // Theoretically I could just play the last animation backwards but boy it fought me there
+      animation window-closing .3s cubic-bezier(0.575, -0.545, 0.265, 0.670) forwards 
 		.shadow
 			grid-column 1/4
 			grid-row 2/4
@@ -350,18 +346,18 @@ export default {
 }
 @keyframes window-creation{
 	from{
-		transform: scale(0)
+		transform: scale(0) translateZ(0)
 	}
 	to{
-		transform: scale(1)
+		transform: scale(1) translateZ(0)
 	}
 }
 @keyframes window-closing{
 	from{
-		transform: scale(1)
+		transform: scale(1) translateZ(0)
 	}
 	to{
-		transform: scale(0)
+		transform: scale(0) translateZ(0)
 	}
 }
 </style>

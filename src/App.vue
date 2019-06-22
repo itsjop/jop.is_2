@@ -1,3 +1,11 @@
+/*
+inimize animation / flagging
+Exporting DOM image to raw data
+Passing that data upwards
+Passing the raw data down to the toolbar
+Adding it to the minimized array
+Rendering it to the Taskbar
+*/
 
 <template lang="pug">
   #app
@@ -5,8 +13,7 @@
       desktop
       window(:info="window" :window_id="index" :key="'window_'+index" v-for="(window, index) in windows" @popWindow="popWindow" @closeWindow="closeWindow" )
         component(:is="window.component" @newWindow="newWindow" :args="window.args") 
-      taskbar(@newWindow="newWindow" )
-    //- router-view
+      taskbar(@newWindow="newWindow")
   </div>
 </template>
 
@@ -41,20 +48,28 @@ export default {
     msg: String
   },
   methods:{
-    updateTitle(){
-      this.windows[0].title = "dog"
-    },
     popWindow(newIndex){
-      this.windows.map((window, winIndex) =>{ 
-        // Anything that is in front of the new window gets pulled back
-        if(window.zIndex >= this.windows[newIndex].zIndex) {
-          window.zIndex -= 1
-        }
-        // And the new index gets popped to the front
-        if (winIndex === newIndex){
-          window.zIndex= this.windows.length 
-        }
-      });
+      // can be passed a string or a component name
+      if(typeof newIndex == 'number'){
+        this.windows.map((window, winIndex) =>{ 
+          // Anything that is in front of the new window gets pulled back
+          if(window.zIndex >= this.windows[newIndex].zIndex) {
+            window.zIndex -= 1
+          }
+          // And the new index gets popped to the front
+          if (winIndex === newIndex){
+            window.zIndex= this.windows.length 
+          }
+      });}
+      else if(typeof num1 == 'string'){
+        // Finds all components of that name and brings them to the front
+        this.windows.map((window, winIndex) =>{ 
+          // maps through and finds all the windows that match the given component name
+          if (window.name === winIndex){
+            this.popWindow(winIndex)
+          }
+        })
+      }
     },
     newWindow(payload={title:"New window",component:"blank"}){
       // First sees if the selected component is listed as unique
@@ -71,6 +86,7 @@ export default {
             folder: this.folders[this.findNameInArray(this.folders, payload.folderPath)],
             allFolders: this.folders
           },
+          minimized: false
         })
       }
     },

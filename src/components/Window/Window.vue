@@ -134,40 +134,48 @@ export default {
 			this.x = this.y = ''
       this.dragging = this.rescale.scaling = false
     }, 
-		setGlobalMouse(){
-			// sets the global mouse coordinate in to data
-			this.x = event.clientX;
-			this.y = event.clientY;
-		},
-		setWindowCoordinates() {
-			// Finds the origin point of the element in the DOM offset by the cursor position
-			this.xOrigin = this.$refs.toolbar.getBoundingClientRect().left
-			this.yOrigin = this.$refs.toolbar.getBoundingClientRect().top
-			this.xOffset = event.clientX - this.xOrigin
-			this.yOffset = event.clientY - this.yOrigin
-		},
-		activateListener(){
-			// assigns the listener for the viewport to the current window
-			window.addEventListener('mouseup', this.stopDrag);
-			window.addEventListener('mouseleave', this.stopDrag);
-			window.addEventListener('mousemove', this.doDrag);
-		},
-		popWindow(index){
-			// pops the window to the top of the stack
-			this.activateListener()
-			this.$emit('popWindow',this.window_id)
-		},
-		closeWindow(){
-			// waits 500ms for the close animation to finish and then passes the close function
-			this.closing = true
-			console.log("closing")
-			setTimeout(() => {				
-				console.log("closing real")
-				this.$emit('closeWindow',this.window_id)
-			}, 500);
-		},
-		minimizeWindow(){
-		}
+	setGlobalMouse(){
+		// sets the global mouse coordinate in to data
+		this.x = event.clientX;
+		this.y = event.clientY;
+	},
+	setWindowCoordinates() {
+		// Finds the origin point of the element in the DOM offset by the cursor position
+		this.xOrigin = this.$refs.toolbar.getBoundingClientRect().left
+		this.yOrigin = this.$refs.toolbar.getBoundingClientRect().top
+		this.xOffset = event.clientX - this.xOrigin
+		this.yOffset = event.clientY - this.yOrigin
+	},
+	activateListener(){
+		// assigns the listener for the viewport to the current window
+		window.addEventListener('mouseup', this.stopDrag);
+		window.addEventListener('mouseleave', this.stopDrag);
+		window.addEventListener('mousemove', this.doDrag);
+	},
+	popWindow(index){
+		// pops the window to the top of the stack
+		this.activateListener()
+		this.$emit('popWindow',this.window_id)
+	},
+	closeWindow(){
+		// waits 500ms for the close animation to finish and then passes the close function
+		this.closing = true
+		console.log("closing")
+		setTimeout(() => {				
+			console.log("closing real")
+			this.$emit('closeWindow',this.window_id)
+		}, 500);
+	},
+	minimizeWindow(){
+		// waits 500ms for the minimiw animation to finish and then passes the function
+		this.closing = true
+		console.log("minimize start")
+		setTimeout(() => {				
+			console.log("minimize real")
+			this.$emit('minimizeWindow',{index: this.window_id, info: this.info})
+		}, 500);
+
+	}
 	},
 	mounted() {
 		this.activateListener()

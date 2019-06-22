@@ -1,5 +1,5 @@
 /*
-inimize animation / flagging
+minimize animation / flagging
 Exporting DOM image to raw data
 Passing that data upwards
 Passing the raw data down to the toolbar
@@ -11,15 +11,23 @@ Rendering it to the Taskbar
   #app
     #os
       desktop
-      window(:info="window" :window_id="index" :key="'window_'+index" v-for="(window, index) in windows" @popWindow="popWindow" @closeWindow="closeWindow" )
+      window( 
+          v-for="(window, index) in windows" 
+          :key="'window_'+index" 
+          :info="window" 
+          :window_id="index" 
+          @popWindow="popWindow" 
+          @closeWindow="closeWindow" 
+          @minimizeWindow="minimizeWindow" 
+        )
         component(:is="window.component" @newWindow="newWindow" :args="window.args") 
-      taskbar(@newWindow="newWindow")
+      taskbar(:windows="windows" @newWindow="newWindow")
   </div>
 </template>
 
 <script>
 // External
-import folders_json from './assets/data/Folders'
+import folder_structure from './assets/data/Folders'
 // Core Elements
 import Desktop from './components/Desktop/Desktop'
 import Taskbar from './components/Taskbar/Taskbar'
@@ -37,7 +45,7 @@ export default {
     return {
       windows:[
       ],
-      folders: folders_json,
+      folders: folder_structure,
       uniqueList:[
         "cooldog",
         "coolcat"
@@ -106,8 +114,7 @@ export default {
           }          
         })
       }else{
-        // If it doesn't it goes ahead and creates a new one
-        // Or if it doesn't care if there's multiples
+        // If it's not unique or not existing it goes ahead and creates a new one
         console.log("not unique")
       }
       return result
@@ -127,6 +134,10 @@ export default {
       console.log("closing window", winIndex)
       this.windows.splice(winIndex,1)
     },
+    minimizeWindow(payload){
+      // receives the information about the minimized window
+      this.windows[payload.index].minimized = true
+    }
   },
   components:{
     window: Window,

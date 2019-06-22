@@ -1,6 +1,6 @@
 <template lang="pug">
 section.explorer
-  .icons(v-for="file in args.folder.contents" v-on:dblclick="newWindow(file.title, file.component)")
+  .icons(v-for="file in args.folder.contents" v-on:dblclick="newWindow(file.title, file.component, file.img)")
     img(:alt="file.img" :src="file.img")
     label {{file.title}}
 </template>
@@ -19,8 +19,8 @@ export default {
 		}
 	},
 	methods:{
-		newWindow(title, component){
-			this.$emit('newWindow',{title: title, component: component})
+		newWindow(title, component, icon){
+			this.$emit('newWindow',{title: title, component: component, icon: icon})
     },
   }
 }

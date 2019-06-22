@@ -10,6 +10,9 @@ section.taskbar(ref="taskbar")
 	.vertbar
 	button(@click="newWindow('New Folder','explorer','portfolio')") NEW WINDOW
 	.minimized(v-for="windows in minimized")
+		.active.application(v-if="window.minimized")
+			.icon(src="window.icon")
+			label {{app.name}}
 
 </template>
 
@@ -35,7 +38,7 @@ export default {
 		}
 	},
 	props: {
-		minimized:{
+		windows:{
 			type: Array
 		}
 	},

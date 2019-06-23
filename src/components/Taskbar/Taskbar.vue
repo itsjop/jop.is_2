@@ -11,7 +11,7 @@ section.taskbar(ref="taskbar")
   .vertbar
   button(@click="newWindow('New Folder','explorer','portfolio')") NEW WINDOW
   .vertbar
-  .active.application(v-for="window in windows" v-if="window.minimized" @click="restoreWindow(index)")
+  .active.application(v-for="(window, index) in windows" v-if="window.minimized" @click="restoreWindow(index)")
     .icon(src="window.icon")
     label {{window.title}}
 
@@ -49,8 +49,7 @@ export default {
 			this.$emit('newWindow',{title: title, component: component, folderPath: folderPath})
 		},
 		restoreWindow(index){
-			console.log("title",title,"component",component,"folderPath",folderPath)
-			this.$emit('restoreWindow',{title: title, component: component, folderPath: folderPath})
+			this.$emit('restoreWindow', index)
 		},
 		slerdMePlease(){
 			// I don't remember what the hell this was supposed to be but I can't bring myself to delete it

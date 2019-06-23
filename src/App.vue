@@ -71,12 +71,14 @@ export default {
       // can be passed a string or a component name
       if(typeof newIndex == 'number'){
         this.windows.map((window, winIndex) =>{ 
+          window.active = false
           // Anything that is in front of the new window gets pulled back
           if(window.zIndex >= this.windows[newIndex].zIndex) {
             window.zIndex -= 1
           }
           // And the new index gets popped to the front
           if (winIndex === newIndex){
+            window.active = true
             window.zIndex= this.windows.length 
           }
       });}
@@ -107,6 +109,7 @@ export default {
           },
           minimized: false
         })
+        this.popWindow(this.windows.length - 1)
       }
     },
     checkUnique(component){

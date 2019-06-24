@@ -2,7 +2,7 @@
    section
       h1 Hey What's Up I'm A Cool Cat
       button(@click="count+=1") Count {{count}}
-      img(src="https://cdn.shopify.com/s/files/1/1511/4266/products/Fashion-Glasses-Small-Pet-Dogs-Cat-Glasses-Sunglasses-Eye-wear-Protection-Pet-Cool-Glasses-Pet-Photos.jpg?v=1521388987")
+      img(src="/pages/CoolCat/cat.jpg")
 </template>
 
 <script>

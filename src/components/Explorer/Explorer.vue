@@ -1,27 +1,50 @@
 <template lang="pug">
 section.explorer
-  .icons(v-for="file in args.folder.contents" v-on:dblclick="newWindow(file.title, file.component, file.img)")
-    img(:alt="file.img" :src="file.img")
+  .icons(v-for="file in fullContents" v-on:dblclick="newWindow(file)")
+    img(:alt="file.summary" :src="file.icon")
     label {{file.title}}
 </template>
 
 <script>
+import applications from '../../assets/data/Applications'
 export default {
 	name: 'Explorer',
 	data() {
 		return {
-			count: 0
+      componentList: applications
 		}
-	},
+  },
+  computed:{
+    // fetches the information for the components
+    fullContents: function () {
+      let folderContents = this.args.folder.contents
+      folderContents.map((item, index) =>{
+        if (item.type==="component"){
+          folderContents[index] = this.getComponentDetails(item.name)
+        }
+      })
+      return folderContents
+    }
+  },
 	props: {
 		args:{
 			type: Object,
 		}
 	},
 	methods:{
-		newWindow(title, component, icon){
-			this.$emit('newWindow',{title: title, component: component, icon: icon})
+		newWindow(file){
+			this.$emit('newWindow',file)
     },
+    getComponentDetails(componentName){
+      // fetches the full application details from the componentList
+      let newObj = {}
+      this.componentList.map(component =>{
+        if(component.name === componentName){
+          newObj = component
+        }
+      })
+      return newObj
+    }
   }
 }
 </script>
@@ -44,8 +67,9 @@ export default {
     img
       width 80px
       height 80px
-      background lightgreen
-      color gray
+      border-radius 200px
+      color gray 
+      border 2px solid #33333333
     label
       text-align center
 

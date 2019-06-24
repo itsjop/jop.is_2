@@ -2,9 +2,9 @@
 
 //- Overrides the styling for the window positioning if minimized. Also, can't be line-broken :/
 .windowpane(:id="'windowpane-'+info.zIndex"
-    v-bind:style="info.minimized ? {transform: 'translate('+ xPerc +'%, 120%)', zIndex: info.zIndex} : {transform: 'translate('+ xPerc +'%,' + yPerc +'%)', zIndex: info.zIndex}"
-    :class="info.minimized ? 'minimized' : '' ")
-  .window(ref="window" 
+    v-bind:style="info.minimized ? {transform: 'translate('+ '50%, 120%)', zIndex: info.zIndex} : {transform: 'translate('+ xPerc +'%,' + yPerc +'%)', zIndex: info.zIndex}"
+    :class="(info.minimized ? 'minimized ' : ' ' )+(dragging?'dragging':'')")
+  .window(ref="window" :id="'window-'+info.zIndex"
       :class="(closing ? 'closing' : '')+' '+(info.minimized ? 'minimized' : '')" 
       @mousedown="popWindow(window_id)" :style="{ width: width+'px', height: height+'px',  }")
     .shadow(:style="{transform: 'translate('+ xShadow +'%,' + yShadow +'%)',}")
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-
+import domtoimage from 'dom-to-image';
 export default {	
   name: 'Window',
   data() {
@@ -41,7 +41,9 @@ export default {
       rescale: {
         scaling: false
       },
+      dragging: false,
       offScreen: false,
+      preview: "",
       x: 0,
       xPerc:10,
       xOffset:0,
@@ -79,11 +81,10 @@ export default {
   },
   watch: {
     'info.minimized': function(newVal, oldVal){
-          // Watches for when the window is restored to full size
-          if(!this.info.minimized){
-            console.log("restored offScreen")
-            this.offScreen = false
-          }
+      // Watches for when the window is restored to full size
+      if(!this.info.minimized){
+        this.offScreen = false
+      }
     }
   },
   methods: {
@@ -143,44 +144,50 @@ export default {
       this.x = this.y = ''
       this.dragging = this.rescale.scaling = false
     }, 
-  setGlobalMouse(){
-    // sets the global mouse coordinate in to data
-    this.x = event.clientX;
-    this.y = event.clientY;
-  },
-  setWindowCoordinates() {
-    // Finds the origin point of the element in the DOM offset by the cursor position
-    this.xOrigin = this.$refs.toolbar.getBoundingClientRect().left
-    this.yOrigin = this.$refs.toolbar.getBoundingClientRect().top
-    this.xOffset = event.clientX - this.xOrigin
-    this.yOffset = event.clientY - this.yOrigin
-  },
-  activateListener(){
-    // assigns the listener for the viewport to the current window
-    window.addEventListener('mouseup', this.stopDrag);
-    window.addEventListener('mouseleave', this.stopDrag);
-    window.addEventListener('mousemove', this.doDrag);
-  },
-  popWindow(index){
-    // pops the window to the top of the stack
-    this.activateListener()
-    this.$emit('popWindow',this.window_id)
-  },
-  closeWindow(){
-    // waits 500ms for the close animation to finish and then passes the close function
-    this.closing = true
-    console.log("closing")
-    setTimeout(() => {				
-      console.log("closing real")
-      this.$emit('closeWindow',this.window_id)
-    }, 500);
-  },
-  minimizeWindow(){
-    this.$emit('minimizeWindow',{index: this.window_id, info: this.info})    
-    setTimeout(() => {				
-      this.offScreen = true;
-    }, 500);
-  },
+    setGlobalMouse(){
+      // sets the global mouse coordinate in to data
+      this.x = event.clientX;
+      this.y = event.clientY;
+    },
+    setWindowCoordinates() {
+      // Finds the origin point of the element in the DOM offset by the cursor position
+      this.xOrigin = this.$refs.toolbar.getBoundingClientRect().left
+      this.yOrigin = this.$refs.toolbar.getBoundingClientRect().top
+      this.xOffset = event.clientX - this.xOrigin
+      this.yOffset = event.clientY - this.yOrigin
+    },
+    activateListener(){
+      // assigns the listener for the viewport to the current window
+      window.addEventListener('mouseup', this.stopDrag);
+      window.addEventListener('mouseleave', this.stopDrag);
+      window.addEventListener('mousemove', this.doDrag);
+    },
+    popWindow(index){
+      // pops the window to the top of the stack
+      this.activateListener()
+      this.$emit('popWindow',this.window_id)
+    },
+    closeWindow(){
+      // waits 500ms for the close animation to finish and then passes the close function
+      this.closing = true
+      console.log("closing")
+      setTimeout(() => {				
+        console.log("closing real")
+        this.$emit('closeWindow',this.window_id)
+      }, 500);
+    },
+    minimizeWindow(){       
+      this.preview = domtoimage.toPng(document.getElementById('window-'+this.info.zIndex), { quality: 0.1 })
+        .then( (blob) =>{          
+        this.$emit('minimizeWindow',{index: this.window_id, info: this.info, preview: blob })   
+      })
+        .catch(function (error) {
+          console.error('oops, something went wrong!', error);
+      })
+      setTimeout(() => {				
+        this.offScreen = true;
+      }, 1000);
+    },
   },
   mounted() {
     this.activateListener()
@@ -201,6 +208,9 @@ export default {
   pointer-events none
   will-change transform
   transform translateZ(0)
+  transition .3s cubic-bezier(0.605, 0.215, 0.420, 1.580);
+  &.dragging
+    transition 0s
   &.minimized
     transition .3s cubic-bezier(0.470, -0.570, 0.750, 0.750)
   .window

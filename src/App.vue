@@ -1,14 +1,19 @@
-/*
-minimize animation / flagging
-Exporting DOM image to raw data
-Passing that data upwards
-Passing the raw data down to the toolbar
-Adding it to the minimized array
-Rendering it to the Taskbar
-*/
+
+/*////////////////////
+TO DO:
+Figure out why getComponentDetails isn't returning correctly in the explorer
+change explorer to queue up the new components
+make the desktop, taskbar, and explorer able to fetch and render items from components
+create an image viewer for random photos and stuff
+add a descript box for details about projects as well as git links
+add image previews to the minimized windows
+stop the windows closing at once from cloising other windows after the queue changes
+///////////////////*/
 
 <template lang="pug">
   #app
+    #mobile-coverup
+      p Mobile view coming soon!
     #os
       desktop
       window( 
@@ -28,15 +33,17 @@ Rendering it to the Taskbar
 <script>
 // External
 import folder_structure from './assets/data/Folders'
+import applications from './assets/data/Applications'
 // Core Elements
 import Desktop from './components/Desktop/Desktop'
 import Taskbar from './components/Taskbar/Taskbar'
 import Window from './components/Window/Window'
 // Window files
 import Explorer from './components/Explorer/Explorer'
-import CoolDog from './components/Webpages/CoolDog/CoolDog'
-import CoolCat from './components/Webpages/CoolCat/CoolCat'
-import DuckRotation from './components/Webpages/DuckRotation/DuckRotation'
+import CoolDog from './components/Pages/CoolDog/CoolDog'
+import CoolCat from './components/Pages/CoolCat/CoolCat'
+import DuckRotation from './components/Pages/DuckRotation/DuckRotation'
+import Settings from './components/Settings/Settings'
 import Empty from './components/Empty'
 
 /* 
@@ -55,16 +62,10 @@ export default {
   name: 'App',
   data() {
     return {
-      folders: folder_structure,
       windows:[],
-      uniqueList:[
-        "cooldog",
-        "coolcat"
-      ],// Tracks the list of unique windows, only one of each Unique window can exist at a time. 
+      folders: folder_structure,
+      componentList: applications
     }
-  },
-  props: {
-    msg: String
   },
   methods:{
     popWindow(newIndex){
@@ -92,15 +93,15 @@ export default {
         })
       }
     },
-    newWindow(payload={title:"New window",component:"blank"}){
+    newWindow(payload={title:"New window",name:"blank"}){
       // First sees if the selected component is listed as unique
       // if it is, it brings it to the foreground instead of making a new one
-      console.log("newWindow",payload)
-      if(this.checkUnique(payload.component)){
+      if(this.checkUnique(payload.name)){
         // Creates a new window components and seeds the vars needed in to it
         this.windows.push({
           title: payload.title,
-          component: payload.component,
+          component: payload.name,
+          componentInfo: payload,
           zIndex: this.windows.length + 1,
           active: true,
           args:{
@@ -115,12 +116,18 @@ export default {
     checkUnique(component){
       // Checks to see if the listed component is in the unique category
       let result = true
+      let isUnique = false
       console.log("checking unique")
-      if(this.uniqueList.includes(component)) {
+      this.componentList.map(comp =>{
+        if(comp.name === component){
+          if(comp.unique){
+            isUnique = true;
+          }
+        }
+      })
+      if(isUnique) {
         // If it is, it sees if it already exists
-        console.log("component",component)
         this.windows.map((window, winIndex) =>{
-          console.log("window.component",window.component)
           if(window.component === component){
             this.popWindow(winIndex)
             console.log("found")
@@ -135,13 +142,13 @@ export default {
     },
     findNameInArray(array, name, id="name"){
       // finds name by selector (default 'name')
-      let please = ""
+      let ret = ""
       array.map((arr, thisIndex) =>{
         if(arr[id] === name){
-          please = thisIndex
+          ret = thisIndex
         }
       })
-      return please
+      return ret
     },
     closeWindow(winIndex){
       // Actually removes the window from data
@@ -150,14 +157,11 @@ export default {
     minimizeWindow(payload){
       // Receives the information about the minimized window
       this.windows[payload.index].minimized = true
-      console.log("minimize start")
-      setTimeout(() => {				
-        console.log("minimize real")
-      }, 500);
+      this.windows[payload.index].preview = payload.preview
     },
     restoreWindow(winIndex){
       this.windows[winIndex].minimized = false  
-    }
+    },
   },
   components:{
     window: Window,
@@ -167,7 +171,8 @@ export default {
     duckrotation: DuckRotation,
     desktop: Desktop,
     taskbar: Taskbar,
-    explorer: Explorer
+    explorer: Explorer,
+    settings: Settings
   }
 }
 </script>
@@ -204,4 +209,20 @@ body
   fullpage()
 #os
   fullpage()
+
+#mobile-coverup
+  display none
+@media (max-width: 500px)
+  #mobile-coverup
+    display grid
+    width 100vw
+    height 100vh
+    position absolute 
+    top 0
+    left 0
+    z-index 99999
+    justify-content center
+    align-content center
+
+
 </style>

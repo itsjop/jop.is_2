@@ -45,6 +45,15 @@ export default {
 <style scoped lang="stylus" scoped>
 
 icon-size = 80px
+bckground()
+  content ''
+  width 100vw
+  height 100vh
+  position absolute 
+  top 0
+  left 0
+  transition background-color .5s
+  z-index -12
 .desktop
   width 100vw
   height 100vh
@@ -54,10 +63,17 @@ icon-size = 80px
   grid-template-rows 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 
   grid-gap 15px
   position absolute
-  background var(--accent-lightest) var(--desktop-image);
   top 0
   z-index -10
   padding 20px
+  &::before
+    bckground()
+    background-color var(--accent-lightest) 
+  &::after
+    bckground()
+    background-image var(--desktop-image);
+    z-index -11
+    filter invert(var(--invert))
   .icon
     cursor pointer
     display grid

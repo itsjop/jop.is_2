@@ -194,7 +194,8 @@ export default {
   --text-dark: #222
   --text: #111
   --dark: #111
-  --desktop-image: url(https://www.transparenttextures.com/patterns/checkered-light-emboss.png)
+  --desktop-image: url('assets/desktop/checkered-light-emboss.png')
+  --invert: 1
 
 t-time = .5s 
 *

@@ -183,23 +183,23 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=Nunito&display=swap');
 
 :root
-  --accent: #f47142
-  --accent-dark: #bf522b
-  --accent-darker: #7f3318
-  --accent-darkest: #441909
-  --accent-light: #ea8662
-  --accent-lighter: #eaa991
-  --accent-lightest: #edcfc4
+  --primary: #f47142
+  --primary-dark: #bf522b
+  --primary-darker: #7f3318
+  --primary-darkest: #441909
+  --primary-light: #ea8662
+  --primary-lighter: #eaa991
+  --primary-lightest: #edcfc4
   --text-light: #eee
   --text-dark: #222
   --text: #111
   --dark: #111
-  --desktop-image: url('assets/desktop/checkered-light-emboss.png')
+  --desktop-image: url('/img/desktop/gradient-squares.png')
   --invert: 1
 
 t-time = .5s 
 *
-  transition: color t-time, background t-time, background-color t-time, drop-shadow t-time, fill t-time
+  transition: color t-time, background-color t-time, drop-shadow t-time, fill t-time, filter t-time
 
 fullpage()
   width 100vw

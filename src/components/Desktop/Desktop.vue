@@ -68,7 +68,7 @@ bckground()
   padding 20px
   &::before
     bckground()
-    background-color var(--accent-lightest) 
+    background-color var(--primary-lighter) 
   &::after
     bckground()
     background-image var(--desktop-image);
@@ -85,7 +85,7 @@ bckground()
     text-shadow 0px 0px 10px var(--text-dark)
     transition .1s ease-out
     &:active
-      border 2px dashed var(--accent)
+      border 2px dashed var(--primary)
       transition 0s ease-out
       transform scale(1.1)
     img 

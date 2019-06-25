@@ -234,10 +234,10 @@ export default {
       grid-column 1/4
       grid-row 2/4
       border-radius 10px 10px 0 0
-      // box-shadow 0px 0px 20px var(--accent-darkest)
+      // box-shadow 0px 0px 20px var(--primary-darkest)
       filter blur(5px)
       opacity .4
-      background var(--accent-darkest)
+      background var(--primary-darkest)
       z-index -1
     .toolbar
       grid-column 1/4
@@ -274,7 +274,7 @@ export default {
         overflow hidden 
         bg()
           content ''
-          background var(--accent) linear-gradient(-30deg, var(--accent-dark) 0%, var(--accent-dark) 7%, var(--accent)  13%, var(--accent-dark)  24%, var(--accent)  49%, var(--accent-dark) 59%, var(--accent) 70%,  var(--accent-dark) 90%, var(--accent-dark) 100%); 
+          background var(--primary) linear-gradient(-30deg, var(--primary-dark) 0%, var(--primary-dark) 7%, var(--primary)  13%, var(--primary-dark)  24%, var(--primary)  49%, var(--primary-dark) 59%, var(--primary) 70%,  var(--primary-dark) 90%, var(--primary-dark) 100%); 
           background-size 100% 100% 
           width 105% 
           height 100%

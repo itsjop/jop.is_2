@@ -106,7 +106,7 @@ export default {
   // 	transform translate(-50%) scale(1.1)
   .bg
     position absolute
-    background cyan 
+    background var(--accent) 
     width 100%
     height 50%
     bottom 0
@@ -157,7 +157,8 @@ export default {
       max-width 80px
       min-width 60px
       cursor pointer
-      fill var(--accent)
+      svg
+        fill blue
     label
       opacity 0
       background gray

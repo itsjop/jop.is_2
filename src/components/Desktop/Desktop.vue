@@ -54,7 +54,7 @@ icon-size = 80px
   grid-template-rows 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 
   grid-gap 15px
   position absolute
-  background var(--accent-lightest) url("https://www.transparenttextures.com/patterns/checkered-light-emboss.png");
+  background var(--accent-lightest) var(--desktop-image);
   top 0
   z-index -10
   padding 20px

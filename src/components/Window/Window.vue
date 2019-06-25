@@ -260,7 +260,7 @@ export default {
           position absolute
           top 0 
           left 0
-          background linear-gradient(90deg, transparent 0%, var(--accent-darker) 10%, var(--accent-darker) 90%, transparent 100%); 
+          background linear-gradient(90deg, transparent 0%, var(--text-dark) 10%, var(--text-dark) 90%, transparent 100%); 
           opacity .3
           z-index -1
           left 50%
@@ -304,6 +304,7 @@ export default {
         grid-row 1/2
         grid-column 2/3
         padding 2px 15px
+        color var(--text-light)
         bg_dropshadow() 
       .buddins
         display flex

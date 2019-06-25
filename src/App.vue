@@ -80,6 +80,7 @@ export default {
           // And the new index gets popped to the front
           if (winIndex === newIndex){
             window.active = true
+            window.minimized = false
             window.zIndex= this.windows.length 
           }
       });}
@@ -193,6 +194,11 @@ export default {
   --text-dark: #222
   --text: #111
   --dark: #111
+  --desktop-image: url(https://www.transparenttextures.com/patterns/checkered-light-emboss.png)
+
+t-time = .5s 
+*
+  transition: color t-time, background t-time, background-color t-time, drop-shadow t-time, fill t-time
 
 fullpage()
   width 100vw

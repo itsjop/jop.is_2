@@ -344,7 +344,7 @@ export default {
       height 100%
       color var(--text)
       overflow-y scroll
-      background lightgray
+      background var(--text-light)
       &.offscreen
         display none
         // for performance

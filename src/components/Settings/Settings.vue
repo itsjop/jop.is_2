@@ -1,13 +1,15 @@
 <template lang="pug">
 section.settings
-  h2 Color Settings
+  h2 Desktop Settings
   hr
   .color
     .color-picker
+      label Color Picker
       sketch-picker(v-model="color")
       span.credit All backgrounds provided by 
         a(href="https://www.transparenttextures.com/" target="_blank") transparenttextures.com
     .wallpaper-picker
+      label Desktop Pattern
       .select
         .option(v-for="(image, index) in images" @click="setWall(index)" :class="activeImg === image.name ? 'active':'' ")
           .bg(:style="{backgroundImage: ' url('+image.path+')'}")
@@ -26,9 +28,9 @@ export default {
 	name: 'Settings',
 	data() {
 		return {
-      color:"#f47142",
-      activeImg:"Gradient Squares",
-      invert:false,
+      color: getComputedStyle(document.documentElement).getPropertyValue('--primary'),
+      activeImg:"Tasky",
+      invert: false,
       images:[
         {name:"Arabesque", path:'/img/desktop/arabesque.png'},
         {name:"Basketball", path:'/img/desktop/basketball.png'},
@@ -43,7 +45,7 @@ export default {
         {name:"Dark Mosaic", path:' /img/desktop/dark-mosaic.png'},
         {name:"Diagmonds", path:' /img/desktop/diagmonds-light.png'},
         {name:"Diagonal Stripes", path:' /img/desktop/diagonal-striped-brick.png'},
-        {name:"Diamond Upholstry", path:' /img/desktop/diamond-upholstry.png'},
+        {name:"Diamond Upholstry", path:' /img/desktop/diamond-upholstery.png'},
         {name:"Escheresque", path:'/img/desktop/escheresque.png'},
         {name:"Foggy Birds", path:' /img/desktop/foggy-birds.png'},
         {name:"Gold Scale", path:'/img/desktop/gold-scale.png '},
@@ -96,29 +98,71 @@ export default {
 		color: function(){
 			// Watches for when the window is restored to full size
 			console.log("color updated!", this.color)
-			let accent = tinycolor(this.color.hex)
-			let dark = accent.getLuminance()
-			let colors = {}
-			colors.dark = accent.darken(5)
-			colors.darker = accent.darken(5)
-			colors.darkest = accent.darken(5)
-			accent = tinycolor(this.color.hex)
-			colors.light = accent.brighten(10)
-			colors.lighter = accent.brighten(10)
-			colors.lightest = accent.brighten(10)
-			colors.text_light = tinycolor(this.color.hex).darken(40)
-			colors.text_dark = tinycolor(this.color.hex).lighten(40)
-			if(dark<.5){
-				colors.text_light = tinycolor(this.color.hex).lighten(60).desaturate(20)
-				colors.text_dark = tinycolor(this.color.hex).darken(80).desaturate(20)
-			}
+			let primary = tinycolor(this.color.hex)
+			let dark = primary.getLuminance()
+      let colors = {}
+      // if (dark > .03){
+      //   if (dark > .3){
+      //     if (dark>.8){
+            // if greater than .8
+            colors.dark = primary.darken(5)
+            colors.darker = primary.darken(10)
+            colors.darkest = primary.darken(5)
+            primary = tinycolor(this.color.hex)
+            colors.light = primary.lighten(10)
+            colors.lighter = primary.lighten(5)
+            colors.lightest = primary.lighten(5)
+            colors.text_light = tinycolor(this.color.hex).lighten(30).desaturate(50)
+            colors.text_dark = tinycolor(this.color.hex).darken(40)
+      //     }else{
+      //     // if .3 to .8 
+      //     colors.dark = primary.darken(10)
+      //     colors.darker = primary.darken(10)
+      //     colors.darkest = primary.darken(10)
+      //     primary = tinycolor(this.color.hex)
+      //     colors.light = primary.lighten(10)
+      //     colors.lighter = primary.lighten(10)
+      //     colors.lightest = primary.lighten(10)
+      //     colors.text_light = tinycolor(this.color.hex).darken(20).desaturate(50)
+      //     colors.text_dark = tinycolor(this.color.hex).lighten(40)
+      //   }
+      //   }else{
+      //     // if .03 to .3 
+      //     colors.dark = primary.darken(5)
+      //     colors.darker = primary.darken(5)
+      //     colors.darkest = primary.darken(5)
+      //     primary = tinycolor(this.color.hex)
+      //     colors.light = primary.lighten(10)
+      //     colors.lighter = primary.lighten(10)
+      //     colors.lightest = primary.lighten(10)
+      //     colors.text_light = tinycolor(this.color.hex).darken(0).desaturate(0)
+      //     colors.text_dark = tinycolor(this.color.hex).lighten(40)
+      //   }
+      // }else{
+      //   // Extreme dark edge case
+			//   primary = tinycolor(this.color.hex).lighten(10).saturate(40)
+			//   colors.dark = primary.lighten(20)
+      //   colors.darker = primary.lighten(10)
+      //   colors.darkest = primary.lighten(10)
+      //   primary = tinycolor(this.color.hex)
+      //   colors.light = primary.darken(2)
+      //   colors.lighter = primary.darken(2)
+      //   colors.lightest = primary.darken(2)
+      //   colors.text_light = tinycolor(this.color.hex).darken(0).desaturate(20)
+      //   colors.text_dark = tinycolor(this.color.hex).lighten(80).desaturate(70)
+      // }
+			// if(dark<.7){
+			// 	colors.text_light = tinycolor(this.color.hex).lighten(60).desaturate(20)
+			// 	colors.text_dark = tinycolor(this.color.hex).darken(80).desaturate(20)
+			// }
 			console.log("darkness",dark)
       console.log("colors",colors)
       
-      colors.accent = tinycolor(this.color.hex).spin(90)
+      primary = tinycolor(this.color.hex)
+      colors.accent = tinycolor(this.color.hex).spin(40)
 
 			document.documentElement.style.setProperty('--accent', colors.accent);
-			document.documentElement.style.setProperty('--primary', this.color.hex);
+			document.documentElement.style.setProperty('--primary', primary);
 			document.documentElement.style.setProperty('--primary-dark', colors.dark);
 			document.documentElement.style.setProperty('--primary-darker', colors.darker);
 			document.documentElement.style.setProperty('--primary-darkest', colors.darkest);
@@ -126,7 +170,7 @@ export default {
 			document.documentElement.style.setProperty('--primary-lighter', colors.lighter);
 			document.documentElement.style.setProperty('--primary-lightest', colors.lightest);
 			document.documentElement.style.setProperty('--text-light', colors.text_light);
-			document.documentElement.style.setProperty('--text-dark', colors.dark);
+			document.documentElement.style.setProperty('--text-dark', colors.text_dark);
 
 
 		}
@@ -169,15 +213,18 @@ export default {
         background transparent
         box-shadow none
         width: calc(100% - 20px);
+        padding 0
         >:first-child
-          height 150px
+          height 160px
           padding-bottom 0
           border-radius: 10px;
           border: 2px var(--primary) solid;
+        >:nth-child(3)
+          display none
         >:nth-child(4)
           border-top none
       .credit
-        font-size 12px
+        font-size 11px
         text-align center
         font-style: italic;
         opacity .5
@@ -186,28 +233,17 @@ export default {
 
         
     .wallpaper-picker
-      .preview
-        width 100%
-        height 150px
-        border 2px var(--primary-darkest) solid
-        border-radius 10px
-        overflow hidden
-        background-color var(--primary-lightest)
-        .preview-img
-          width 100%
-          height 100%
-          filter invert(var(--invert))
       .invert
         display flex
         h4
           margin 5px 10px
       .select
         width 100%
-        height 240px
+        height 250px
         overflow-y scroll
         border-radius 10px
         .option
-          height 50px
+          height 47px
           display grid
           cursor pointer
           justify-content center
@@ -215,7 +251,7 @@ export default {
           position relative
           grid-template-columns 1fr 2fr 1fr
           grid-template-rows 1fr 2fr 1fr
-          background var(--primary-lightest)
+          background var(--primary-darkest)
           transition .2s
           &.active
             box-shadow 0px 0px 10px 3px inset var(--primary-dark)

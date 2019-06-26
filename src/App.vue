@@ -1,32 +1,45 @@
 
 /*////////////////////
 TO DO:
-Figure out why getComponentDetails isn't returning correctly in the explorer
-change explorer to queue up the new components
 make the desktop, taskbar, and explorer able to fetch and render items from components
 create an image viewer for random photos and stuff
 add a descript box for details about projects as well as git links
-add image previews to the minimized windows
 stop the windows closing at once from cloising other windows after the queue changes
+
+iframes for ones that require vw and vh
+implement the rest of the components
+
+load up a STAR instance
+
+store color values in cookies
+->cookies notification?
+
+redo log-in screen background to use the clouds and dirt, maybe something with SVGs and a pixel filter?
+
 ///////////////////*/
 
 <template lang="pug">
   #app
-    #mobile-coverup
-      p Mobile view coming soon!
-    #os
-      desktop
-      window( 
-          v-for="(window, index) in windows" 
-          :key="'window_'+index" 
-          :info="window" 
-          :window_id="index" 
-          @popWindow="popWindow" 
-          @closeWindow="closeWindow" 
-          @minimizeWindow="minimizeWindow" 
-        )
-        component(:is="window.component" @newWindow="newWindow" :args="window.args") 
-      taskbar(:windows="windows" @newWindow="newWindow" @restoreWindow="restoreWindow")
+    #mobile-coverup(v-if="mobileCover")
+      p Sorry! Mobile rewrite coming soon!
+      p This isn't something that lends itself to being responsive!
+      p I mean if you really want, you can have a look anyways?
+      button(@click="mobileCover = false") Show me the mess!
+    transition-group(name="login")
+      login(@login="loggedIn = false" v-if="loggedIn" key="login")
+      #os(v-else key="os")
+        desktop
+        window( 
+            v-for="(window, index) in windows" 
+            :key="'window_'+index" 
+            :info="window" 
+            :window_id="index" 
+            @popWindow="popWindow" 
+            @closeWindow="closeWindow" 
+            @minimizeWindow="minimizeWindow" 
+          )
+          component(:is="window.component" @newWindow="newWindow" :args="window.args") 
+        taskbar(:windows="windows" @newWindow="newWindow" @restoreWindow="restoreWindow")
   </div>
 </template>
 
@@ -38,12 +51,21 @@ import applications from './assets/data/Applications'
 import Desktop from './components/Desktop/Desktop'
 import Taskbar from './components/Taskbar/Taskbar'
 import Window from './components/Window/Window'
+import Login from './components/Login/Login'
 // Window files
 import Explorer from './components/Explorer/Explorer'
 import CoolDog from './components/Pages/CoolDog/CoolDog'
 import CoolCat from './components/Pages/CoolCat/CoolCat'
 import DuckRotation from './components/Pages/DuckRotation/DuckRotation'
 import Settings from './components/Settings/Settings'
+import jopOS from './components/Pages/JopOS/JopOS'
+import MTGCard from './components/Pages/MTGCard/MTGCard'
+import Misdacop from './components/Pages/Misdacop/Misdacop'
+import GoldenGirls from './components/Pages/GoldenGirls/GoldenGirls'
+import NotGeo from './components/Pages/NotGeo/NotGeo'
+import Powerpoint from './components/Pages/Powerpoint/Powerpoint'
+import TDL from './components/Pages/TDL/TDL'
+import Propeller from './components/Pages/Propeller/Propeller'
 import Empty from './components/Empty'
 
 /* 
@@ -64,7 +86,9 @@ export default {
     return {
       windows:[],
       folders: folder_structure,
-      componentList: applications
+      componentList: applications,
+      mobileCover: true,
+      loggedIn: true
     }
   },
   methods:{
@@ -165,6 +189,7 @@ export default {
     },
   },
   components:{
+    login: Login,
     window: Window,
     empty: Empty,
     cooldog: CoolDog,
@@ -173,7 +198,15 @@ export default {
     desktop: Desktop,
     taskbar: Taskbar,
     explorer: Explorer,
-    settings: Settings
+    settings: Settings,
+    jopos: jopOS,
+    mtgcard: MTGCard,
+    misdacop: Misdacop,
+    goldengirls: GoldenGirls,
+    notgeo: NotGeo,
+    powerpoint: Powerpoint,
+    tdl: TDL,
+    propeller: Propeller
   }
 }
 </script>
@@ -183,6 +216,7 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=Nunito&display=swap');
 
 :root
+  --accent: #42F47D
   --primary: #f47142
   --primary-dark: #bf522b
   --primary-darker: #7f3318
@@ -194,13 +228,18 @@ export default {
   --text-dark: #222
   --text: #111
   --dark: #111
-  --desktop-image: url('/img/desktop/gradient-squares.png')
-  --invert: 1
+  --desktop-image: url('/img/desktop/wood-pattern.png')
+  --invert: 0
 
-t-time = .5s 
+t-time = .5s
 *
   transition: color t-time, background-color t-time, drop-shadow t-time, fill t-time, filter t-time
-
+h1, h2, h3, h4, h5, h6
+  color var(--text-dark)
+hr 
+  border-color var(--text-dark)
+  border-style outset
+  border-width 1px
 fullpage()
   width 100vw
   height 100vh
@@ -217,6 +256,18 @@ body
 #os
   fullpage()
 
+.login 
+	transition all 0.5s cubic-bezier(0.680, -0.550, 0.375, 0.885)
+.login-enter, .login-leave-to 
+	opacity 0
+	transform translateY(-100%)
+.login-enter-to 
+	opacity 1
+	transform translateY(00%)
+.login-leave-active, .card-move 
+	opacity 1
+	transition all 0.5s cubic-bezier(0.680, -0.550, 0.375, 0.885)
+  
 #mobile-coverup
   display none
 @media (max-width: 500px)
@@ -225,11 +276,16 @@ body
     width 100vw
     height 100vh
     position absolute 
+    padding 10px
     top 0
     left 0
     z-index 99999
     justify-content center
     align-content center
+    color white
+    background black
+    text-align center
+    box-sizing: border-box;
 
 
 </style>

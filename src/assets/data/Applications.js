@@ -2,7 +2,7 @@ export default [
   {
     name: "settings",
     title: "Settings",
-    icon: '/svg/settings.svg',
+    icon: '/svg/settings2.svg',
     path: '/components/Settings/Settings',
     unique: true,
     summary: "Change system options here.",
@@ -32,6 +32,38 @@ export default [
     icon: './pages/DuckRotation/icon.png',
     path: '/components/Pages/DuckRotation/DuckRotation',
     unique: false,
+    summary: "Yo! Check this cool duck!",
+    about: "Duck. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
+  },
+  {
+    name: "this",
+    title: "This",
+    shortTitle: "This",
+    icon: './pages/DuckRotation/icon.png',
+    path: '/components/Pages/This/This',
+    unique: false,
+    framed: true,
+    summary: "Yo! Check this cool duck!",
+    about: "Duck. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
+  },
+  {
+    name: "mtgcard",
+    title: "Magic The Gathering Grid Test",
+    shortTitle: "MTG Card",
+    icon: './pages/DuckRotation/icon.png',
+    path: '/components/Pages/MTGCard/MTGCard',
+    unique: false,
+    framed: true,
+    summary: "Yo! Check this cool duck!",
+    about: "Duck. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
+  },
+  {
+    name: "mtgcard",
+    title: "Propeller",
+    icon: './pages/DuckRotation/icon.png',
+    path: '/components/Pages/MTGCard/MTGCard',
+    unique: false,
+    framed: true,
     summary: "Yo! Check this cool duck!",
     about: "Duck. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
   },

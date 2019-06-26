@@ -68,7 +68,7 @@ bckground()
   padding 20px
   &::before
     bckground()
-    background-color var(--primary-lighter) 
+    background-color var(--primary-darkest)
   &::after
     bckground()
     background-image var(--desktop-image);
@@ -84,6 +84,8 @@ bckground()
     color var(--text-light)
     text-shadow 0px 0px 10px var(--text-dark)
     transition .1s ease-out
+    animation desktop-pop .4s cubic-bezier(0.790, 0.265, 0.265, 1.550) forwards
+    transform scale(0)
     &:active
       border 2px dashed var(--primary)
       transition 0s ease-out
@@ -93,7 +95,18 @@ bckground()
       height icon-size
       filter: drop-shadow(0px 0px 3px var(--text-dark));
     .name
-      text-align center
-    
+      text-align center  
 
+for num in (1..20)
+	.icon:nth-of-type({num})
+		animation-delay (num + 2)* .09s
+
+@keyframes desktop-pop{
+  from{
+    transform scale(0)
+  }
+  to{
+    transform scale(1)
+  }
+}
 </style>

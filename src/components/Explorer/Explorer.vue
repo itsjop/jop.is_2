@@ -2,7 +2,7 @@
 section.explorer
   .icons(v-for="file in fullContents" v-on:dblclick="newWindow(file)")
     img(:alt="file.summary" :src="file.icon")
-    label {{file.title}}
+    label {{(file.shortTitle ? file.shortTitle : file.title)}}
 </template>
 
 <script>
@@ -23,7 +23,7 @@ export default {
           folderContents[index] = this.getComponentDetails(item.name)
         }
       })
-      return folderContents
+      return folderContents 
     }
   },
 	props: {

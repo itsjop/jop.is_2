@@ -88,9 +88,6 @@ export default {
     }
   },
   methods: {
-    updateTitle(){
-      alert()
-    },
     startDrag() {
       // Enables window dragging
       this.dragging = true;
@@ -186,7 +183,7 @@ export default {
       })
       setTimeout(() => {				
         this.offScreen = true;
-      }, 1000);
+      }, 2000);
     },
   },
   mounted() {
@@ -205,7 +202,7 @@ export default {
   transform translate(0%, 0%)
   position absolute	
   z-index 1
-  pointer-events none
+  // pointer-events none
   will-change transform
   transform translateZ(0)
   transition .3s cubic-bezier(0.605, 0.215, 0.420, 1.580);
@@ -240,7 +237,7 @@ export default {
       background var(--primary-darkest)
       z-index -1
     .toolbar
-      grid-column 1/4
+      grid-column 2/3
       grid-row 2/3   
       cursor grab
       user-select none
@@ -302,6 +299,7 @@ export default {
       .tidle
         pointer-events none
         grid-row 1/2
+        user-select none
         grid-column 2/3
         padding 2px 15px
         color var(--text-light)
@@ -339,12 +337,13 @@ export default {
       scalar(sc-r, ew-resize)
 
     .content
-      grid-column 1/4
+      grid-column 2/3
       grid-row 3/4
       height 100%
       color var(--text)
       overflow-y scroll
       background var(--text-light)
+      position relative
       &.offscreen
         display none
         // for performance

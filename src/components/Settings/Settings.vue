@@ -24,6 +24,7 @@ section.settings
 <script>
 import tinycolor from 'tinycolor2'
 import { Sketch } from 'vue-color'
+import allImages from '../../assets/data/Backgrounds'
 export default {
 	name: 'Settings',
 	data() {
@@ -31,58 +32,7 @@ export default {
       color: getComputedStyle(document.documentElement).getPropertyValue('--primary'),
       activeImg:"Tasky",
       invert: false,
-      images:[
-        {name:"Arabesque", path:'/img/desktop/arabesque.png'},
-        {name:"Basketball", path:'/img/desktop/basketball.png'},
-        {name:"Batthern", path:' /img/desktop/batthern.png'},
-        {name:"Black Twill", path:' /img/desktop/black-twill.png'},
-        {name:"Cardboard", path:' /img/desktop/cardboard.png'},
-        {name:"Checkers Light", path:'/img/desktop/checkered-light-emboss.png'},
-        {name:"Cartographer", path:' /img/desktop/cartographer.png'},
-        {name:"Checkered Pattern", path:' /img/desktop/checkered-pattern.png'},
-        {name:"Concrete Wall", path:' /img/desktop/concrete-wall.png'},
-        {name:"CrissXCross", path:' /img/desktop/crissxcross.png'},
-        {name:"Dark Mosaic", path:' /img/desktop/dark-mosaic.png'},
-        {name:"Diagmonds", path:' /img/desktop/diagmonds-light.png'},
-        {name:"Diagonal Stripes", path:' /img/desktop/diagonal-striped-brick.png'},
-        {name:"Diamond Upholstry", path:' /img/desktop/diamond-upholstery.png'},
-        {name:"Escheresque", path:'/img/desktop/escheresque.png'},
-        {name:"Foggy Birds", path:' /img/desktop/foggy-birds.png'},
-        {name:"Gold Scale", path:'/img/desktop/gold-scale.png '},
-        {name:"Gplay", path:'/img/desktop/gplay.png '},
-        {name:"Gradient Squares", path:'/img/desktop/gradient-squares.png '},
-        {name:"Green Fibers", path:'/img/desktop/green-fibers.png '},
-        {name:"Greeb Gobbler", path:' /img/desktop/green-gobbler.png'},
-        {name:"Honey, I'm Home", path:'/img/desktop/honey-im-subtle.png '},
-        {name:"Leather", path:' /img/desktop/large-leather.png'},
-        {name:"Light Wool", path:' /img/desktop/light-wool.png'},
-        {name:"My Little Plaid", path:'/img/desktop/my-little-plaid.png '},
-        {name:"Nice Snow", path:' /img/desktop/nice-snow.png'},
-        {name:"Old Mathematics", path:'/img/desktop/old-mathematics.png '},
-        {name:"Old Wall", path:'/img/desktop/old-wall.png '},
-        {name:"Outlets", path:'/img/desktop/outlets.png '},
-        {name:"Padded", path:'/img/desktop/padded.png '},
-        {name:"Perforated White Leather", path:' /img/desktop/perforated-white-leather.png'},
-        {name:"Real Carbon Fiber", path:'/img/desktop/real-carbon-fibre.png '},
-        {name:"Robots", path:'/img/desktop/robots.png '},
-        {name:"Shley Tree", path:'/img/desktop/shley-tree-1.png '},
-        {name:"Skulls", path:'/img/desktop/skulls.png '},
-        {name:"Snow", path:'/img/desktop/snow.png '},
-        {name:"SOS", path:'/img/desktop/sos.png '},
-        {name:"Starring", path:'/img/desktop/starring.png '},
-        {name:"Subtle White Feathers", path:'/img/desktop/subtle-white-feathers.png '},
-        {name:"Swirl", path:'/img/desktop/swirl.png '},
-        {name:"Tasky", path:'/img/desktop/tasky.png '},
-        {name:"Tileable Wood", path:'/img/desktop/tileable-wood-colored.png '},
-        {name:"Tree Bark", path:'/img/desktop/tree-bark.png '},
-        {name:"Triangular", path:'/img/desktop/triangular.png '},
-        {name:"Wavecut", path:' /img/desktop/wavecut.png'},
-        {name:"Wet Snow", path:'/img/desktop/wet-snow.png '},
-        {name:"White Diamond", path:'/img/desktop/white-diamond.png'},
-        {name:"White Paperboard", path:'/img/desktop/white-paperboard.png '},
-        {name:"White Tiles", path:'/img/desktop/white-tiles.png '},
-        {name:"Wood Pattern", path:'/img/desktop/wood-pattern.png '},
-      ]
+      images: allImages
 		}
 	},
 	watch: {
@@ -98,71 +48,20 @@ export default {
 		color: function(){
 			// Watches for when the window is restored to full size
 			console.log("color updated!", this.color)
-			let primary = tinycolor(this.color.hex)
-			let dark = primary.getLuminance()
       let colors = {}
-      // if (dark > .03){
-      //   if (dark > .3){
-      //     if (dark>.8){
-            // if greater than .8
-            colors.dark = primary.darken(5)
-            colors.darker = primary.darken(10)
-            colors.darkest = primary.darken(5)
-            primary = tinycolor(this.color.hex)
-            colors.light = primary.lighten(10)
-            colors.lighter = primary.lighten(5)
-            colors.lightest = primary.lighten(5)
-            colors.text_light = tinycolor(this.color.hex).lighten(30).desaturate(50)
-            colors.text_dark = tinycolor(this.color.hex).darken(40)
-      //     }else{
-      //     // if .3 to .8 
-      //     colors.dark = primary.darken(10)
-      //     colors.darker = primary.darken(10)
-      //     colors.darkest = primary.darken(10)
-      //     primary = tinycolor(this.color.hex)
-      //     colors.light = primary.lighten(10)
-      //     colors.lighter = primary.lighten(10)
-      //     colors.lightest = primary.lighten(10)
-      //     colors.text_light = tinycolor(this.color.hex).darken(20).desaturate(50)
-      //     colors.text_dark = tinycolor(this.color.hex).lighten(40)
-      //   }
-      //   }else{
-      //     // if .03 to .3 
-      //     colors.dark = primary.darken(5)
-      //     colors.darker = primary.darken(5)
-      //     colors.darkest = primary.darken(5)
-      //     primary = tinycolor(this.color.hex)
-      //     colors.light = primary.lighten(10)
-      //     colors.lighter = primary.lighten(10)
-      //     colors.lightest = primary.lighten(10)
-      //     colors.text_light = tinycolor(this.color.hex).darken(0).desaturate(0)
-      //     colors.text_dark = tinycolor(this.color.hex).lighten(40)
-      //   }
-      // }else{
-      //   // Extreme dark edge case
-			//   primary = tinycolor(this.color.hex).lighten(10).saturate(40)
-			//   colors.dark = primary.lighten(20)
-      //   colors.darker = primary.lighten(10)
-      //   colors.darkest = primary.lighten(10)
-      //   primary = tinycolor(this.color.hex)
-      //   colors.light = primary.darken(2)
-      //   colors.lighter = primary.darken(2)
-      //   colors.lightest = primary.darken(2)
-      //   colors.text_light = tinycolor(this.color.hex).darken(0).desaturate(20)
-      //   colors.text_dark = tinycolor(this.color.hex).lighten(80).desaturate(70)
-      // }
-			// if(dark<.7){
-			// 	colors.text_light = tinycolor(this.color.hex).lighten(60).desaturate(20)
-			// 	colors.text_dark = tinycolor(this.color.hex).darken(80).desaturate(20)
-			// }
-			console.log("darkness",dark)
-      console.log("colors",colors)
-      
-      primary = tinycolor(this.color.hex)
+			colors.primary = tinycolor(this.color.hex)
+      colors.dark = tinycolor(this.color.hex).darken(20)
+      colors.darker = tinycolor(this.color.hex).darken(30)
+      colors.darkest = tinycolor(this.color.hex).darken(40)
+      colors.light = tinycolor(this.color.hex).lighten(10)
+      colors.lighter = tinycolor(this.color.hex).lighten(15)
+      colors.lightest = tinycolor(this.color.hex).lighten(20)
+      colors.text_light = tinycolor(this.color.hex).lighten(40).desaturate(50)
+      colors.text_dark = tinycolor(this.color.hex).darken(40)
       colors.accent = tinycolor(this.color.hex).spin(40)
 
 			document.documentElement.style.setProperty('--accent', colors.accent);
-			document.documentElement.style.setProperty('--primary', primary);
+			document.documentElement.style.setProperty('--primary', colors.primary);
 			document.documentElement.style.setProperty('--primary-dark', colors.dark);
 			document.documentElement.style.setProperty('--primary-darker', colors.darker);
 			document.documentElement.style.setProperty('--primary-darkest', colors.darkest);
@@ -170,10 +69,8 @@ export default {
 			document.documentElement.style.setProperty('--primary-lighter', colors.lighter);
 			document.documentElement.style.setProperty('--primary-lightest', colors.lightest);
 			document.documentElement.style.setProperty('--text-light', colors.text_light);
-			document.documentElement.style.setProperty('--text-dark', colors.text_dark);
-
-
-		}
+      document.documentElement.style.setProperty('--text-dark', colors.text_dark);
+      }
   },
   methods:{
     setWall(index){

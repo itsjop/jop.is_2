@@ -1,21 +1,25 @@
 
 /*////////////////////
 TO DO:
-make the desktop, taskbar, and explorer able to fetch and render items from components
-create an image viewer for random photos and stuff
-add a descript box for details about projects as well as git links
-stop the windows closing at once from cloising other windows after the queue changes
+HIGH-PRIO:
+  iframes for ones that require vw and vh
+  implement the rest of the components
+  add a descript box for details about projects as well as git links
+  load up a STAR instance
 
-iframes for ones that require vw and vh
-implement the rest of the components
+MID-PRIO:
+  store color values in cookies
+  ->cookies notification?
+  redo log-in screen background to use the clouds and dirt, maybe something with SVGs and a pixel filter?
+  have the pen projects spin around to show source code
+  slim down jquery with a custom build
+  optimise the minimization function 
+    or at the very least add an animation or something to make it more obvious
 
-load up a STAR instance
-
-store color values in cookies
-->cookies notification?
-
-redo log-in screen background to use the clouds and dirt, maybe something with SVGs and a pixel filter?
-
+LOW-PRIO:
+  create an image viewer for random photos and stuff
+  stop the windows closing at once from cloising other windows after the queue changes
+  window physics!
 ///////////////////*/
 
 <template lang="pug">
@@ -26,7 +30,7 @@ redo log-in screen background to use the clouds and dirt, maybe something with S
       p I mean if you really want, you can have a look anyways?
       button(@click="mobileCover = false") Show me the mess!
     transition-group(name="login")
-      login(@login="loggedIn = false" v-if="loggedIn" key="login")
+      login(@login="loggedIn = true" v-if="!loggedIn" key="login")
       #os(v-else key="os")
         desktop
         window( 
@@ -64,7 +68,7 @@ import Misdacop from './components/Pages/Misdacop/Misdacop'
 import GoldenGirls from './components/Pages/GoldenGirls/GoldenGirls'
 import NotGeo from './components/Pages/NotGeo/NotGeo'
 import Powerpoint from './components/Pages/Powerpoint/Powerpoint'
-import TDL from './components/Pages/TDL/TDL'
+import Tdl from './components/Pages/Tdl/Tdl'
 import Propeller from './components/Pages/Propeller/Propeller'
 import Empty from './components/Empty'
 
@@ -121,6 +125,7 @@ export default {
     newWindow(payload={title:"New window",name:"blank"}){
       // First sees if the selected component is listed as unique
       // if it is, it brings it to the foreground instead of making a new one
+      console.log(payload)
       if(this.checkUnique(payload.name)){
         // Creates a new window components and seeds the vars needed in to it
         this.windows.push({
@@ -129,6 +134,7 @@ export default {
           componentInfo: payload,
           zIndex: this.windows.length + 1,
           active: true,
+          framed: payload.framed,
           args:{
             folder: this.folders[this.findNameInArray(this.folders, payload.folderPath)],
             allFolders: this.folders
@@ -205,7 +211,7 @@ export default {
     goldengirls: GoldenGirls,
     notgeo: NotGeo,
     powerpoint: Powerpoint,
-    tdl: TDL,
+    tdl: Tdl,
     propeller: Propeller
   }
 }

@@ -13,11 +13,11 @@ section.taskbar(ref="taskbar")
       path(d='M19,20H4C2.89,20 2,19.1 2,18V6C2,4.89 2.89,4 4,4H10L12,6H19A2,2 0 0,1 21,8H21L4,8V18L6.14,10H23.21L20.93,18.5C20.7,19.37 19.92,20 19,20Z')
     label Explorer
   .vertbar
-  .pinned.application(@click="newWindow('New Folder','propeller')")
+  .pinned.application(@click="newWindow('Propeller','propeller')")
     .shadow
     svg.icon(mlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 24 24")
       path(d='M19,20H4C2.89,20 2,19.1 2,18V6C2,4.89 2.89,4 4,4H10L12,6H19A2,2 0 0,1 21,8H21L4,8V18L6.14,10H23.21L20.93,18.5C20.7,19.37 19.92,20 19,20Z')
-    label Explorer
+    label Propeller
   .vertbar
   .active.application(v-for="(window, index) in windows" v-if="window.minimized" @click="restoreWindow(index)")
     .shadow
@@ -68,16 +68,19 @@ export default {
   },
   methods:{
     newWindow(title, component, folderPath){
+      console.log("NEWWINDWOSASDf")
       console.log("title",title,"name",component,"folderPath",folderPath)
-      this.$emit('newWindow',{title: title, name: component, folderPath: folderPath})
+      console.log(this.getComponentDetails(component))
+      this.$emit('newWindow',{...this.getComponentDetails(component),title: title, name: component, folderPath: folderPath})
     },
     restoreWindow(index){
       this.$emit('restoreWindow', index)
     },
     getComponentDetails(componentName){
       let newObj = {}
+      console.log("componentName",componentName)
+      console.log("componentList",this.componentList)
       this.componentList.map(component =>{
-        console.log("hit component details", componentName, component.name)
         if(component.name === componentName){
           console.log("component",component)
           newObj = component
@@ -149,7 +152,7 @@ export default {
       transform translateY(-30%) 
       label
         opacity 1
-        background #44444444
+        background #dddddd99
         transform translate(-50%,0%)
         padding 4px
         border-radius 5px
@@ -175,11 +178,12 @@ export default {
       top -40px
       left 50%
       transform translate(-50%,0%)
+      color #ffffff
       white-space: nowrap;
-      border 2px solid #55555555
+      border 2px solid #eeeeeeee
       &:after
         content ''
-        background #44444444
+        background #eeeeeeee
         position absolute
         bottom -10px
         left 50%

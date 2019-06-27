@@ -48,5 +48,6 @@ export default [
   {name:"White Diamond", path:'/img/desktop/white-diamond.png'},
   {name:"White Paperboard", path:'/img/desktop/white-paperboard.png '},
   {name:"White Tiles", path:'/img/desktop/white-tiles.png '},
+  {name:"Fake Luxury", path:'/img/desktop/fake-luxury.png '},
   {name:"Wood Pattern", path:'/img/desktop/wood-pattern.png '},  
 ]

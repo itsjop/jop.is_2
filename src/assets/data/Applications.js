@@ -36,35 +36,80 @@ export default [
     about: "Duck. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
   },
   {
-    name: "this",
-    title: "This",
-    shortTitle: "This",
+    name: "jopos",
+    title: "jop.is",
     icon: './pages/DuckRotation/icon.png',
-    path: '/components/Pages/This/This',
+    path: '/components/Pages/JopOS/JopOS',
     unique: false,
-    framed: true,
-    summary: "Yo! Check this cool duck!",
-    about: "Duck. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
+    summary: "Yo! Check this cool this!",
+    about: "This. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
   },
   {
     name: "mtgcard",
     title: "Magic The Gathering Grid Test",
     shortTitle: "MTG Card",
-    icon: './pages/DuckRotation/icon.png',
+    icon: './pages/MTGCard/icon.png',
     path: '/components/Pages/MTGCard/MTGCard',
     unique: false,
-    framed: true,
-    summary: "Yo! Check this cool duck!",
-    about: "Duck. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
+    summary: "Yo! Check this cool card!",
+    about: "Card. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
   },
   {
-    name: "mtgcard",
+    name: "propeller",
     title: "Propeller",
-    icon: './pages/DuckRotation/icon.png',
-    path: '/components/Pages/MTGCard/MTGCard',
+    icon: './pages/Propeller/icon.png',
+    path: '/components/Pages/Propeller/Propeller',
     unique: false,
-    framed: true,
-    summary: "Yo! Check this cool duck!",
-    about: "Duck. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
+    summary: "Yo! Check this cool propeller!",
+    about: "Propeller. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
+  },
+  {
+    name: "misdacop",
+    title: "Misdacop",
+    icon: './pages/Misdacop/icon.png',
+    path: '/components/Pages/Misdacop/Misdacop',
+    unique: false,
+    summary: "Yo! Look at this site design!",
+    about: "Shoes. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
+  },
+  {
+    name: "goldengirls",
+    title: "The Golden Girls Take Manhatten",
+    shortTitle: "Golden Girls",
+    icon: './pages/GoldenGirls/icon.png',
+    path: '/components/Pages/GoldenGirls/GoldenGirls',
+    unique: false,
+    summary: "Yo! Look at these girls!",
+    about: "Girls. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
+  },
+  {
+    name: "notgeo",
+    title: "Notional Geographic Fullpage Article",
+    shortTitle: "NotGeo",
+    icon: './pages/NotGeo/icon.png',
+    path: '/components/Pages/NotGeo/NotGeo',
+    unique: false,
+    summary: "Yo! Look at these animals!",
+    about: "Animals. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
+  },
+  {
+    name: "powerpoint",
+    title: "Not Powerpoint Powerpoint Presentation",
+    shortTitle: "Powerpoint",
+    icon: './pages/Powerpoint/icon.png',
+    path: '/components/Pages/Powerpoint/Powerpoint',
+    unique: false,
+    summary: "Yo! Look at these slides!",
+    about: "Slides. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
+  },
+  {
+    name: "tdl",
+    title: "The Designer's League Homepage",
+    shortTitle: "TDL",
+    icon: './pages/TDL/icon.png',
+    path: '/components/Pages/TDL/TDL',
+    unique: false,
+    summary: "Yo! Look at these shapes!",
+    about: "Shapes. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
   },
 ]

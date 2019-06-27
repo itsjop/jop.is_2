@@ -32,10 +32,12 @@ export default [
       },{
         type: "component",
         name:"powerpoint",
-      },{
-        type: "component",
-        name:"tdl",
-      },{
+      },
+      // {
+      //   type: "component",
+      //   name:"tdl",
+      // },
+      {
         type: "component",
         name:"propeller",
       },

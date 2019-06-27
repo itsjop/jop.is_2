@@ -1,6 +1,6 @@
 <template lang="pug">
 section.explorer
-  .icons(v-for="file in fullContents" v-on:dblclick="newWindow(file)")
+  .icons(v-for="file in fullContents" v-on:dblclick="newWindow(file)" )
     img(:alt="file.summary" :src="file.icon")
     label {{(file.shortTitle ? file.shortTitle : file.title)}}
 </template>
@@ -56,7 +56,7 @@ export default {
   display grid
   grid-auto-flow row 
   padding 20px
-  grid-template-columns repeat(auto-fit, minmax(50px, 1fr))
+  grid-template-columns repeat(auto-fit, minmax(100px, 1fr))
   grid-template-rows repeat(auto-fit, 100px)
   min-height 100%
   .icons
@@ -69,7 +69,7 @@ export default {
       height 80px
       border-radius 200px
       color gray 
-      border 2px solid #33333333
+      // border 2px solid #33333333
     label
       text-align center
 

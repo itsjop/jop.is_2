@@ -25,14 +25,16 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="stylus" scoped>
 
-scaler = 	cubic-bezier(0.760, 0.010, 0.365, 0.990)
-spin = 		cubic-bezier(0.760, 0.010, 0.365, 0.990)
+scaler = cubic-bezier(0.760, 0.010, 0.365, 0.990)
+spin  = 	cubic-bezier(0.760, 0.010, 0.365, 0.990)
+
 
 section 
 	overflow hidden
 	background black
 	width 100%
 	height 100%
+	position relative
 .circle
 	position: absolute;
 	left: 50%;

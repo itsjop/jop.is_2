@@ -2,7 +2,7 @@
 /*////////////////////
 TO DO:
 HIGH-PRIO:
-  iframes for ones that require vw and vh
+  code rotation panel
   implement the rest of the components
   add a descript box for details about projects as well as git links
   load up a STAR instance
@@ -17,6 +17,7 @@ MID-PRIO:
     or at the very least add an animation or something to make it more obvious
 
 LOW-PRIO:
+  add a sign-out and close button that closes the tab or refreshes the desktop
   create an image viewer for random photos and stuff
   stop the windows closing at once from cloising other windows after the queue changes
   window physics!
@@ -125,7 +126,7 @@ export default {
     newWindow(payload={title:"New window",name:"blank"}){
       // First sees if the selected component is listed as unique
       // if it is, it brings it to the foreground instead of making a new one
-      console.log(payload)
+      console.log("making new window with props: ",payload)
       if(this.checkUnique(payload.name)){
         // Creates a new window components and seeds the vars needed in to it
         this.windows.push({
@@ -135,6 +136,7 @@ export default {
           zIndex: this.windows.length + 1,
           active: true,
           framed: payload.framed,
+          code: payload.code,
           args:{
             folder: this.folders[this.findNameInArray(this.folders, payload.folderPath)],
             allFolders: this.folders

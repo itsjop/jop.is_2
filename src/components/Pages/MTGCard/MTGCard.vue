@@ -39,7 +39,7 @@ export default {
 // https://www.artstation.com/piotrkrezelewski
 // https://www.artstation.com/artwork/VPXY4
 cards = 5
-body
+section
 	background #222
 	font-family beleren, serif
 	overflow hidden

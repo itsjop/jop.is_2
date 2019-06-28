@@ -51,6 +51,7 @@ export default [
     icon: './pages/MTGCard/icon.png',
     path: '/components/Pages/MTGCard/MTGCard',
     unique: false,
+    code: true,
     summary: "Yo! Check this cool card!",
     about: "Card. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
   },
@@ -60,6 +61,7 @@ export default [
     icon: './pages/Propeller/icon.png',
     path: '/components/Pages/Propeller/Propeller',
     unique: false,
+    code: true,
     summary: "Yo! Check this cool propeller!",
     about: "Propeller. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
   },
@@ -69,6 +71,7 @@ export default [
     icon: './pages/Misdacop/icon.png',
     path: '/components/Pages/Misdacop/Misdacop',
     unique: false,
+    code: true,
     summary: "Yo! Look at this site design!",
     about: "Shoes. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
   },
@@ -79,6 +82,7 @@ export default [
     icon: './pages/GoldenGirls/icon.png',
     path: '/components/Pages/GoldenGirls/GoldenGirls',
     unique: false,
+    code: true,
     summary: "Yo! Look at these girls!",
     about: "Girls. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
   },
@@ -89,6 +93,7 @@ export default [
     icon: './pages/NotGeo/icon.png',
     path: '/components/Pages/NotGeo/NotGeo',
     unique: false,
+    code: true,
     summary: "Yo! Look at these animals!",
     about: "Animals. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
   },
@@ -99,6 +104,7 @@ export default [
     icon: './pages/Powerpoint/icon.png',
     path: '/components/Pages/Powerpoint/Powerpoint',
     unique: false,
+    code: true,
     summary: "Yo! Look at these slides!",
     about: "Slides. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
   },
@@ -109,6 +115,7 @@ export default [
     icon: './pages/TDL/icon.png',
     path: '/components/Pages/TDL/TDL',
     unique: false,
+    code: true,
     summary: "Yo! Look at these shapes!",
     about: "Shapes. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
   },

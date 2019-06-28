@@ -3,7 +3,7 @@
 //- Overrides the styling for the window positioning if minimized. Also, can't be line-broken :/
 .windowpane(:id="'windowpane-'+info.zIndex"
     v-bind:style="info.minimized ? {transform: 'translate('+ '50%, 120%)', zIndex: info.zIndex} : {transform: 'translate('+ xPerc +'%,' + yPerc +'%)', zIndex: info.zIndex}"
-    :class="(info.minimized ? 'minimized ' : ' ' )+(dragging?'dragging':'')")
+    :class="(info.minimized ? 'minimized ' : ' ' )+(dragging||rescale.scaling?'dragging':'')")
   .window(ref="window" :id="'window-'+info.zIndex"
       :class="(closing ? 'closing' : '')+' '+(info.minimized ? 'minimized' : '')" 
       @mousedown="popWindow(window_id)" :style="{ width: width+'px', height: height+'px',  }")
@@ -13,11 +13,13 @@
       .bg(:class="info.active ? 'anim' : ''")
       .tidle {{info.title}}
       .buddins
+        .code(v-if="info.code") </>
         .maximize +
         .minimize(@click="minimizeWindow(window_id)") _
         .close(@click="closeWindow(window_id)") X
     .content(:class="offScreen ? 'offscreen' : '' ")
       slot
+    .codin
     .scalar.scalar-t(@mousedown="startScale('top')")
     .scalar.scalar-tl(@mousedown="startScale('top','left')")
     .scalar.scalar-l(@mousedown="startScale('left')")
@@ -202,7 +204,7 @@ export default {
   transform translate(0%, 0%)
   position absolute	
   z-index 1
-  // pointer-events none
+  pointer-events none
   will-change transform
   transform translateZ(0)
   transition .3s cubic-bezier(0.605, 0.215, 0.420, 1.580);
@@ -311,10 +313,17 @@ export default {
         justify-content space-between
         justify-self end
         cursor pointer
-        width 50px
+        width 100px
         margin 0 5px 0 0
         padding 2px 15px
         bg_dropshadow()
+        .maximize, .minimize, .close, .code
+          width 20px
+          text-align center
+          font-weight 600
+        .code
+          width 35px
+          text-align center
     scalar(areaname, resizer)
       grid-area areaname
       cursor resizer

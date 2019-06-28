@@ -2,8 +2,9 @@
 /*////////////////////
 TO DO:
 HIGH-PRIO:
-  code rotation panel
-  implement the rest of the components
+  code rotation 
+  3-language panel for code, git link in the header
+  
   add a descript box for details about projects as well as git links
   load up a STAR instance
 

@@ -19,7 +19,7 @@
         .close(@click="closeWindow(window_id)") X
     .content(:class="offScreen ? 'offscreen' : '' ")
       slot
-    .codin
+    .codin(v-if="codezone")
     .scalar.scalar-t(@mousedown="startScale('top')")
     .scalar.scalar-tl(@mousedown="startScale('top','left')")
     .scalar.scalar-l(@mousedown="startScale('left')")
@@ -57,7 +57,8 @@ export default {
       yOffset: 0,
       yOrigin: 0,
       yStart: 0,
-      yShadow:0,
+      yShadow: 0,
+      codezone: 0,
     };
   },   
   props: {

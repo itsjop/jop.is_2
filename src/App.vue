@@ -1,12 +1,12 @@
 
 /*////////////////////
 TO DO:
-HIGH-PRIO:
-  code rotation 
-  3-language panel for code, git link in the header
-  
-  add a descript box for details about projects as well as git links
-  load up a STAR instance
+SHIPPABLE:
+  get desktop icons working
+  add a tooltip for the code link
+  load up / record a STAR instance
+  welcome to Jop.is animation
+  re-comment the whole thing for final build
 
 MID-PRIO:
   store color values in cookies
@@ -22,6 +22,9 @@ LOW-PRIO:
   create an image viewer for random photos and stuff
   stop the windows closing at once from cloising other windows after the queue changes
   window physics!
+
+  go back to doing the rotating panel code rotation 
+  3-language panel for code, git link in the header
 ///////////////////*/
 
 <template lang="pug">
@@ -131,6 +134,7 @@ export default {
       if(this.checkUnique(payload.name)){
         // Creates a new window components and seeds the vars needed in to it
         this.windows.push({
+          //TODO: get a proper spread operator in here
           title: payload.title,
           component: payload.name,
           componentInfo: payload,
@@ -138,6 +142,8 @@ export default {
           active: true,
           framed: payload.framed,
           code: payload.code,
+          icon: payload.icon,
+          url: payload.url,
           args:{
             folder: this.folders[this.findNameInArray(this.folders, payload.folderPath)],
             allFolders: this.folders

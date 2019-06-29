@@ -12,14 +12,15 @@
       .blank
       .bg(:class="info.active ? 'anim' : ''")
       .tidle {{info.title}}
-      .buddins
-        .code(v-if="info.code") </>
-        .maximize +
+      .buddins(:class="info.code?'code':''")
+        a.code(:href="info.url" target="_blank" v-if="info.code") </>
+        //- a.code(v-if="info.code" @click="codezone = !codezone") </>
+        //- .maximize +
         .minimize(@click="minimizeWindow(window_id)") _
         .close(@click="closeWindow(window_id)") X
-    .content(:class="offScreen ? 'offscreen' : '' ")
+    .content(:class="(offScreen ? 'offscreen ' : '') + (codezone?'codezone':'')")
       slot
-    .codin(v-if="codezone")
+    //- codin(:codezone="codezone" :class="(codezone?'codezone':'')")
     .scalar.scalar-t(@mousedown="startScale('top')")
     .scalar.scalar-tl(@mousedown="startScale('top','left')")
     .scalar.scalar-l(@mousedown="startScale('left')")
@@ -33,6 +34,7 @@
 
 <script>
 import domtoimage from 'dom-to-image';
+import Codin from './Codein'
 export default {	
   name: 'Window',
   data() {
@@ -193,6 +195,9 @@ export default {
     this.activateListener()
     this.xPerc+=(Math.random()*30)
     this.yPerc+=(Math.random()*30)
+  },
+  components:{
+    codin: Codin
   }
 }
 </script>
@@ -221,6 +226,7 @@ export default {
     animation window-creation .3s cubic-bezier(0.590, 0.160, 0.265, 1.550) forwards
     transform scale(0) translateZ(0)
     will-change transform
+    perspective 1000px
     grid-template:\
     "sc-tl sc-t sc-tr" 10px\
     "sc-l   .   sc-r" 25px\
@@ -282,7 +288,7 @@ export default {
           z-index -1
           top 0
           left 0
-        &::before
+        &::before 
           bg()			
           animation bg-slide 15s linear infinite
           animation-play-state: paused;
@@ -314,10 +320,16 @@ export default {
         justify-content space-between
         justify-self end
         cursor pointer
-        width 100px
         margin 0 5px 0 0
         padding 2px 15px
         bg_dropshadow()
+        a
+          color white
+          text-decoration none
+          &:visited
+            color white
+        &.code
+          width 100px
         .maximize, .minimize, .close, .code
           width 20px
           text-align center
@@ -354,12 +366,30 @@ export default {
       overflow-y scroll
       background var(--text-light)
       position relative
+      transition .5s
+      &.codezone
+        backface-visibility hidden
+        transform rotateY(180deg)
       &.offscreen
         display none
         // for performance
       iframe
         width 100%
         height 100%
+    .codin
+      grid-column 2/3
+      grid-row 3/4
+      height 100%
+      background green
+      backface-visibility hidden
+      transform rotateY(-180deg)
+      position relative
+      overflow-y scroll
+      transition .5s
+      &.codezone
+        transform rotateY(0deg)
+
+
 
 @keyframes bg-slide{
   from{

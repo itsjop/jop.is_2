@@ -7,6 +7,7 @@ Vue.config.productionTip = false
 
 require('@/assets/css/normalize.css')
 
+
 new Vue({
   render: h => h(App)
 }).$mount('#app')

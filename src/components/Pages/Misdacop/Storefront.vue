@@ -113,6 +113,7 @@ section
    position relative
 header
 	overflow hidden
+   position relative
 	font-family 'Inconsolata', serif;
 strong 
 	font-weight 900

@@ -2,7 +2,6 @@
 /*////////////////////
 TO DO:
 SHIPPABLE:
-  fix MTGCard
   add a tooltip for the code link
   load up / record a STAR instance
   welcome to Jop.is animation
@@ -288,6 +287,16 @@ body
 	opacity 1
 	transition all 0.5s cubic-bezier(0.680, -0.550, 0.375, 0.885)
   
+
+.tippy-popper[x-placement^="top"]
+  .tippy-tooltip
+    background var(--primary)
+    filter drop-shadow(0px 0px 5px var(--primary))
+  .tippy-arrow
+      border-top 8px solid var(--primary)
+      filter drop-shadow(0px 0px 5px var(--primary))
+
+
 #mobile-coverup
   display none
 @media (max-width: 500px)
@@ -306,6 +315,8 @@ body
     background black
     text-align center
     box-sizing: border-box;
+
+
 
 
 </style>

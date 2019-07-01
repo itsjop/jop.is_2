@@ -53,7 +53,7 @@ export default [
     icon: './pages/DuckRotation/icon.png',
     path: '/components/Pages/JopOS/JopOS',
     url: 'http://jop.is',
-    code:"https://github.com/itsjop/jop.os",
+    code:"https://github.com/itsjop/jop.is",
     code: true,
     unique: false,
     summary: "Yo! Check this cool this!",

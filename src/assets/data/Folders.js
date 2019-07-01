@@ -34,10 +34,6 @@ export default [
         type: "component",
         name:"powerpoint",
       },
-      // {
-      //   type: "component",
-      //   name:"tdl",
-      // },
       {
         type: "component",
         name:"propeller",
@@ -51,6 +47,20 @@ export default [
       {
         type: "component",
         name:"mtgcard",
+      },
+    ]
+  },
+  {
+    name: "realProjects",
+    title: "Real Projects",
+    contents:[        
+      {
+        type: "component",
+        name:"star",
+      },    
+      {
+        type: "component",
+        name:"jopos",
       },
     ]
   },

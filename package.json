@@ -1,5 +1,5 @@
 {
-  "name": "jop.os",
+  "name": "jop.is",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -24,7 +24,8 @@
     "vue-js-toggle-button": "^1.3.2",
     "vue-prism-editor": "^0.2.1",
     "vue-router": "^3.0.3",
-    "vue-swatches": "^1.0.3"
+    "vue-swatches": "^1.0.3",
+    "vue-tippy": "^4.0.0-beta.4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.8.0",

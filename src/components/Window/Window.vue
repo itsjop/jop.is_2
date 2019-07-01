@@ -13,7 +13,11 @@
       .bg(:class="info.active ? 'anim' : ''")
       .tidle {{info.title}}
       .buddins(:class="info.code?'code':''")
-        a.code(:href="info.url" target="_blank" v-if="info.code") </>
+        a.code(
+              :href="info.url" 
+              target="_blank" 
+              v-if="info.code"
+              v-tippy="{content: 'Click to view source code!',followCursor: true, placement : 'top',  arrow: true }") </>
         //- a.code(v-if="info.code" @click="codezone = !codezone") </>
         //- .maximize +
         .minimize(@click="minimizeWindow(window_id)") _
@@ -35,6 +39,7 @@
 <script>
 import domtoimage from 'dom-to-image';
 import Codin from './Codein'
+import VueTippy from 'vue-tippy'
 export default {	
   name: 'Window',
   data() {

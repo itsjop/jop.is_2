@@ -1,5 +1,5 @@
 # jop.is
-Hey, I'm Jordan Crandall, and this is my personal portfolio site project. It's shaping up to be a whole visual-only OS. It's written in vue.js, my new personal favorite framework. At the moment there are very few external production libraries and I've created the whole interface myself. 
+Hey, I'm Jordan Crandall (aka jop), and this is my personal portfolio site project. It's shaping up to be a whole visual-only OS. It's written in vue.js, my new personal favorite framework. At the moment there are very few external production libraries and I've created the whole interface myself. 
 
 Oh, and, here's the standard boilerplate nonsense.
 

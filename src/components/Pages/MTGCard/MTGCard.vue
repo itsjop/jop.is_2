@@ -11,7 +11,6 @@
           .series 
           .desc
             p At the beginning of your draw step, you may draw two additional cards. If you do, choose two cards in your hand drawn this turn.
-            br 
             p For each of those cards, gain 4 life or put the cards onto the battlefeild.
           .str 2/2
           .artist 322/322 R
@@ -35,6 +34,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="stylus" scoped>
+p
+	margin 0
 // Art by Piotr Krezelewski, check 'em out! 
 // https://www.artstation.com/piotrkrezelewski
 // https://www.artstation.com/artwork/VPXY4
@@ -66,7 +67,7 @@ sizor = 500px
 	// 		z-index (num) * -1		
 	transform translate(-50%,-50%)
 	&:hover		
-		transform: translate(-50% , -50% ) rotate(0) scale(1.2)
+		transform: translate(-50% , -40% ) rotate(0) scale(1.2)
 		z-index cards + 1
 .cardgrid
 	height 100%
@@ -174,7 +175,7 @@ sizor = 500px
 		position relative
 		background #BDD2C9
 		border green 2px solid
-		padding .8vmin
+		padding 5px
 		&::before
 			width 7px
 			display inline-block
@@ -228,7 +229,7 @@ sizor = 500px
 		grid-row-end 9
 		background #D3E4DA
 		border green 2px solid
-		padding 3vmin		
+		padding 5px		
 		font-family planting, serif
 		p 
 			//filter blur(.4px)
@@ -282,6 +283,7 @@ sizor = 500px
 		text-align right
 		vertical-align bottom
 		font-family Times New Roman, serif
+		font-size 9px
 	.artist
 		grid-column-start 2
 		grid-column-end 4
@@ -292,6 +294,7 @@ sizor = 500px
 		text-align left
 		vertical-align bottom
 		font-family Times New Roman, serif
+		font-size 9px
 		
 		
 		

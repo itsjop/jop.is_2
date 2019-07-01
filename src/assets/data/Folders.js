@@ -1,6 +1,6 @@
 export default [
   {
-    name: "portfolio",
+    name: "test",
     contents:[        
       {
         type: "component",
@@ -15,7 +15,8 @@ export default [
     ]
   },
   {
-    name: "oddities",
+    name: "portfolio",
+    title: "Portfolio",
     contents:[        
       {
         type: "component",
@@ -40,6 +41,16 @@ export default [
       {
         type: "component",
         name:"propeller",
+      },
+    ]
+  },
+  {
+    name: "experiments",
+    title: "Experiments",
+    contents:[        
+      {
+        type: "component",
+        name:"mtgcard",
       },
     ]
   },

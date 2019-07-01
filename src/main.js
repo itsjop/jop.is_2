@@ -5,6 +5,8 @@ import './registerServiceWorker'
 
 Vue.config.productionTip = false
 
+import '../public/img/desktop/wood-pattern.png'
+
 require('@/assets/css/normalize.css')
 
 

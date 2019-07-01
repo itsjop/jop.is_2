@@ -1,41 +1,88 @@
  <template lang="pug">
 
 section.desktop
-  .icon(v-for="icon in icons" v-on:dblclick="newWindow(file)")
-    img(src="")
-    .name {{icon.name}}
+  .icon(v-for="file in fullContents" v-on:dblclick="file.type==='component' ? newWindow(file.title, file.name) : newWindow(file.title, 'explorer', file.name)")
+    img(:src="file.icon" :alt="file.summary")
+    .name {{(file.shortTitle ? file.shortTitle : file.title)}}
 
 </template>
 
 <script>
+import applications from '../../assets/data/Applications'
+import folders from '../../assets/data/Folders'
 export default {
 	name: 'Desktop',
 	data() {
 		return {
+      componentList: applications,
+      folderList: folders,
 			icons:[
 				{
-					name: "thing",
-					icon: "thing.png",
-					application: "./webpages/CoolDog"
+          type: "folder",
+          name: "explorer",
+          folder: "experiments"
 				},
 				{
-					name: "thing",
-					icon: "thing.png",
-					application: "./webpages/CoolDog"
+          type: "folder",
+          name: "explorer",
+          folder: "portfolio"
 				},
 				{
-					name: "thing",
-					icon: "thing.png",
-					application: "./webpages/CoolDog"
+          type: "component",
+					name: "duckrotation",
 				},
 				{
-					name: "thing",
-					icon: "thing.png",
-					application: "./webpages/CoolDog"
+          type: "component",
+					name: "star",
 				},
 			]
 		}
 	},
+  computed:{
+    // fetches the information for the components
+    fullContents: function () {
+      let folderContents = this.icons
+      folderContents.map((item, index) =>{
+        if (item.type==="component"){
+          folderContents[index] = this.getComponentDetails(item.name)
+        }
+        if (item.type==="folder"){
+          folderContents[index] = this.getComponentDetails(item.folder,"folder")
+          folderContents[index].icon = '/img/folder.svg'
+        }
+        folderContents[index].type = item.type
+      })
+      return folderContents 
+    }
+  },
+  methods:{
+    getComponentDetails(componentName,componentType="component"){
+      // fetches the full application details from the componentList
+      console.log("componentName",componentName)
+      let newObj = {}
+      if (componentType==="component"){
+        this.componentList.map(component =>{
+          if(component.name === componentName){
+            newObj = component
+          }
+        })
+      }
+      if (componentType==="folder"){
+        this.folderList.map(folder=>{
+          if(folder.name===componentName){
+            console.log("found folder!", folder, componentName)
+            newObj = folder
+            console.log("found ob!", newObj)
+          }
+        })
+      }
+      return newObj
+    },
+    newWindow(title, component, folderPath){
+      console.log("newWindw", title, component, folderPath)
+      this.$emit('newWindow',{...this.getComponentDetails(component),title: title, name: component, folderPath: folderPath})
+    },
+  },
 	props: {
 	}
 }

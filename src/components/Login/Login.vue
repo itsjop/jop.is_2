@@ -1,7 +1,7 @@
 <template lang="pug">
 section#login(:class="loggedin?'loggedin':''")
   .guest.user.active-user(@click="logger")
-    img.icon(src="https://images.unsplash.com/photo-1542103749-8ef59b94f47e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80")
+    img.icon(src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=435&q=80")
     label.name Guest User
     p Click to log in!
 </template>

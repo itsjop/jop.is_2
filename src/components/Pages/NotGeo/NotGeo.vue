@@ -103,7 +103,7 @@ section
 	position absolute
 	bottom 10%
 	right 8%
-	font-size 5vmax
+	font-size 32px
 	text-align right
 	z-index 10
 	&::before

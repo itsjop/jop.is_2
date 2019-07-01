@@ -1,6 +1,10 @@
 <template lang="pug">
-   section.bg
-      .duck
+section.bg
+	.duck
+	audio(autoplay)
+		source(src='./DuckRotation.ogg' type='audio/ogg')
+		| Your browser does not support the audio element.
+
 </template>
 
 <script>
@@ -13,7 +17,10 @@ export default {
    },
 	props: {
    },
-   methods:{}
+	methods:{},
+	created(){
+		new Audio('src/components/Pages/DuckRotation/DuckRotation.ogg').play()
+	}
 }
 </script>
 

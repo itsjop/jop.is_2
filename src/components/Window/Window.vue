@@ -40,8 +40,8 @@ export default {
   data() {
     return {
       closing: false,
-      width: 600,
-      height: 400,
+      width: this.info.size ? this.info.size[0] : 800,
+      height: this.info.size ? this.info.size[1] : 600,
       rescale: {
         scaling: false
       },
@@ -312,6 +312,9 @@ export default {
         grid-column 2/3
         padding 2px 15px
         color var(--text-light)
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         bg_dropshadow() 
       .buddins
         display flex

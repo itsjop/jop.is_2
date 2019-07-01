@@ -2,22 +2,26 @@
 /*////////////////////
 TO DO:
 SHIPPABLE:
-  get desktop icons working
+  fix MTGCard
   add a tooltip for the code link
   load up / record a STAR instance
   welcome to Jop.is animation
   re-comment the whole thing for final build
 
 MID-PRIO:
+  desktop icon and window sizing with vmins
+    // wait nevermind then you can't do the nested site joke
   store color values in cookies
   ->cookies notification?
   redo log-in screen background to use the clouds and dirt, maybe something with SVGs and a pixel filter?
-  have the pen projects spin around to show source code
+  // have the pen projects spin around to show source code
   slim down jquery with a custom build
   optimise the minimization function 
     or at the very least add an animation or something to make it more obvious
 
 LOW-PRIO:
+  nested folders
+  desktop drag-and-drop selection
   add a sign-out and close button that closes the tab or refreshes the desktop
   create an image viewer for random photos and stuff
   stop the windows closing at once from cloising other windows after the queue changes
@@ -37,7 +41,7 @@ LOW-PRIO:
     transition-group(name="login")
       login(@login="loggedIn = true" v-if="!loggedIn" key="login")
       #os(v-else key="os")
-        desktop
+        desktop(@newWindow="newWindow" )
         window( 
             v-for="(window, index) in windows" 
             :key="'window_'+index" 
@@ -97,7 +101,7 @@ export default {
       folders: folder_structure,
       componentList: applications,
       mobileCover: true,
-      loggedIn: true
+      loggedIn: false
     }
   },
   methods:{
@@ -144,6 +148,7 @@ export default {
           code: payload.code,
           icon: payload.icon,
           url: payload.url,
+          size: payload.size,
           args:{
             folder: this.folders[this.findNameInArray(this.folders, payload.folderPath)],
             allFolders: this.folders

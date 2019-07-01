@@ -37,7 +37,8 @@ export default [
   },
   {
     name: "duckrotation",
-    title: "Rotating Duck",
+    title: "Duck Rotation",
+    shortTitle: "Duck",
     icon: './pages/DuckRotation/icon.png',
     path: '/components/Pages/DuckRotation/DuckRotation',
     url: 'https://codepen.io/Jop/pen/YOWqrN',
@@ -67,6 +68,7 @@ export default [
     url: 'https://codepen.io/Jop/pen/xzJxaZ',
     unique: false,
     code: true,
+    size:[500,670],
     summary: "Yo! Check this cool card!",
     about: "Card. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
   },
@@ -139,5 +141,29 @@ export default [
     code: true,
     summary: "Yo! Look at these shapes!",
     about: "Shapes. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
+  },
+  {
+    name: "star",
+    title: "STAR - Sheriff Transport and Recording",
+    shortTitle: "STAR",
+    icon: './pages/Star/icon.svg',
+    path: '/components/Pages/Star/Star',
+    url:'https://github.com/itsjop/star-doc',
+    unique: true,
+    code: true,
+    summary: "Yo! Look at these Entries!",
+    about: "Stars. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
+  },
+  {
+    name: "thing",
+    title: "Thing",
+    shortTitle: "Thing",
+    icon: './pages/Thing/icon.png',
+    path: '/components/Pages/Thing/Thing',
+    url:'https://github.com/itsjop/star-doc',
+    unique: true,
+    code: true,
+    summary: "Yo! Look at these Entries!",
+    about: "Stars. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
   },
 ]

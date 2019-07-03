@@ -1,17 +1,22 @@
 <template lang="pug">
 section.explorer
-  .icons(v-for="file in fullContents" v-on:dblclick="newWindow(file)" )
-    img(:alt="file.summary" :src="file.icon")
+  .icons(v-for="file in fullContents" )
+    a(v-if="file.link" v-on:dblclick.preventDefault="openLink(file.link)")
+      img(:alt="file.summary" :src="file.icon")
+    div(v-else)
+      img(:alt="file.summary" :src="file.icon" v-on:dblclick="newWindow(file)")
     label {{(file.shortTitle ? file.shortTitle : file.title)}}
 </template>
 
 <script>
-import applications from '../../assets/data/Applications'
+import Applications from '../../assets/data/Applications'
+import Links from '../../assets/data/Links'
 export default {
 	name: 'Explorer',
 	data() {
 		return {
-      componentList: applications
+      componentList: Applications,
+      linkList: Links
 		}
   },
   computed:{
@@ -21,6 +26,9 @@ export default {
       folderContents.map((item, index) =>{
         if (item.type==="component"){
           folderContents[index] = this.getComponentDetails(item.name)
+        }
+        if (item.type==="link"){
+          folderContents[index] = this.getComponentDetails(item.name,"link")
         }
       })
       return folderContents 
@@ -35,14 +43,26 @@ export default {
 		newWindow(file){
 			this.$emit('newWindow',file)
     },
-    getComponentDetails(componentName){
+    openLink(url){
+      window.open(url);
+    },
+    getComponentDetails(itemName, fileType="component"){
       // fetches the full application details from the componentList
       let newObj = {}
-      this.componentList.map(component =>{
-        if(component.name === componentName){
-          newObj = component
+      if(fileType==="component"){
+        this.componentList.map(component =>{
+          if(component.name === itemName){
+            newObj = component
+          }
         }
-      })
+      )}
+      if(fileType==="link"){
+        this.linkList.map(component =>{
+          if(component.name === itemName){
+            newObj = component
+          }
+        }
+      )}
       return newObj
     }
   }

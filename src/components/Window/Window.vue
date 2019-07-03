@@ -12,7 +12,7 @@
       .blank
       .bg(:class="info.active ? 'anim' : ''")
       .tidle {{info.title}}
-      .buddins(:class="info.code?'code':''")
+      .buddins(:class="info.url?'code':''")
         a.code(
               :href="info.url" 
               target="_blank" 

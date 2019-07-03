@@ -3,7 +3,9 @@
 section.desktop
   .icon(v-for="(file, index) in fullContents" 
         v-on:dblclick="file.type==='component' ? newWindow(file.title, file.name) : newWindow(file.title, 'explorer', file.name)")
-    img(:src="file.icon" :alt="file.summary")
+    svg(mlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" v-if="file.type==='folder'" version="1.1" viewBox="0 0 24 24")
+      path(d='M19,20H4C2.89,20 2,19.1 2,18V6C2,4.89 2.89,4 4,4H10L12,6H19A2,2 0 0,1 21,8H21L4,8V18L6.14,10H23.21L20.93,18.5C20.7,19.37 19.92,20 19,20Z')
+    img(:src="file.icon" v-else :alt="file.summary")
     .name {{(file.shortTitle ? file.shortTitle : file.title)}}
 
 </template>
@@ -21,8 +23,13 @@ export default {
 				{
           type: "folder",
           name: "explorer",
-          folder: "experiments"
+          folder: "personalLinks"
 				},
+				// {
+        //   type: "folder",
+        //   name: "explorer",
+        //   folder: "experiments"
+				// },
 				{
           type: "folder",
           name: "explorer",
@@ -36,6 +43,10 @@ export default {
 				{
           type: "component",
 					name: "duckrotation",
+				},
+				{
+          type: "component",
+					name: "personal",
 				},
 				{
           type: "component",
@@ -135,6 +146,7 @@ bckground()
     cursor pointer
     display grid
     justify-content center
+    justify-items center
     user-select none
     padding 5px
     border 2px transparent dashed
@@ -143,6 +155,7 @@ bckground()
     transition .1s ease-out
     animation desktop-pop .4s cubic-bezier(0.790, 0.265, 0.265, 1.550) forwards
     transform scale(0)
+    fill var(--accent)
     &:active
       border 2px dashed var(--primary)
       transition 0s ease-out

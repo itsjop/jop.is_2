@@ -1,20 +1,16 @@
-
 /*////////////////////
 TO DO:
 SHIPPABLE:
-  add a tooltip for the code link
+  ABOUT YOU JACKASS
   load up / record a STAR instance
-  welcome to Jop.is animation
+  save intro boolean and color scheme to cookies
+  async call on minimization
+
   re-comment the whole thing for final build
 
 MID-PRIO:
-  desktop icon and window sizing with vmins
-    // wait nevermind then you can't do the nested site joke
-  store color values in cookies
-  ->cookies notification?
+  background sliding left and right
   redo log-in screen background to use the clouds and dirt, maybe something with SVGs and a pixel filter?
-  // have the pen projects spin around to show source code
-  slim down jquery with a custom build
   optimise the minimization function 
     or at the very least add an animation or something to make it more obvious
 
@@ -29,7 +25,6 @@ LOW-PRIO:
   go back to doing the rotating panel code rotation 
   3-language panel for code, git link in the header
 ///////////////////*/
-
 <template lang="pug">
   #app
     #mobile-coverup(v-if="mobileCover")
@@ -78,6 +73,8 @@ import NotGeo from './components/Pages/NotGeo/NotGeo'
 import Powerpoint from './components/Pages/Powerpoint/Powerpoint'
 import Tdl from './components/Pages/Tdl/Tdl'
 import Propeller from './components/Pages/Propeller/Propeller'
+import Brambles from './components/Pages/Brambles/Brambles'
+import Personal from './components/Pages/Personal/Personal'
 import Empty from './components/Empty'
 
 /* 
@@ -225,7 +222,9 @@ export default {
     notgeo: NotGeo,
     powerpoint: Powerpoint,
     tdl: Tdl,
-    propeller: Propeller
+    brambles: Brambles,
+    propeller: Propeller,
+    personal: Personal,
   }
 }
 </script>
@@ -268,12 +267,14 @@ body
   overflow hidden
   font-family: 'Nunito', sans-serif;
   //from http://www.heropatterns.com/
-  background-color: #f9eccd;
+  background-color: black;
   fullpage()
 #app 
   fullpage()
 #os
   fullpage()
+
+  
 
 .login 
 	transition all 0.5s cubic-bezier(0.680, -0.550, 0.375, 0.885)

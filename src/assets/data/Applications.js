@@ -4,7 +4,7 @@ export default [
     title: "Explorer",
     icon: '/svg/settings2.svg',
     path: '/components/Explorer/Explorer',
-    unique: true,
+    unique: false,
     summary: "Folder Structure here.",
     about: "Explorer. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
   },
@@ -41,8 +41,7 @@ export default [
     shortTitle: "Duck",
     icon: './pages/DuckRotation/icon.png',
     path: '/components/Pages/DuckRotation/DuckRotation',
-    url: 'https://codepen.io/Jop/pen/YOWqrN',
-    code: true,
+    url: 'https://codepen.io/Jop/pen/YOWqrN',    
     unique: false,
     summary: "Yo! Check this cool duck!",
     about: "Duck. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
@@ -50,11 +49,11 @@ export default [
   {
     name: "jopos",
     title: "jop.is",
-    icon: './pages/DuckRotation/icon.png',
+    shortTitle: "This Site",
+    icon: './pages/jop.is/icon.png',
     path: '/components/Pages/JopOS/JopOS',
     url: 'http://jop.is',
-    code:"https://github.com/itsjop/jop.is",
-    code: true,
+    code:"https://github.com/itsjop/jop.is",    
     unique: false,
     summary: "Yo! Check this cool this!",
     about: "This. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
@@ -65,9 +64,8 @@ export default [
     shortTitle: "MTG Card",
     icon: './pages/MTGCard/icon.png',
     path: '/components/Pages/MTGCard/MTGCard',
-    url: 'https://codepen.io/Jop/pen/xzJxaZ',
-    unique: false,
-    code: true,
+    url: 'https://codepen.io/Jop/pen/xzJxaZ',    unique: false,
+    
     size:[500,670],
     summary: "Yo! Check this cool card!",
     about: "Card. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
@@ -79,7 +77,7 @@ export default [
     path: '/components/Pages/Propeller/Propeller',
     url:'https://codepen.io/Jop/pen/JzbyWN',
     unique: false,
-    code: true,
+    
     summary: "Yo! Check this cool propeller!",
     about: "Propeller. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
   },
@@ -90,7 +88,7 @@ export default [
     path: '/components/Pages/Misdacop/Misdacop',
     url:"https://codepen.io/Jop/pen/BVVjYX",
     unique: false,
-    code: true,
+    
     summary: "Yo! Look at this site design!",
     about: "Shoes. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
   },
@@ -102,7 +100,7 @@ export default [
     path: '/components/Pages/GoldenGirls/GoldenGirls',
     url:'https://codepen.io/Jop/pen/YvpXGN',
     unique: false,
-    code: true,
+    
     summary: "Yo! Look at these girls!",
     about: "Girls. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
   },
@@ -113,8 +111,7 @@ export default [
     icon: './pages/NotGeo/icon.png',
     path: '/components/Pages/NotGeo/NotGeo',
     url:"https://codepen.io/Jop/pen/odYavP",
-    unique: false,
-    code: true,
+    unique: false,    
     summary: "Yo! Look at these animals!",
     about: "Animals. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
   },
@@ -125,8 +122,7 @@ export default [
     icon: './pages/Powerpoint/icon.png',
     path: '/components/Pages/Powerpoint/Powerpoint',
     url: 'https://codepen.io/Jop/pen/KyjBqb',
-    unique: false,
-    code: true,
+    unique: false,    
     summary: "Yo! Look at these slides!",
     about: "Slides. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
   },
@@ -137,8 +133,7 @@ export default [
     icon: './pages/TDL/icon.png',
     path: '/components/Pages/TDL/TDL',
     url:'https://codepen.io/Jop/pen/mpJwYJ',
-    unique: false,
-    code: true,
+    unique: false,    
     summary: "Yo! Look at these shapes!",
     about: "Shapes. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
   },
@@ -149,8 +144,7 @@ export default [
     icon: './pages/Star/icon.svg',
     path: '/components/Pages/Star/Star',
     url:'https://github.com/itsjop/star-doc',
-    unique: true,
-    code: true,
+    unique: true,    
     summary: "Yo! Look at these Entries!",
     about: "Stars. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
   },
@@ -161,9 +155,30 @@ export default [
     icon: './pages/Thing/icon.png',
     path: '/components/Pages/Thing/Thing',
     url:'https://github.com/itsjop/star-doc',
-    unique: true,
-    code: true,
+    unique: true,    
     summary: "Yo! Look at these Entries!",
+    about: "Stars. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
+  },
+  {
+    name: "brambles",
+    title: "Bramble Loader",
+    shortTitle: "Brambles",
+    icon: './pages/Brambles/icon.png',
+    path: '/components/Pages/Brambles/Brambles',
+    url:'https://codepen.io/Jop/pen/BOMONb?editors=0110',
+    unique: true,
+    
+    summary: "Yo! Look at these Entries!",
+    about: "Stars. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
+  },
+  {
+    name: "personal",
+    title: "About Me",
+    shortTitle: "About Me",
+    icon: './pages/Personal/icon.png',
+    path: '/components/Pages/Personal/Personal',
+    unique: true,
+    summary: "Yo! Look at these Me!",
     about: "Stars. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
   },
 ]

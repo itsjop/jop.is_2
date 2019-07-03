@@ -58,7 +58,7 @@ export default {
       colors.lightest = tinycolor(this.color.hex).lighten(20)
       colors.text_light = tinycolor(this.color.hex).lighten(40).desaturate(50)
       colors.text_dark = tinycolor(this.color.hex).darken(40)
-      colors.accent = tinycolor(this.color.hex).spin(40)
+      colors.accent = tinycolor(this.color.hex).spin(60)
 
 			document.documentElement.style.setProperty('--accent', colors.accent);
 			document.documentElement.style.setProperty('--primary', colors.primary);

@@ -86,11 +86,11 @@ export default {
     },
     popAllOfType(type){
       this.windows.map((window, index)=>{
-        if(this.window.component === type){
+        if(window.component === type){
           this.$emit('popWindow',index)
         }
       })
-      this.$emit('restoreWindow', index)
+      // this.$emit('restoreWindow', index)
     },
     getComponentDetails(componentName){
       let newObj = {}

@@ -1,16 +1,17 @@
 export default [
   {
-    name: "test",
+    name: "personalLinks",
+    title: "Personal Links",
     contents:[        
       {
-        type: "component",
-        name:"duckrotation",
+        type: "link",
+        name: "codepen",
       },{
-        type: "component",
-        name:"cooldog",
+        type: "link",
+        name: "github",
       },{
-        type: "component",
-        name:"coolcat",
+        type: "link",
+        name: "linkedin",
       }      
     ]
   },
@@ -37,6 +38,10 @@ export default [
       {
         type: "component",
         name:"propeller",
+      },
+      {
+        type: "component",
+        name:"brambles",
       },
     ]
   },

@@ -75,6 +75,7 @@ import Tdl from './components/Pages/Tdl/Tdl'
 import Propeller from './components/Pages/Propeller/Propeller'
 import Brambles from './components/Pages/Brambles/Brambles'
 import Personal from './components/Pages/Personal/Personal'
+import Star from './components/Pages/Star/Star'
 import Empty from './components/Empty'
 
 /* 
@@ -222,6 +223,7 @@ export default {
     notgeo: NotGeo,
     powerpoint: Powerpoint,
     tdl: Tdl,
+    star: Star,
     brambles: Brambles,
     propeller: Propeller,
     personal: Personal,

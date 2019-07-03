@@ -16,7 +16,7 @@
         a.code(
               :href="info.url" 
               target="_blank" 
-              v-if="info.code"
+              v-if="info.url"
               v-tippy="{content: 'Click to view source code!',followCursor: true, placement : 'top',  arrow: true }") </>
         //- a.code(v-if="info.code" @click="codezone = !codezone") </>
         //- .maximize +

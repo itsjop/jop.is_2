@@ -1,7 +1,7 @@
 export default [
   {
     name: "codepen",
-    title: "Explorer",
+    title: "Codepen",
     icon: '/img/links/codepen.png',
     link: 'https://codepen.io/Jop',
     summary: "Folder Structure here.",

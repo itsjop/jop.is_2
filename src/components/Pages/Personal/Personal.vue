@@ -27,8 +27,16 @@ section#personal
       h2.label React
       h2.label ES6/Babel
       h2.label Firebase
-
-
+    .langs
+      h2.primary Vue
+        h6 My newest favorite. Vue 2's excellent syntactic sugar makes prototyping and scaling a breeze. Its easily seperated components, lifecycle hooks, callbacks, and native precompiler support massively streamline the modern framework structure.
+      br
+      h2.primary React
+        h6 Incredibly fast, and incredibly streamlined, React's JSX is a huge step forward in the Javascript-everything world. React's State update speed is unparalleled (sometimes even too fast). React is my go-to for applications that live on the edge.
+      br
+      h2.primary ES6 / Babel
+          h6 By no means a framework, but the core Javacript update to ES6 (and the Babel compatibility compiler behind it), enable huge advances in asyncronous data management, iteration and, most of all, keeping track of where on earth <strong><i>this</i></strong> is.
+          h6 Also I'm a big fun of the arrow function.
   svg(xmlns='http://www.w3.org/2000/svg' version='1.1')
     defs
       filter#goo
@@ -109,7 +117,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="stylus" >
+<style scoped lang="stylus" scoped>
 section
   width 100%
   height 100%
@@ -185,6 +193,7 @@ p
     text-align center
   h1, h2, h3, h4, h5, h6
     margin 0
+    color white
   h1
     color var(--primary)
     font-size 48px
@@ -193,6 +202,10 @@ p
     color white
     font-weight 100
     font-size 30px
+  .primary
+    color var(--primary)
+  .accent
+    color var(--accent)
 
 .logos
   display grid
@@ -211,7 +224,8 @@ p
     height 100%
     width 100%
 
-
+.langs
+  padding 20px
 
 
 @keyframes orb-breathe{

@@ -15,7 +15,7 @@ section#login
       .letter P
         .abr ortfolio
       .letter . 
-        .abr &
+        .abr 
       .letter I
         .abr nteractive 
       .letter S
@@ -68,7 +68,7 @@ export default {
     height 100vh
     position absolute 
     background black
-    animation disappear .4s 7s forwards
+    animation disappear .4s 6s forwards
   &.loggedin
     animation log-in .9s cubic-bezier(0.790, 0.265, 0.265, 1.550) reverse forwards
   .user
@@ -78,7 +78,7 @@ export default {
     color #eee
     cursor pointer
     transform translateY(300%)
-    animation user-in .5s 7s cubic-bezier(0.790, 0.265, 0.265, 1.550) forwards
+    animation user-in .5s 6s cubic-bezier(0.790, 0.265, 0.265, 1.550) forwards
     filter drop-shadow(0px 0px 5px black)
     .icon
       border-radius 6vmin
@@ -120,7 +120,7 @@ rodate = 2s
     justify-content center
     justify-items center
     align-content center
-    animation intro-done 1s 6s ease-in forwards
+    animation intro-done 1s 5s ease-in forwards
     font-size 20px
     overflow hidden
   .message

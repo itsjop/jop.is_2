@@ -156,6 +156,7 @@ bckground()
     animation desktop-pop .4s cubic-bezier(0.790, 0.265, 0.265, 1.550) forwards
     transform scale(0)
     fill var(--accent)
+    max-width 100px
     &:active
       border 2px dashed var(--primary)
       transition 0s ease-out

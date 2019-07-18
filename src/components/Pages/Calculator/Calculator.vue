@@ -118,7 +118,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 @import url('https://fonts.googleapis.com/css?family=Nunito&display=swap');
 
 .total-enter-active

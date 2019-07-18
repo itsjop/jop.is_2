@@ -136,7 +136,7 @@ bckground()
   padding 20px
   &::before
     bckground()
-    background-color var(--primary-darkest)
+    background linear-gradient(180deg, var(--primary-dark) 0% 0%, var(--primary-darkest) 100%);
   &::after
     bckground()
     background-image var(--desktop-image);

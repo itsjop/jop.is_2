@@ -69,7 +69,7 @@ export default {
   display grid
   justify-content center
   align-content center
-  background: linear-gradient(180deg, var(--primary) 0% 0%, var(--primary-darker) 100%);
+  background: linear-gradient(180deg, var(--primary-darkest) 0%, var(--primary-dark) 70%, var(--accent) 100%) ;
   animation disappear .5s ease reverse
 #logger
   position absolute
@@ -80,13 +80,13 @@ export default {
   justify-content center
   align-content center
   &::before
-    background: linear-gradient(180deg, var(--primary-dark) 0% 0%, var(--primary-darker) 100%);
+    background: var(--desktop-image)
     content ''
     width 100vw
     height 100vh
     position absolute 
-    background-image var(--desktop-image);
     transform scale(1.1)
+    // animation disappear .4s 1s reverse forwards
     filter blur(5px)
 
   &::after

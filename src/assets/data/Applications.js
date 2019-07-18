@@ -191,4 +191,14 @@ export default [
     summary: "Yo! Look at these Numbers!",
     about: "Calculation. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
   },
+  {
+    name: "notepad",
+    title: "Notepad",
+    icon: './pages/Notepad/icon.png',
+    path: '/components/Pages/Notepad/Notepad',
+    // unique: true,
+    // size:[300,470],
+    summary: "Yo! Look at these notes!",
+    about: "Notepad. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
+  },
 ]

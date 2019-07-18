@@ -76,6 +76,7 @@ import Propeller from './components/Pages/Propeller/Propeller'
 import Brambles from './components/Pages/Brambles/Brambles'
 import Personal from './components/Pages/Personal/Personal'
 import Calculator from './components/Pages/Calculator/Calculator'
+import Notepad from './components/Pages/Notepad/Notepad'
 import Star from './components/Pages/Star/Star'
 import Empty from './components/Empty'
 
@@ -100,6 +101,23 @@ export default {
       componentList: applications,
       mobileCover: true,
       loggedIn: false
+    }
+  },
+  mounted() {
+    if (localStorage.color_accent) {
+			document.documentElement.style.setProperty('--accent', localStorage.color_accent);
+			document.documentElement.style.setProperty('--primary', localStorage.color_primary);
+			document.documentElement.style.setProperty('--primary-dark', localStorage.color_dark);
+			document.documentElement.style.setProperty('--primary-darker', localStorage.color_darker);
+			document.documentElement.style.setProperty('--primary-darkest', localStorage.color_darkest);
+			document.documentElement.style.setProperty('--primary-light', localStorage.color_light);
+			document.documentElement.style.setProperty('--primary-lighter', localStorage.color_lighter);
+			document.documentElement.style.setProperty('--primary-lightest', localStorage.color_lightest);
+			document.documentElement.style.setProperty('--text-light', localStorage.color_text_light);
+      document.documentElement.style.setProperty('--text-dark', localStorage.color_text_dark);
+    }
+    if(localStorage.desktop_image){
+      document.documentElement.style.setProperty('--desktop-image', localStorage.desktop_image);
     }
   },
   methods:{
@@ -228,6 +246,7 @@ export default {
     brambles: Brambles,
     propeller: Propeller,
     personal: Personal,
+    notepad: Notepad,
     calculator: Calculator,
   }
 }

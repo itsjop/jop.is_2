@@ -70,11 +70,23 @@ export default {
 			document.documentElement.style.setProperty('--primary-lightest', colors.lightest);
 			document.documentElement.style.setProperty('--text-light', colors.text_light);
       document.documentElement.style.setProperty('--text-dark', colors.text_dark);
+
+      localStorage.color_accent = colors.accent
+      localStorage.color_primary = colors.primary
+      localStorage.color_dark = colors.dark
+      localStorage.color_darker = colors.darker
+      localStorage.color_darkest = colors.darkest
+      localStorage.color_light = colors.light
+      localStorage.color_lighter = colors.lighter
+      localStorage.color_lightest = colors.lightest
+      localStorage.color_text_light = colors.text_light
+      localStorage.color_text_dark = colors.text_dark
       }
   },
   methods:{
     setWall(index){
-			document.documentElement.style.setProperty('--desktop-image', "url("+this.images[index].path+")");
+      document.documentElement.style.setProperty('--desktop-image', "url("+this.images[index].path+")");
+      localStorage.desktop_image = "url("+this.images[index].path+")"
 			this.activeImg = this.images[index].name
     }
   },

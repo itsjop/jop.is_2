@@ -75,6 +75,7 @@ import Tdl from './components/Pages/Tdl/Tdl'
 import Propeller from './components/Pages/Propeller/Propeller'
 import Brambles from './components/Pages/Brambles/Brambles'
 import Personal from './components/Pages/Personal/Personal'
+import Calculator from './components/Pages/Calculator/Calculator'
 import Star from './components/Pages/Star/Star'
 import Empty from './components/Empty'
 
@@ -227,6 +228,7 @@ export default {
     brambles: Brambles,
     propeller: Propeller,
     personal: Personal,
+    calculator: Calculator,
   }
 }
 </script>
@@ -269,7 +271,6 @@ body
   overflow hidden
   font-family: 'Nunito', sans-serif;
   //from http://www.heropatterns.com/
-  background-color: black;
   fullpage()
 #app 
   fullpage()

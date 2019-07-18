@@ -64,8 +64,8 @@ export default [
     shortTitle: "MTG Card",
     icon: './pages/MTGCard/icon.png',
     path: '/components/Pages/MTGCard/MTGCard',
-    url: 'https://codepen.io/Jop/pen/xzJxaZ',    unique: false,
-    
+    url: 'https://codepen.io/Jop/pen/xzJxaZ',    
+    unique: false,    
     size:[500,670],
     summary: "Yo! Check this cool card!",
     about: "Card. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
@@ -180,5 +180,15 @@ export default [
     unique: true,
     summary: "Yo! Look at these Me!",
     about: "Stars. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
+  },
+  {
+    name: "calculator",
+    title: "Calculator",
+    icon: './pages/Calculator/icon.png',
+    path: '/components/Pages/Calculator/Calculator',
+    unique: true,
+    size:[300,470],
+    summary: "Yo! Look at these Numbers!",
+    about: "Calculation. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
   },
 ]

@@ -1,11 +1,11 @@
 <template lang="pug">
 section#login
-  #logger(:class="loggedin?'loggedin':''")
-    .guest.user.active-user(@click="logger")
-      img.icon(src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=435&q=80")
+  #logger(:class="(loggedin?'loggedin':'') + (login_anim?' short':'')")
+    .guest.user.active-user(@click="logger" :class="login_anim?'short':''")
+      img.icon(src="/img/literally_me.png")
       label.name Guest User
       p Click to log in!
-  .welcomer
+  .welcomer(v-if="!login_anim")
     .message Welcome to:
     .line
       .letter J
@@ -27,16 +27,34 @@ export default {
    name: 'Login',
    data() {
       return {
-        loggedin: false
+        loggedin: false,
+        login_anim: false,
       }
    },
 	props: {
    },
-   methods:{
+  methods:{
      logger(){
        this.$emit('login')
      }
-   }
+  },
+  created(){
+    setTimeout(() => {
+      this.login_anim = true
+    }, 7000);
+  },
+  mounted() {
+    if (localStorage.login_anim) {
+      //loads the login status from localstorage
+      this.login_anim = localStorage.login_anim;
+    }
+  },
+  watch: {
+    login_anim(login_val) {
+      // sets the localstorage to the login value
+      localStorage.login_anim = login_val;
+    }
+  }
 }
 </script>
 
@@ -61,14 +79,26 @@ export default {
   display grid
   justify-content center
   align-content center
-  background: linear-gradient(180deg, var(--primary) 0% 0%, var(--primary-darker) 100%);
   &::before
+    background: linear-gradient(180deg, var(--primary-dark) 0% 0%, var(--primary-darker) 100%);
+    content ''
+    width 100vw
+    height 100vh
+    position absolute 
+    background-image var(--desktop-image);
+    transform scale(1.1)
+    filter blur(5px)
+
+  &::after
     content ''
     width 100vw
     height 100vh
     position absolute 
     background black
     animation disappear .4s 6s forwards
+    pointer-events none
+  &.short::after
+    animation-delay 0s
   &.loggedin
     animation log-in .9s cubic-bezier(0.790, 0.265, 0.265, 1.550) reverse forwards
   .user
@@ -80,6 +110,8 @@ export default {
     transform translateY(300%)
     animation user-in .5s 6s cubic-bezier(0.790, 0.265, 0.265, 1.550) forwards
     filter drop-shadow(0px 0px 5px black)
+    &.short
+      animation-delay 0s
     .icon
       border-radius 6vmin
       width 20vmin

@@ -22,7 +22,7 @@
         //- .maximize +
         .minimize(@click="minimizeWindow(window_id)") _
         .close(@click="closeWindow(window_id)") X
-    .content(:class="(offScreen ? 'offscreen ' : '') + (codezone?'codezone':'')")
+    .content(:class="(offScreen ? 'offscreen ' : '') + (codezone?'codezone':'')" :stopDrag="stopDrag" :doDrag="doDrag")
       slot
     //- codin(:codezone="codezone" :class="(codezone?'codezone':'')")
     .scalar.scalar-t(@mousedown="startScale('top')")
@@ -117,7 +117,7 @@ export default {
     },
     doDrag(event) {
       // doDrag is used for all of the drag and drop actions, as it is called from the global dragframe
-
+      console.log("doDrag")
       this.setGlobalMouse()
       if (this.dragging) {
         // Calculates the position on the screen with the offset of the element
@@ -148,6 +148,7 @@ export default {
     },   
     stopDrag() {
       // disables anything being used for tracking
+      console.log("doDrag")
       this.x = this.y = ''
       this.dragging = this.rescale.scaling = false
     }, 
@@ -165,9 +166,9 @@ export default {
     },
     activateListener(){
       // assigns the listener for the viewport to the current window
-      window.addEventListener('mouseup', this.stopDrag);
-      window.addEventListener('mouseleave', this.stopDrag);
-      window.addEventListener('mousemove', this.doDrag);
+      document.body.addEventListener('mouseup', this.stopDrag);
+      document.body.addEventListener('mouseleave', this.stopDrag);
+      document.body.addEventListener('mousemove', this.doDrag);
     },
     popWindow(index){
       // pops the window to the top of the stack

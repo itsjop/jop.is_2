@@ -35,8 +35,8 @@ section#personal
         h6 Incredibly fast, and incredibly streamlined, React's JSX is a huge step forward in the Javascript-everything world. React's State update speed is unparalleled (sometimes even too fast). React is my go-to for applications that live on the edge.
       br
       h2.primary ES6 / Babel
-          h6 By no means a framework, but the core Javacript update to ES6 (and the Babel compatibility compiler behind it), enable huge advances in asyncronous data management, iteration and, most of all, keeping track of where on earth <strong><i>this</i></strong> is.
-          h6 Also I'm a big fun of the arrow function.
+        h6 By no means a framework, but the core Javacript update to ES6 (and the Babel compatibility compiler behind it), enable huge advances in asyncronous data management, iteration and, most of all, keeping track of where on earth <strong><i>this</i></strong> is.
+        h6 Also I'm a big fun of the arrow function.
   svg(xmlns='http://www.w3.org/2000/svg' version='1.1')
     defs
       filter#goo
@@ -143,7 +143,8 @@ p
   text-align right
   top 25%
   right 15%
-  
+h6
+  font-weight 500
 .orbs
   position relative
   width 100%

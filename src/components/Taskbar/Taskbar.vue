@@ -12,6 +12,11 @@ section.taskbar(ref="taskbar")
     svg.icon(mlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 24 24")
       path(d='M19,20H4C2.89,20 2,19.1 2,18V6C2,4.89 2.89,4 4,4H10L12,6H19A2,2 0 0,1 21,8H21L4,8V18L6.14,10H23.21L20.93,18.5C20.7,19.37 19.92,20 19,20Z')
     label Explorer
+  .vertbar
+  .pinned.application
+    .shadow
+    img.icon(@click="newWindow('Calculator','calculator')" src="/pages/Calculator/icon.png")
+    label Explorer
   .vertbar(v-if="windows.length > 0")
   .active.application(v-for="(window, index) in appCategories" @click="popAllOfType(index)")
     .shadow
@@ -162,6 +167,8 @@ export default {
     transform translateY(0%)
     display grid
     position relative
+    // max-width 100px
+    // height 80px
     animation appAppear .3s cubic-bezier(0.560, -0.005, 0.300, 1.460) forwards
     z-index 1
     &:hover

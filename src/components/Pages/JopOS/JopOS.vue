@@ -1,5 +1,6 @@
 <template lang="pug">
-   iframe(src="http://localhost:8080")
+   .frame(@mouseup.prevent="$emit('stopDrag')" @mousedown.prevent="$emit('doDrag')")
+      iframe(src="http://jop.is")
 </template>
 
 <script>
@@ -16,4 +17,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="stylus" scoped>
+   .frame
+      width 100%
+      height 100%
+      iframe
+         width 100%
+         height 100%
 </style>

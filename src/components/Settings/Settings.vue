@@ -44,6 +44,7 @@ export default {
         this.invert = 0
       }
 			document.documentElement.style.setProperty('--invert', this.invert);
+      localStorage.bg_invert = this.invert
     },
 		color: function(){
 			// Watches for when the window is restored to full size

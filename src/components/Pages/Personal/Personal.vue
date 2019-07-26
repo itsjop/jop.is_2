@@ -21,8 +21,8 @@ section#personal
     .logos
       img.logo(src="./vue.png")
       img.logo(src="./react.png")
-      img.logo(src="./js.png")
       img.logo(src="./firebase.png")
+      img.logo(src="./js.png")
       h2.label Vue
       h2.label React
       h2.label ES6/Babel
@@ -33,6 +33,9 @@ section#personal
       br
       h2.primary React
         h6 Incredibly fast, and incredibly streamlined, React's JSX is a huge step forward in the Javascript-everything world. React's State update speed is unparalleled (sometimes even too fast). React is my go-to for applications that live on the edge.
+      br
+      h2.primary Firebase
+        h6 When you want fast, persistant, easy to set up real-time data storage, Google's Firebase/Firestore solutions are top-tier.
       br
       h2.primary ES6 / Babel
         h6 By no means a framework, but the core Javacript update to ES6 (and the Babel compatibility compiler behind it), enable huge advances in asyncronous data management, iteration and, most of all, keeping track of where on earth <strong><i>this</i></strong> is.

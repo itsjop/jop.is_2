@@ -3,7 +3,6 @@ TO DO:
 SHIPPABLE:
   ABOUT YOU JACKASS
   load up / record a STAR instance
-  save intro boolean and color scheme to cookies
   async call on minimization
 
   re-comment the whole thing for final build
@@ -115,6 +114,8 @@ export default {
 			document.documentElement.style.setProperty('--primary-lightest', localStorage.color_lightest);
 			document.documentElement.style.setProperty('--text-light', localStorage.color_text_light);
       document.documentElement.style.setProperty('--text-dark', localStorage.color_text_dark);
+
+      document.documentElement.style.setProperty('--invert', localStorage.bg_invert);
     }
     if(localStorage.desktop_image){
       document.documentElement.style.setProperty('--desktop-image', localStorage.desktop_image);
@@ -257,19 +258,19 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=Nunito&display=swap');
 
 :root
-  --accent: #42F47D
-  --primary: #f47142
-  --primary-dark: #bf522b
-  --primary-darker: #7f3318
-  --primary-darkest: #441909
-  --primary-light: #ea8662
-  --primary-lighter: #eaa991
-  --primary-lightest: #edcfc4
-  --text-light: #eee
-  --text-dark: #222
+  --accent: #f4427e
+  --primary: #b842f4
+  --primary-dark: #860bc5
+  --primary-darker: #650994
+  --primary-darkest: #440664
+  --primary-light: #ca72f7
+  --primary-lighter: #d33af8
+  --primary-lightest: #dca2fa
+  --text-light: #fff
+  --text-dark: #440664
   --text: #111
   --dark: #111
-  --desktop-image: url('/img/desktop/wood-pattern.png')
+  --desktop-image: url('/img/desktop/foggy-birds.png')
   --invert: 0
 
 t-time = .5s

@@ -1,5 +1,4 @@
 <template lang="pug">
-
 section.taskbar(ref="taskbar")
   .bg
   .pinned.application(@click="newWindow('Settings','settings')")
@@ -25,11 +24,13 @@ section.taskbar(ref="taskbar")
     .shadow
     img.icon(:src="window.icon")
     label {{window.title}}
-  .vertbar
-  .active.application(v-for="(window, index) in windows" v-if="window.minimized" @click="restoreWindow(index)")
+  .vertbar(v-if="windows.filter(item => item.minimized ===true).length > 0")
+  .active.application(v-for="(minWin, index) in windows" v-if="minWin.minimized" @click="restoreWindow(index)")
     .shadow
-    img.icon(:src="window.preview")
-    label {{window.title}}
+    img.icon(:src="minWin.preview")
+    label {{minWin.title}} 
+</section>
+
 
 </template>
 
@@ -120,7 +121,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="stylus" scoped>
+<style lang="stylus">
 
 .taskbar					
   position absolute 

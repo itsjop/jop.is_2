@@ -6,7 +6,7 @@
     :class="(info.minimized ? 'minimized ' : ' ' )+(dragging||rescale.scaling?'dragging':'')")
   .window(ref="window" :id="'window-'+info.zIndex"
       :class="(closing ? 'closing' : '')+' '+(info.minimized ? 'minimized' : '')" 
-      @mousedown="popWindow(window_id)" :style="{ width: width+'px', height: height+'px',  }")
+      @mousedown="popWindow" :style="{ width: width+'px', height: height+'px',  }")
     .shadow(:style="{transform: 'translate('+ xShadow +'%,' + yShadow +'%)',}")
     .toolbar(@mousedown="startDrag" ref="toolbar")
       .blank
@@ -14,14 +14,14 @@
       .tidle {{info.title}}
       .buddins(:class="info.url?'code':''")
         a.code(
-              :href="info.url" 
-              target="_blank" 
-              v-if="info.url"
-              v-tippy="{content: 'Click to view source code!',followCursor: true, placement : 'top',  arrow: true }") </>
+            :href="info.url" 
+            target="_blank" 
+            v-if="info.url"
+            v-tippy="{content: 'Click to view source code!',followCursor: true, placement : 'top',  arrow: true }") </>
         //- a.code(v-if="info.code" @click="codezone = !codezone") </>
         //- .maximize +
-        .minimize(@click="minimizeWindow(window_id)") _
-        .close(@click="closeWindow(window_id)") X
+        .minimize(@click="minimizeWindow(info.uid)") _
+        .close(@click="closeWindow(info.uid)") X
     .content(:class="(offScreen ? 'offscreen ' : '') + (codezone?'codezone':'')" :stopDrag="stopDrag" :doDrag="doDrag")
       slot
     //- codin(:codezone="codezone" :class="(codezone?'codezone':'')")
@@ -85,9 +85,12 @@ export default {
         }
       }
     },
-    window_id:{
-      type:Number
-    },
+    // window_id:{
+    //   type:Number
+    // },
+    // uid:{
+    //   type:String
+    // },
   },
   watch: {
     'info.minimized': function(newVal, oldVal){
@@ -117,7 +120,6 @@ export default {
     },
     doDrag(event) {
       // doDrag is used for all of the drag and drop actions, as it is called from the global dragframe
-      console.log("doDrag")
       this.setGlobalMouse()
       if (this.dragging) {
         // Calculates the position on the screen with the offset of the element
@@ -148,7 +150,6 @@ export default {
     },   
     stopDrag() {
       // disables anything being used for tracking
-      console.log("doDrag")
       this.x = this.y = ''
       this.dragging = this.rescale.scaling = false
     }, 
@@ -173,28 +174,27 @@ export default {
     popWindow(index){
       // pops the window to the top of the stack
       this.activateListener()
-      this.$emit('popWindow',this.window_id)
+      this.$emit('popWindow',this.info.uid)
     },
     closeWindow(){
       // waits 500ms for the close animation to finish and then passes the close function
       this.closing = true
-      console.log("closing")
+      console.log("closing window", this.info.name)
       setTimeout(() => {				
-        console.log("closing real")
-        this.$emit('closeWindow',this.window_id)
-      }, 500);
+        console.log("closing real", this.info.uid)
+        this.$emit('closeWindow',this.info.uid)
+      }, 300);
     },
     minimizeWindow(){       
       this.preview = domtoimage.toPng(document.getElementById('window-'+this.info.zIndex), { quality: 0.1 })
         .then( (blob) =>{          
-        this.$emit('minimizeWindow',{index: this.window_id, info: this.info, preview: blob })   
-      })
+          console.log("This is the preview blob", blob)
+          this.$emit('setMinimizedPreview', {index: this.info.uid, info: this.info, preview: blob });
+          this.offScreen = true;
+        })
         .catch(function (error) {
-          console.error('oops, something went wrong!', error);
+          console.error('Couldn\'t generate an image!', error);
       })
-      setTimeout(() => {				
-        this.offScreen = true;
-      }, 2000);
     },
   },
   mounted() {

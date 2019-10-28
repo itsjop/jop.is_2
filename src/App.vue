@@ -34,16 +34,16 @@ LOW-PRIO:
     transition-group(name="login")
       login(@login="loggedIn = true" v-if="!loggedIn" key="login")
       #os(v-else key="os")
+        clippy(v-if='!clippage' :clipMessage="clipMessage" :interacted="interacted")
         desktop(@newWindow="newWindow" )
         window( 
             v-for="(window, index) in windows" 
-            :key="'window_'+index" 
-            :info="window" 
-            :window_id="index" 
+            :key="window.uid"
+            :info="window"
             @popWindow="popWindow" 
             @closeWindow="closeWindow" 
-            @minimizeWindow="minimizeWindow" 
-          )
+            @minimizeWindow="minimizeWindow"
+            @setMinimizedPreview="setMinimizedPreview")
           component(:is="window.component" @newWindow="newWindow" :args="window.args") 
         taskbar(:windows="windows" @newWindow="newWindow" @restoreWindow="restoreWindow")
   </div>
@@ -58,13 +58,14 @@ import Desktop from './components/Desktop/Desktop'
 import Taskbar from './components/Taskbar/Taskbar'
 import Window from './components/Window/Window'
 import Login from './components/Login/Login'
+import Clippy from './components/Clippy/Clippy'
 // Window files
 import Explorer from './components/Explorer/Explorer'
 import CoolDog from './components/Pages/CoolDog/CoolDog'
 import CoolCat from './components/Pages/CoolCat/CoolCat'
 import DuckRotation from './components/Pages/DuckRotation/DuckRotation'
 import Settings from './components/Settings/Settings'
-import jopOS from './components/Pages/JopOS/JopOS'
+import JopOS from './components/Pages/JopOS/JopOS'
 import MTGCard from './components/Pages/MTGCard/MTGCard'
 import Misdacop from './components/Pages/Misdacop/Misdacop'
 import GoldenGirls from './components/Pages/GoldenGirls/GoldenGirls'
@@ -99,11 +100,15 @@ export default {
       folders: folder_structure,
       componentList: applications,
       mobileCover: true,
-      loggedIn: false
+      loggedIn: false,
+      clipMessage: `Howdy, welcome! 
+        Go ahead and double-click on anything over there to get started!`,
+      interacted: false
     }
   },
   mounted() {
     if (localStorage.color_accent) {
+      // Sets up all the local storage variables
 			document.documentElement.style.setProperty('--accent', localStorage.color_accent);
 			document.documentElement.style.setProperty('--primary', localStorage.color_primary);
 			document.documentElement.style.setProperty('--primary-dark', localStorage.color_dark);
@@ -114,31 +119,36 @@ export default {
 			document.documentElement.style.setProperty('--primary-lightest', localStorage.color_lightest);
 			document.documentElement.style.setProperty('--text-light', localStorage.color_text_light);
       document.documentElement.style.setProperty('--text-dark', localStorage.color_text_dark);
-
       document.documentElement.style.setProperty('--invert', localStorage.bg_invert);
     }
     if(localStorage.desktop_image){
       document.documentElement.style.setProperty('--desktop-image', localStorage.desktop_image);
     }
+    if(localStorage.clippy){ this.clippage = true }
+    else{this.clippage = false}
   },
   methods:{
     popWindow(newIndex){
       // can be passed a string or a component name
-      if(typeof newIndex == 'number'){
-        this.windows.map((window, winIndex) =>{ 
+      // if the name ends in a number it's a window uid
+      console.log("POP", newIndex,newIndex[newIndex.length -1])
+      if(typeof Number(newIndex[newIndex.length -1]) == 'number'){
+        console.log("NUMBER")
+        this.windows.map((window, winIndex) =>{
           window.active = false
           // Anything that is in front of the new window gets pulled back
-          if(window.zIndex >= this.windows[newIndex].zIndex) {
+          if(window.uid !== newIndex) {
             window.zIndex -= 1
           }
           // And the new index gets popped to the front
-          if (winIndex === newIndex){
+          if (window.uid === newIndex){
             window.active = true
             window.minimized = false
             window.zIndex= this.windows.length 
           }
-      });}
-      else if(typeof num1 == 'string'){
+        })
+      }
+      else {
         // Finds all components of that name and brings them to the front
         this.windows.map((window, winIndex) =>{ 
           // maps through and finds all the windows that match the given component name
@@ -148,12 +158,38 @@ export default {
         })
       }
     },
+    generateIterativeName(name){
+      let uniqueName = name
+      let unique = false
+      let loopUnique = true
+      let number = 0
+      while(!unique){
+        this.windows.map(window=>{
+          if (window.uid === uniqueName+number){
+            // did find a match
+            loopUnique = false
+          }
+          if (loopUnique){
+            //if no match was found it is unique
+            unique = true
+          }else{
+            //else tries again on the next loop
+            loopUnique = true
+            number+=1
+          }
+        })
+        return uniqueName+number
+      }
+      return uniqueName
+    },
     newWindow(payload={title:"New window",name:"blank"}){
       // First sees if the selected component is listed as unique
       // if it is, it brings it to the foreground instead of making a new one
       console.log("making new window with props: ",payload)
       if(this.checkUnique(payload.name)){
         // Creates a new window components and seeds the vars needed in to it
+        // Generates a unique window name
+        let iterativeName = this.generateIterativeName(payload.name)
         this.windows.push({
           //TODO: get a proper spread operator in here
           title: payload.title,
@@ -166,12 +202,20 @@ export default {
           icon: payload.icon,
           url: payload.url,
           size: payload.size,
+          name: payload.name,
+          uid: iterativeName,
           args:{
             folder: this.folders[this.findNameInArray(this.folders, payload.folderPath)],
             allFolders: this.folders
           },
-          minimized: false
+          minimized: false,
         })
+        localStorage.clippy = true
+        this.clipMessage = `Thanks!
+         I'll get out of your way now.`
+        setTimeout(() => {
+          this.interacted = true
+        }, 1300);
         this.popWindow(this.windows.length - 1)
       }
     },
@@ -204,6 +248,7 @@ export default {
     },
     findNameInArray(array, name, id="name"){
       // finds name by selector (default 'name')
+      // going back, this could be replaced with 'array.filter' but eh it's already here
       let ret = ""
       array.map((arr, thisIndex) =>{
         if(arr[id] === name){
@@ -214,18 +259,35 @@ export default {
     },
     closeWindow(winIndex){
       // Actually removes the window from data
-      this.windows.splice(winIndex,1)
+      this.windows = this.windows.filter(item => item.uid != winIndex)
+      console.log("windows",this.windows)
+
     },
     minimizeWindow(payload){
       // Receives the information about the minimized window
-      this.windows[payload.index].minimized = true
-      this.windows[payload.index].preview = payload.preview
+      this.windows.map(window=>{
+        if (window.uid === payload.index){
+          window.minimized = true
+           window.preview = ""
+        }
+      })
+    },
+    setMinimizedPreview(payload){
+      // Receives the information about the minimized window
+      this.windows = this.windows.map(window=>{
+        // finds the window ID that needs to be minimised and updates its preview
+        if (window.uid === payload.index){
+          window.preview = payload.preview
+        }
+        return window
+      })
     },
     restoreWindow(winIndex){
       this.windows[winIndex].minimized = false  
     },
   },
   components:{
+    clippy: Clippy,
     login: Login,
     window: Window,
     empty: Empty,
@@ -236,7 +298,7 @@ export default {
     taskbar: Taskbar,
     explorer: Explorer,
     settings: Settings,
-    jopos: jopOS,
+    jopos: JopOS,
     mtgcard: MTGCard,
     misdacop: Misdacop,
     goldengirls: GoldenGirls,
@@ -328,7 +390,7 @@ body
     display grid
     width 100vw
     height 100vh
-    position absolute 
+    position fixed 
     padding 10px
     top 0
     left 0

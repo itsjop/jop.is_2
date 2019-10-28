@@ -68,7 +68,7 @@ export default {
         }
         if (item.type==="folder"){
           folderContents[index] = this.getComponentDetails(item.folder,"folder")
-          folderContents[index].icon = '/img/folder.svg'
+          folderContents[index].icon = '/svg/folder.svg'
         }
         folderContents[index].type = item.type
       })

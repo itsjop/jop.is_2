@@ -2,7 +2,7 @@ export default [
   {
     name: "explorer",
     title: "Explorer",
-    icon: '/svg/settings2.svg',
+    icon: '/svg/folder.svg',
     path: '/components/Explorer/Explorer',
     unique: false,
     summary: "Folder Structure here.",

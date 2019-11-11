@@ -1,7 +1,7 @@
 <template lang="pug">
 
 //- Overrides the styling for the window positioning if minimized. Also, can't be line-broken :/
-.windowpane(:id="'windowpane-'+info.zIndex"
+.windowpane(:id="'windowpane-'+info.uid"
     v-bind:style="info.minimized ? {transform: 'translate('+ '50%, 120%)', zIndex: info.zIndex} : {transform: 'translate('+ xPerc +'%,' + yPerc +'%)', zIndex: info.zIndex}"
     :class="(info.minimized ? 'minimized ' : ' ' )+(dragging||rescale.scaling?'dragging':'')")
   .window(ref="window" :id="'window-'+info.zIndex"
@@ -22,7 +22,7 @@
         //- .maximize +
         .minimize(@click="minimizeWindow(info.uid)") _
         .close(@click="closeWindow(info.uid)") X
-    .content(:class="(offScreen ? 'offscreen ' : '') + (codezone?'codezone':'')" :stopDrag="stopDrag" :doDrag="doDrag")
+    .content(:id="'content_'+info.uid" :class="(offScreen ? 'offscreen ' : '') + (codezone?'codezone':'')" :stopDrag="stopDrag" :doDrag="doDrag")
       slot
     //- codin(:codezone="codezone" :class="(codezone?'codezone':'')")
     .scalar.scalar-t(@mousedown="startScale('top')")
@@ -186,7 +186,8 @@ export default {
       }, 300);
     },
     minimizeWindow(){       
-      this.preview = domtoimage.toPng(document.getElementById('window-'+this.info.zIndex), { quality: 0.1 })
+      this.$emit('minimizeWindow', {index: this.info.uid, info: this.info});
+      this.preview = domtoimage.toPng(document.getElementById('content_'+this.info.uid), { quality: 0.05 })
         .then( (blob) =>{          
           console.log("This is the preview blob", blob)
           this.$emit('setMinimizedPreview', {index: this.info.uid, info: this.info, preview: blob });

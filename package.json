@@ -11,6 +11,7 @@
     "core-js": "^2.6.5",
     "dom-to-image": "^2.6.0",
     "draggable-vue-directive": "^2.0.6",
+    "git": "^0.1.5",
     "highlight.js": "^9.15.8",
     "jquery": "^3.4.1",
     "normalize.css": "^8.0.1",

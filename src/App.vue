@@ -4,7 +4,6 @@ SHIPPABLE:
   ABOUT YOU JACKASS
   load up / record a STAR instance
   async call on minimization
-
   re-comment the whole thing for final build
 
 MID-PRIO:

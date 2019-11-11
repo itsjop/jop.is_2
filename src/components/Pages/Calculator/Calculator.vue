@@ -119,7 +119,6 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-@import url('https://fonts.googleapis.com/css?family=Nunito&display=swap');
 
 .total-enter-active
   transition all 0.3s cubic-bezier(0.175, 0.885, 0.320, 1.275);

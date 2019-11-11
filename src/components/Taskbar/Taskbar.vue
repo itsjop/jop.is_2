@@ -27,7 +27,9 @@ section.taskbar(ref="taskbar")
   .vertbar(v-if="windows.filter(item => item.minimized ===true).length > 0")
   .active.application(v-for="(minWin, index) in windows" v-if="minWin.minimized" @click="restoreWindow(index)")
     .shadow
-    img.icon(:src="minWin.preview")
+    img.icon.spin-icon(v-if="minWin.preview" :src="minWin.preview" )
+    svg.icon(v-else mlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 24 24")
+      path(d='M4,4H20V20H4V4M6,8V18H18V8H6Z')
     label {{minWin.title}} 
 </section>
 
@@ -194,6 +196,9 @@ export default {
       cursor pointer
       transform scale(1) translateY(-10%)
       filter: drop-shadow(0px 10px 10px var(--primary-darker));
+      &.spin-icon
+        backface-visibility hidden
+        animation spin-icon .5s cubic-bezier(0.680, -0.550, 0.265, 1.550) forwards
     svg
       fill var(--accent)
     label
@@ -229,6 +234,14 @@ export default {
   }
   to{
     transform translateY(-00%) 
+  }
+}
+@keyframes spin-icon{
+  from{
+    transform scale(1) translateY(-10%) rotateY(180deg)
+  }
+  to{
+    transform scale(1) translateY(-10%)
   }
 }
 

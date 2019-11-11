@@ -7,12 +7,15 @@ section.desktop
       path(d='M19,20H4C2.89,20 2,19.1 2,18V6C2,4.89 2.89,4 4,4H10L12,6H19A2,2 0 0,1 21,8H21L4,8V18L6.14,10H23.21L20.93,18.5C20.7,19.37 19.92,20 19,20Z')
     img(:src="file.icon" v-else :alt="file.summary")
     .name {{(file.shortTitle ? file.shortTitle : file.title)}}
+  explanation
 
 </template>
 
 <script>
 import applications from '../../assets/data/Applications'
 import folders from '../../assets/data/Folders'
+import Explanation from './Explanation/Explanation'
+
 export default {
 	name: 'Desktop',
 	data() {
@@ -105,7 +108,10 @@ export default {
       
   },
 	props: {
-	}
+  },
+  components:{
+    Explanation
+  }
 }
 </script>
 
@@ -123,12 +129,15 @@ bckground()
   transition background-color .5s
   z-index -12
 .desktop
-  width 100vw
+  width calc(100vw - 40px)
   height 100vh
-  display grid 
-  grid-auto-flow column
-  grid-template-columns 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 
-  grid-template-rows 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 
+  display flex
+  flex-direction column 
+  flex-wrap wrap
+  align-content flex-start
+  // grid-auto-flow column
+  // grid-template-columns 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 
+  // grid-template-rows 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 
   grid-gap 15px
   position absolute
   top 0
@@ -148,7 +157,7 @@ bckground()
     justify-content center
     justify-items center
     user-select none
-    padding 5px
+    gap 10px
     border 2px transparent dashed
     color var(--text-light)
     text-shadow 0px 0px 10px var(--text-dark)
@@ -161,14 +170,19 @@ bckground()
       border 2px dashed var(--primary)
       transition 0s ease-out
       transform scale(1.1)
+    &:focus
+      border 2px dashed var(--primary)
+      transition 0s ease-out
+      transform scale(1.1)
     &.wiggle
       animation:wobble-hor-bottom .8s both
-    img 
+    img, svg
       width icon-size
       height icon-size
       filter: drop-shadow(0px 0px 3px var(--text-dark));
     .name
-      text-align center  
+      text-align center
+      height 36px
 
 for num in (1..20)
 	.icon:nth-of-type({num})

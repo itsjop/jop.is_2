@@ -28,7 +28,7 @@ export default {
    data() {
       return {
         loggedin: false,
-        login_anim: false,
+        login_anim: true,
       }
    },
 	props: {
@@ -60,7 +60,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="stylus" scoped>
-@import url("https://fonts.googleapis.com/css?family=Raleway:400,400i,700");
 #login
   position absolute
   z-index 9999 //sorry
@@ -118,7 +117,7 @@ export default {
       height 20vmin
       object-fit cover
     .name
-      font-family: Raleway, sans-serif;
+      font-family: Nunito, sans-serif;
       font-size 5vmin
       text-align center
     p

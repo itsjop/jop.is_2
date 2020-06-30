@@ -3,7 +3,7 @@ section#login
   #logger(:class="(loggedin?'loggedin':'') + (login_anim?' short':'')")
     .guest.user.active-user(@click="logger" :class="login_anim?'short':''")
       img.icon(src="/img/literally_me.png")
-      label.name Guest User
+      label.name Welcome!
       p Click to log in!
   .welcomer(v-if="!login_anim")
     .message Welcome to:
@@ -121,7 +121,7 @@ export default {
       font-size 5vmin
       text-align center
     p
-      animation disappear 2s 14s ease alternate-reverse infinite
+      animation disappear 2s 4s ease alternate-reverse infinite
       opacity 0
       
 @keyframes user-in {

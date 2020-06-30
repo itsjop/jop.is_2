@@ -127,17 +127,6 @@ export default [
     about: "Slides. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
   },
   {
-    name: "tdl",
-    title: "The Designer's League Homepage",
-    shortTitle: "TDL",
-    icon: './pages/TDL/icon.png',
-    path: '/components/Pages/TDL/TDL',
-    url:'https://codepen.io/Jop/pen/mpJwYJ',
-    unique: false,    
-    summary: "Yo! Look at these shapes!",
-    about: "Shapes. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. This should be a really long blurb. "
-  },
-  {
     name: "star",
     title: "STAR - Sheriff Transport and Recording",
     shortTitle: "STAR",

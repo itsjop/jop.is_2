@@ -7,12 +7,13 @@ import VueTippy from 'vue-tippy'
 Vue.config.productionTip = false
 
 import '../public/img/desktop/wood-pattern.png'
+import router from './router'
 
 require('@/assets/css/normalize.css')
 
-
 Vue.use(VueTippy)
 new Vue({
+  router,
   render: h => h(App)
 }).$mount('#app')
 

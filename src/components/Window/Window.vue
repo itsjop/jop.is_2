@@ -200,8 +200,15 @@ export default {
   },
   mounted() {
     this.activateListener()
-    this.xPerc+=(Math.random()*30)
-    this.yPerc+=(Math.random()*30)
+    console.log("CENTERED", this.$props.centered)
+    if(this.centered){
+      this.xPerc+=(Math.random()*30)
+      this.yPerc+=(Math.random()*30)
+    }else{
+      console.log("centered")
+      this.xPerc = 20
+      this.yPerc = 10
+    }
   },
   components:{
     codin: Codin
@@ -373,7 +380,7 @@ export default {
       grid-row 3/4
       height 100%
       color var(--text)
-      overflow-y scroll
+      // overflow-y scroll // causes blank scroll bar on windows
       background var(--text-light)
       position relative
       transition .5s

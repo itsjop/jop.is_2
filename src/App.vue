@@ -23,6 +23,7 @@ LOW-PRIO:
   go back to doing the rotating panel code rotation 
   3-language panel for code, git link in the header
 ///////////////////*/
+
 <template lang="pug">
   #app
     #mobile-coverup(v-if="mobileCover")
@@ -31,7 +32,7 @@ LOW-PRIO:
       p I mean if you really want, you can have a look anyways?
       button(@click="mobileCover = false") Show me the mess!
     transition-group(name="login")
-      login(@login="loggedIn = true" v-if="!loggedIn" key="login")
+      login(@login="loggedIn = true" :style="!this.$route.path.slice(1) ? '' : 'display: none'" v-if="!loggedIn" key="login")
       #os(v-else key="os")
         clippy(v-if='!clippage' :clipMessage="clipMessage" :interacted="interacted")
         desktop(@newWindow="newWindow" )
@@ -65,12 +66,8 @@ import CoolCat from './components/Pages/CoolCat/CoolCat'
 import DuckRotation from './components/Pages/DuckRotation/DuckRotation'
 import Settings from './components/Settings/Settings'
 import JopOS from './components/Pages/JopOS/JopOS'
-import MTGCard from './components/Pages/MTGCard/MTGCard'
-import Misdacop from './components/Pages/Misdacop/Misdacop'
-import GoldenGirls from './components/Pages/GoldenGirls/GoldenGirls'
 import NotGeo from './components/Pages/NotGeo/NotGeo'
 import Powerpoint from './components/Pages/Powerpoint/Powerpoint'
-import Tdl from './components/Pages/Tdl/Tdl'
 import Propeller from './components/Pages/Propeller/Propeller'
 import Brambles from './components/Pages/Brambles/Brambles'
 import Personal from './components/Pages/Personal/Personal'
@@ -78,6 +75,9 @@ import Calculator from './components/Pages/Calculator/Calculator'
 import Notepad from './components/Pages/Notepad/Notepad'
 import Star from './components/Pages/Star/Star'
 import Empty from './components/Empty'
+import Misdacop from './components/Pages/Misdacop/Misdacop'
+import GoldenGirls from './components/Pages/GoldenGirls/GoldenGirls'
+import MTGCard from './components/Pages/MTGCard/MTGCard'
 
 /* 
 -- All Window Properties --
@@ -125,8 +125,28 @@ export default {
     }
     if(localStorage.clippy){ this.clippage = true }
     else{this.clippage = false}
+
+    console.log("path", this.$route.path)
+    console.log("pathl", this.$route.path.slice(1).length)
+    // skips login and loads a window if there's a URL present
+    this.$route.path.slice(1).length > 0 ?
+      this.checkLoadRoute(this.$route.path.slice(1)) 
+      : console.log("no special route")
   },
   methods:{
+    checkLoadRoute(){
+      this.loggedIn = true
+      console.log("path",this.$route.path.slice(1).split('/'))
+      let prams = ("path",this.$route.path.slice(1).split('/'))
+      console.log('prams', prams)
+      // short code for folder or anything else that needs to be categorized
+      if (prams[0] === "f"){ }
+      if (prams[0] === "explorer"){
+        this.$router.push({path:"/"})
+      }else{
+        this.newWindow({name: prams[0], centered: true})
+      }
+    },
     popWindow(newIndex){
       // can be passed a string or a component name
       // if the name ends in a number it's a window uid
@@ -143,7 +163,9 @@ export default {
           if (window.uid === newIndex){
             window.active = true
             window.minimized = false
-            window.zIndex= this.windows.length 
+            window.zIndex= this.windows.length
+            console.log("WINDOW", window)
+            this.$router.push({path:window.name})
           }
         })
       }
@@ -181,7 +203,7 @@ export default {
       }
       return uniqueName
     },
-    newWindow(payload={title:"New window",name:"blank"}){
+    newWindow(payload={title:"New window",name:"blank",centered: false}){
       // First sees if the selected component is listed as unique
       // if it is, it brings it to the foreground instead of making a new one
       console.log("making new window with props: ",payload)
@@ -189,20 +211,25 @@ export default {
         // Creates a new window components and seeds the vars needed in to it
         // Generates a unique window name
         let iterativeName = this.generateIterativeName(payload.name)
+        // Looks up the window's data in the event it isn't passed,
+        // for instance, in the event it's opened from a URL
+        let windowData = applications.filter(app => app.name === payload.name)[0]
+        this.$router.push({path:payload.name})
         this.windows.push({
           //TODO: get a proper spread operator in here
-          title: payload.title,
+          title: payload.title || windowData.title,
           component: payload.name,
           componentInfo: payload,
           zIndex: this.windows.length + 1,
           active: true,
           framed: payload.framed,
           code: payload.code,
-          icon: payload.icon,
+          icon: payload.icon || windowData.icon,
           url: payload.url,
           size: payload.size,
           name: payload.name,
           uid: iterativeName,
+          centered: payload.centered,
           args:{
             folder: this.folders[this.findNameInArray(this.folders, payload.folderPath)],
             allFolders: this.folders
@@ -259,6 +286,8 @@ export default {
     closeWindow(winIndex){
       // Actually removes the window from data
       this.windows = this.windows.filter(item => item.uid != winIndex)
+      console.log("WINDOWS", this.windows)
+      this.$router.push({path:this.windows.length ? this.windows[this.windows.length - 1].name : "/"})
       console.log("windows",this.windows)
 
     },
@@ -303,7 +332,6 @@ export default {
     goldengirls: GoldenGirls,
     notgeo: NotGeo,
     powerpoint: Powerpoint,
-    tdl: Tdl,
     star: Star,
     brambles: Brambles,
     propeller: Propeller,
@@ -358,7 +386,12 @@ body
 #os
   fullpage()
 
-  
+.router-check
+  position absolute
+  top 0 
+  right 50%
+  background limegreen
+  color white
 
 .login 
 	transition all 0.5s cubic-bezier(0.680, -0.550, 0.375, 0.885)

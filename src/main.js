@@ -9,10 +9,12 @@ Vue.config.productionTip = false
 import '../public/img/desktop/wood-pattern.png'
 import router from './router'
 
+//  = new Vue();
+
 require('@/assets/css/normalize.css')
 
 Vue.use(VueTippy)
-new Vue({
+export const EventBus = new Vue({
   router,
   render: h => h(App)
 }).$mount('#app')

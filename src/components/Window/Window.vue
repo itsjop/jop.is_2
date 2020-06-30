@@ -23,7 +23,7 @@
         .minimize(@click="minimizeWindow(info.uid)") _
         .close(@click="closeWindow(info.uid)") X
     .content(:id="'content_'+info.uid" :class="(offScreen ? 'offscreen ' : '') + (codezone?'codezone':'')" :stopDrag="stopDrag" :doDrag="doDrag")
-      slot
+      slot(@changeProp="changeProp")
     //- codin(:codezone="codezone" :class="(codezone?'codezone':'')")
     .scalar.scalar-t(@mousedown="startScale('top')")
     .scalar.scalar-tl(@mousedown="startScale('top','left')")
@@ -197,6 +197,11 @@ export default {
           console.error('Couldn\'t generate an image!', error);
       })
     },
+    changeProp(payload){
+      // this is fucking gross, why didn't you use vuex 2018 me
+      alert()
+      this.$emit("changeProp",{prop: payload.prop, val: payload.val})
+    }
   },
   mounted() {
     this.activateListener()

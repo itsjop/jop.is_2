@@ -34,12 +34,13 @@ LOW-PRIO:
     transition-group(name="login")
       login(@login="loggedIn = true" :style="!this.$route.path.slice(1) ? '' : 'display: none'" v-if="!loggedIn" key="login")
       #os(v-else key="os")
-        clippy(v-if='!clippage' :clipMessage="clipMessage" :interacted="interacted")
-        desktop(@newWindow="newWindow" )
+        clippy(ref="clippy" @clipLoad="setInitialClippy")
+        desktop(@newWindow="newWindow")
         window( 
             v-for="(window, index) in windows" 
             :key="window.uid"
             :info="window"
+            @changeProp="changeProp"
             @popWindow="popWindow" 
             @closeWindow="closeWindow" 
             @minimizeWindow="minimizeWindow"
@@ -100,9 +101,8 @@ export default {
       componentList: applications,
       mobileCover: true,
       loggedIn: false,
-      clipMessage: `Howdy, welcome! 
-        Go ahead and double-click on anything over there to get started!`,
-      interacted: false
+      interacted: false,
+      wallpaperImg: ""
     }
   },
   mounted() {
@@ -122,9 +122,9 @@ export default {
     }
     if(localStorage.desktop_image){
       document.documentElement.style.setProperty('--desktop-image', localStorage.desktop_image);
+    }else{
+      localStorage.desktop_image = "url(/img/desktop/foggy-birds.png)"
     }
-    if(localStorage.clippy){ this.clippage = true }
-    else{this.clippage = false}
 
     console.log("path", this.$route.path)
     console.log("pathl", this.$route.path.slice(1).length)
@@ -150,9 +150,9 @@ export default {
     popWindow(newIndex){
       // can be passed a string or a component name
       // if the name ends in a number it's a window uid
-      console.log("POP", newIndex,newIndex[newIndex.length -1])
+      // console.log("POP", newIndex,newIndex[newIndex.length -1])
       if(typeof Number(newIndex[newIndex.length -1]) == 'number'){
-        console.log("NUMBER")
+        // console.log("NUMBER")
         this.windows.map((window, winIndex) =>{
           window.active = false
           // Anything that is in front of the new window gets pulled back
@@ -164,7 +164,6 @@ export default {
             window.active = true
             window.minimized = false
             window.zIndex= this.windows.length
-            console.log("WINDOW", window)
             this.$router.push({path:window.name})
           }
         })
@@ -236,9 +235,11 @@ export default {
           },
           minimized: false,
         })
+        if(!this.$route.path.slice(1)){
+          this.$refs.clippy.dismissClippy(`Thanks!
+            I'll get out of your way now.`)
+        }
         localStorage.clippy = true
-        this.clipMessage = `Thanks!
-         I'll get out of your way now.`
         setTimeout(() => {
           this.interacted = true
         }, 1300);
@@ -313,6 +314,17 @@ export default {
     restoreWindow(winIndex){
       this.windows[winIndex].minimized = false  
     },
+    setInitialClippy(){
+      console.log('pelase')
+      if(this.$route.path.slice(1)){ 
+        this.$refs.clippy.showClippy(9000, "Here's that app you wanted, cheif!", "Okay! Seeya!")}
+      else if(!localStorage.clippy){ 
+        this.$refs.clippy.showClippy(30000, `Howdy, welcome! 
+        Go ahead and double-click on anything over there to get started!`, "Okay, I guess I'll leave you to it!")}
+    },
+    changeProp(payload){
+      this.data[payload.prop] = payload.val
+    }
   },
   components:{
     clippy: Clippy,

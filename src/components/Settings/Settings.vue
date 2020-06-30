@@ -22,6 +22,8 @@ section.settings
 </template>
 
 <script>
+import { EventBus } from '../../main';
+
 import tinycolor from 'tinycolor2'
 import { Sketch } from 'vue-color'
 import allImages from '../../assets/data/Backgrounds'
@@ -86,9 +88,9 @@ export default {
   },
   methods:{
     setWall(index){
-      document.documentElement.style.setProperty('--desktop-image', "url("+this.images[index].path+")");
-      localStorage.desktop_image = "url("+this.images[index].path+")"
-			this.activeImg = this.images[index].name
+      localStorage.desktop_image = this.images[index].path
+      this.activeImg = this.images[index].name
+      EventBus.$emit('i-got-clicked', this.images[index].path);
     }
   },
   created(){

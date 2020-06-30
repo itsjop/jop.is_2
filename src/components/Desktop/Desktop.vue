@@ -1,6 +1,7 @@
  <template lang="pug">
 
 section.desktop
+  canvas#wallpaper
   .icon(v-for="(file, index) in fullContents" 
         v-on:dblclick="file.type==='component' ? newWindow(file.title, file.name) : newWindow(file.title, 'explorer', file.name)")
     svg(mlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" v-if="file.type==='folder'" version="1.1" viewBox="0 0 24 24")
@@ -15,6 +16,8 @@ section.desktop
 import applications from '../../assets/data/Applications'
 import folders from '../../assets/data/Folders'
 import Explanation from './Explanation/Explanation'
+
+import { EventBus } from '../../main';
 
 export default {
 	name: 'Desktop',
@@ -56,10 +59,32 @@ export default {
 					name: "star",
 				},
       ],
-      wiggles: [true, false, false, false]
+      wiggles: [true, false, false, false],
+      style_height: 0,
+      style_width: 0,
+      canvas: "",
+      ctx: "",
+      dpi: "",
+      raf: "",
+      img: new Image(),
+      x: 0,
+      y: 0, 
+      patternWidth: 0,
+      patternHeight: 0,
+      speed: .15,
 		}
   },
-  created(){
+  mounted(){
+    this.canvas = document.getElementById('wallpaper'),
+    this.ctx = this.canvas.getContext('2d'),
+    this.dpi = window.devicePixelRatio,
+    this.img.src = localStorage.desktop_image || "img/desktop/foggy-birds.png"
+    this.img.onload = window.requestAnimationFrame(this.screenDraw);
+    EventBus.$on('i-got-clicked', imgName => {
+      console.log("updating desktiop")
+      this.img.src = imgName
+      this.img.onload = window.requestAnimationFrame(this.screenDraw);
+    });
   },
   computed:{
     // fetches the information for the components
@@ -93,9 +118,9 @@ export default {
       if (componentType==="folder"){
         this.folderList.map(folder=>{
           if(folder.name===componentName){
-            console.log("found folder!", folder, componentName)
+            // console.log("found folder!", folder, componentName)
             newObj = folder
-            console.log("found ob!", newObj)
+            // console.log("found ob!", newObj)
           }
         })
       }
@@ -104,8 +129,42 @@ export default {
     newWindow(title, component, folderPath){
       console.log("newWindw", title, component, folderPath)
       this.$emit('newWindow',{...this.getComponentDetails(component),title: title, name: component, folderPath: folderPath})
+    },      
+    fix_dpi() {
+      //create a style object that returns width and height  
+      let style = {
+        height() {
+          return +getComputedStyle(this.canvas).getPropertyValue('height').slice(0,-2);
+        },
+        width() {
+          return +getComputedStyle(this.canvas).getPropertyValue('width').slice(0,-2);
+        }
+      }
+      //set the correct attributes for a crystal clear image!  
+      this.canvas.setAttribute('width', style.width() * this.dpi);
+      this.canvas.setAttribute('height', style.height() * this.dpi);
     },
-      
+    fix_dpi() {
+      //get CSS height
+      //the + prefix casts it to an integer
+      //the slice method gets rid of "px"
+      this.style_height = +getComputedStyle(this.canvas).getPropertyValue("height").slice(0, -2); //get CSS width
+      this.style_width = +getComputedStyle(this.canvas).getPropertyValue("width").slice(0, -2); //scale the canvas
+      this.canvas.setAttribute('height', this.style_height * this.dpi);
+      this.canvas.setAttribute('width', this.style_width * this.dpi);
+    },
+    screenDraw() {  
+      this.fix_dpi();
+      this.ctx.clearRect(0,0, this.canvas.width, this.canvas.height);
+      this.ctx.fillStyle = this.ctx.createPattern(this.img, 'repeat');
+      this.ctx.translate(this.x, this.y);
+      this.ctx.fillRect(-this.x,-this.y, this.style_width, this.style_height)  
+      this.ctx.translate(this.x, this.y);
+      this.ctx.fill()
+      this.x = this.x%this.img.height + this.speed
+      this.y = this.y%this.img.width + this.speed
+      this.raf = window.requestAnimationFrame(this.screenDraw);
+    }
   },
 	props: {
   },
@@ -146,11 +205,17 @@ bckground()
   &::before
     bckground()
     background linear-gradient(180deg, var(--primary-dark) 0% 0%, var(--primary-darkest) 100%);
-  &::after
-    bckground()
-    background-image var(--desktop-image);
-    z-index -11
-    filter invert(var(--invert))
+  // &::after
+  //   bckground()
+  //   background-image var(--desktop-image);
+  //   z-index -11
+  //   filter invert(var(--invert))
+  #wallpaper
+    top 0
+    left 0
+    position absolute
+    width 100vw
+    height 100vh
   .icon
     cursor pointer
     display grid

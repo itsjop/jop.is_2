@@ -37,6 +37,7 @@ export default {
 
 <style lang="stylus">
 #explanation
+  user-select none
   position absolute
   right 0
   top 0
@@ -60,13 +61,15 @@ export default {
       width auto
       max-width auto
     span 
+      user-select none
       opacity .8
     .welcome
       opacity 1
   .welcome
     opacity 0
     transition .3s
-  h1
+  h1 
+    user-select none
     display flex
     color white
     margin 0

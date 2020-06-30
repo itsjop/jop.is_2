@@ -1,25 +1,43 @@
 <template lang="pug">
 section#clippy
-  #clip-holder(:class="interacted ? 'exiting' : 'introduction'")
+  #clip-holder(:class="shown ? 'introduction' : 'exiting'")
     img#the-clipman-himself(src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/522641/coppy.svg")
-  #clippy-modal(:class="interacted ? 'exiting' : ''")
+  #clippy-modal(v-show="clipMessage" :class="shown ? '' : 'exiting'")
     p {{clipMessage}}
 
 </template>
 
 <script>
 export default {
-  name: 'name',   
+  name: 'NotClippy',   
   data() {
     return {
+      shown: false,
+      clipMessage: ""
     }
   },
-  methods:{    
+  mounted(){
+    console.log('echo')
+    this.$emit('clipLoad')
   },
-  props: {
-    interacted: false,
-    clipMessage: ""
-  }
+  methods:{
+    showClippy(duration = 9000, showMessage, leaveMessage){
+      this.shown = true
+      console.log('showMessage', duration, showMessage, leaveMessage)
+      this.clipMessage = showMessage
+      setTimeout(() => {
+        this.clipMessage = showMessage;
+        setTimeout(() => {this.dismissClippy(leaveMessage)}, Math.max(0, duration-1000));
+      }, 1000);
+    },
+    setClippyMessage(message){
+      this.clipMessage = showMessage
+    },
+    dismissClippy(message){
+      this.clipMessage = message
+      setTimeout( () => this.shown = false, 1000)
+    },
+  },
 }
 </script>
 

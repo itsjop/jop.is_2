@@ -135,16 +135,18 @@ export default {
   },
   methods:{
     checkLoadRoute(){
-      this.loggedIn = true
-      console.log("path",this.$route.path.slice(1).split('/'))
-      let prams = ("path",this.$route.path.slice(1).split('/'))
-      console.log('prams', prams)
-      // short code for folder or anything else that needs to be categorized
-      if (prams[0] === "f"){ }
-      if (prams[0] === "explorer"){
-        this.$router.push({path:"/"})
-      }else{
-        this.newWindow({name: prams[0], centered: true})
+      if(applications.find(app => app.name === this.$route.path.slice(1))){
+        this.loggedIn = true
+        console.log("path",this.$route.path.slice(1).split('/'))
+        let prams = ("path",this.$route.path.slice(1).split('/'))
+        console.log('prams', prams)
+        // short code for folder or anything else that needs to be categorized
+        if (prams[0] === "f"){ }
+        if (prams[0] === "explorer"){
+          this.$router.push({path:"/"})
+        }else{
+          this.newWindow({name: prams[0], centered: true})
+        }
       }
     },
     popWindow(newIndex){
@@ -164,7 +166,7 @@ export default {
             window.active = true
             window.minimized = false
             window.zIndex= this.windows.length
-            this.$router.push({path:window.name})
+            this.$route.path.slice(1) !== window.name ? this.$router.push({path:window.name}) : ''
           }
         })
       }
@@ -213,7 +215,7 @@ export default {
         // Looks up the window's data in the event it isn't passed,
         // for instance, in the event it's opened from a URL
         let windowData = applications.filter(app => app.name === payload.name)[0]
-        this.$router.push({path:payload.name})
+        this.$route.path.slice(1) !== payload.name ? this.$router.push({path:payload.name}) : ''
         this.windows.push({
           //TODO: get a proper spread operator in here
           title: payload.title || windowData.title,
@@ -225,7 +227,7 @@ export default {
           code: payload.code,
           icon: payload.icon || windowData.icon,
           url: payload.url,
-          size: payload.size,
+          size: payload.size || windowData.size,
           name: payload.name,
           uid: iterativeName,
           centered: payload.centered,

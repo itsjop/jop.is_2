@@ -5,7 +5,7 @@ section#login
       img.icon(src="/img/literally_me.png")
       label.name Welcome!
       p Click to log in!
-  .welcomer(v-if="!login_anim")
+  //- .welcomer(v-if="!login_anim")
     .message Welcome to:
     .line
       .letter J
@@ -109,6 +109,7 @@ export default {
     transform translateY(300%)
     animation user-in .5s 6s cubic-bezier(0.790, 0.265, 0.265, 1.550) forwards
     filter drop-shadow(0px 0px 5px black)
+    user-select none
     &.short
       animation-delay 0s
     .icon

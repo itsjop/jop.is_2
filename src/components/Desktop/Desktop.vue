@@ -9,7 +9,7 @@ section.desktop
     img(:src="file.icon" v-else :alt="file.summary")
     .name {{(file.shortTitle ? file.shortTitle : file.title)}}
   explanation
-
+  button THE BUTTON SAYS {{storeMessage}}
 </template>
 
 <script>
@@ -35,34 +35,28 @@ export default {
           type: "folder",
           name: "explorer",
           folder: "personalLinks"
-				},
-				// {
+				// }, {
         //   type: "folder",
         //   name: "explorer",
         //   folder: "experiments"
-				// },
-				{
+				}, {
           type: "folder",
           name: "explorer",
           folder: "portfolio"
-				},
-				{
+				}, {
           type: "folder",
           name: "explorer",
           folder: "realProjects"
-				},
-				{
-          type: "component",
-					name: "duckrotation",
-				},
-				{
+				}, {
           type: "component",
 					name: "personal",
-				},
-				{
+				}, {
           type: "component",
 					name: "star",
-				},
+				}, {
+          type: "component",
+					name: "duckrotation",
+				}, 
       ],
       wiggles: [true, false, false, false],
       style_height: 0,
@@ -129,6 +123,9 @@ export default {
     absAngle(){
       // used to show where the angle would be if it were forced to be between 0 and 360
       return this.angle<=0 ? this.angle - 360 : this.angle
+    },
+    storeMessage() {
+      return this.$store.state.message
     }
   },
   methods:{
@@ -205,11 +202,19 @@ export default {
         this.angle+=(Math.abs(this.angle - this.nextAngle)*.01)*Math.sign(this.nextAngle - this.angle)
         // this.speed+=(Math.abs(this.speed - this.nextSpeed)*.01)*Math.sign(this.nextSpeed - this.speed)
         // mods the x and y over the width of the image, based on the speed and the direction of the angle (from deg to rad)
-        this.x = this.x%this.img.height + (this.speed * Math.cos((this.angle*Math.PI)/180))
-        this.y = this.y%this.img.width + (this.speed * Math.sin((this.angle*Math.PI)/180) )
+        this.img.height ?
+            this.x = this.x%this.img.height + (this.speed * Math.cos((this.angle*Math.PI)/180))
+          : console.log("height not ready", this.img.height)
+        this.img.width ?
+            this.y = this.y%this.img.width + (this.speed * Math.sin((this.angle*Math.PI)/180))
+          : console.log("width not ready", this.img.width)
       }else if(this.motionSetting==="linear"){
-        this.x = this.x%this.img.height + (this.speed * Math.cos((this.angle*Math.PI)/180))
-        this.y = this.y%this.img.width + (this.speed * Math.sin((this.angle*Math.PI)/180) )
+        this.img.height ?
+            this.x = this.x%this.img.height + (this.speed * Math.cos((this.angle*Math.PI)/180))
+          : console.log("height not ready", this.img.height)
+        this.img.width ?
+            this.y = this.y%this.img.width + (this.speed * Math.sin((this.angle*Math.PI)/180) )
+          : console.log("width not ready", this.img.width)
       }else {
         //just do nothing! it's easy!
       }

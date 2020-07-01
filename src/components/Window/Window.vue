@@ -206,7 +206,7 @@ export default {
   mounted() {
     this.activateListener()
     console.log("CENTERED", this.$props.centered)
-    if(this.centered){
+    if(this.info.centered){
       this.xPerc+=(Math.random()*30)
       this.yPerc+=(Math.random()*30)
     }else{

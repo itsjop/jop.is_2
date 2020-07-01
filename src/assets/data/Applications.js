@@ -37,7 +37,7 @@ export default [
   },
   {
     name: "duckrotation",
-    title: "Duck Rotation",
+    title: "Duck",
     shortTitle: "Duck",
     icon: './pages/DuckRotation/icon.png',
     path: '/components/Pages/DuckRotation/DuckRotation',

@@ -9,8 +9,6 @@ Vue.config.productionTip = false
 import '../public/img/desktop/wood-pattern.png'
 import router from './router'
 
-//  = new Vue();
-
 require('@/assets/css/normalize.css')
 
 Vue.use(VueTippy)

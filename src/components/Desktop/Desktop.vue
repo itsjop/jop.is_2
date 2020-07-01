@@ -18,6 +18,11 @@ import folders from '../../assets/data/Folders'
 import Explanation from './Explanation/Explanation'
 
 import { EventBus } from '../../main';
+import prefersReducedMotion, { motionPreferences } from '@magica11y/prefers-reduced-motion';
+
+const motionPreference = prefersReducedMotion();
+const disableAnimations = (motionPreference === motionPreferences.REDUCE);
+
 
 export default {
 	name: 'Desktop',
@@ -69,21 +74,40 @@ export default {
       img: new Image(),
       x: 0,
       y: 0, 
-      patternWidth: 0,
-      patternHeight: 0,
       speed: .15,
+      baseSpeed: .15,
+      nextSpeed: .15,
+      angle: 0,
+      nextAngle: 0,
+      motionSetting: ""
 		}
   },
   mounted(){
-    this.canvas = document.getElementById('wallpaper'),
-    this.ctx = this.canvas.getContext('2d'),
-    this.dpi = window.devicePixelRatio,
+    this.canvas = document.getElementById('wallpaper')
+    this.ctx = this.canvas.getContext('2d')
+    this.dpi = window.devicePixelRatio
     this.img.src = localStorage.desktop_image || "img/desktop/foggy-birds.png"
+    this.motionSetting = disableAnimations ? "none" : localStorage.motion_setting || "full"
+    this.speeed = localStorage.motion_speed || .15
+    disableAnimations ? localStorage.motion_setting = 'none' : ''
     this.img.onload = window.requestAnimationFrame(this.screenDraw);
-    EventBus.$on('i-got-clicked', imgName => {
+    EventBus.$on('update-bg', imgName => {
       console.log("updating desktiop")
       this.img.src = imgName
       this.img.onload = window.requestAnimationFrame(this.screenDraw);
+    });
+    EventBus.$on('update-motion', motion => {
+      console.log("updating m,otion", motion)
+      this.motionSetting = motion
+    });
+    EventBus.$on('update-speed', newSpeed => {
+      console.log("updating spead", newSpeed)
+      this.baseSpeed = newSpeed      
+      this.speed = newSpeed      
+    });
+    EventBus.$on('update-angle', newAngle => {
+      console.log("updating agnel", newAngle)
+      this.angle = newAngle
     });
   },
   computed:{
@@ -101,6 +125,10 @@ export default {
         folderContents[index].type = item.type
       })
       return folderContents 
+    },    
+    absAngle(){
+      // used to show where the angle would be if it were forced to be between 0 and 360
+      return this.angle<=0 ? this.angle - 360 : this.angle
     }
   },
   methods:{
@@ -161,9 +189,30 @@ export default {
       this.ctx.fillRect(-this.x,-this.y, this.style_width, this.style_height)  
       this.ctx.translate(this.x, this.y);
       this.ctx.fill()
-      this.x = this.x%this.img.height + this.speed
-      this.y = this.y%this.img.width + this.speed
+      this.mover()
       this.raf = window.requestAnimationFrame(this.screenDraw);
+    },
+    mover(){
+      if(this.motionSetting==="full"){
+        if(Math.abs(Math.abs(this.angle) - Math.abs(this.nextAngle))< 2){
+          // randomly picks the next direction when it gets too close
+          this.nextAngle = Math.random() * 360
+          // this modification makes sure the angle always takes the closest path, even if it's across the 0-axis
+          Math.abs(this.nextAngle - this.absAngle)>180 ? this.nextAngle - 360 : ''
+          this.nextSpeed = this.baseSpeed + (Math.random()*this.baseSpeed)-(this.baseSpeed/2)
+        }
+        // takes a fraction of the difference between the two values and adds in in the direction of nextAngle
+        this.angle+=(Math.abs(this.angle - this.nextAngle)*.01)*Math.sign(this.nextAngle - this.angle)
+        // this.speed+=(Math.abs(this.speed - this.nextSpeed)*.01)*Math.sign(this.nextSpeed - this.speed)
+        // mods the x and y over the width of the image, based on the speed and the direction of the angle (from deg to rad)
+        this.x = this.x%this.img.height + (this.speed * Math.cos((this.angle*Math.PI)/180))
+        this.y = this.y%this.img.width + (this.speed * Math.sin((this.angle*Math.PI)/180) )
+      }else if(this.motionSetting==="linear"){
+        this.x = this.x%this.img.height + (this.speed * Math.cos((this.angle*Math.PI)/180))
+        this.y = this.y%this.img.width + (this.speed * Math.sin((this.angle*Math.PI)/180) )
+      }else {
+        //just do nothing! it's easy!
+      }
     }
   },
 	props: {
@@ -216,6 +265,7 @@ bckground()
     position absolute
     width 100vw
     height 100vh
+    filter invert(var(--invert))
   .icon
     cursor pointer
     display grid

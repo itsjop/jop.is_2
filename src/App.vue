@@ -123,7 +123,7 @@ export default {
     if(localStorage.desktop_image){
       document.documentElement.style.setProperty('--desktop-image', localStorage.desktop_image);
     }else{
-      localStorage.desktop_image = "url(/img/desktop/foggy-birds.png)"
+      localStorage.desktop_image = "/img/desktop/foggy-birds.png"
     }
 
     console.log("path", this.$route.path)
@@ -317,7 +317,7 @@ export default {
     setInitialClippy(){
       console.log('pelase')
       if(this.$route.path.slice(1)){ 
-        this.$refs.clippy.showClippy(9000, "Here's that app you wanted, cheif!", "Okay! Seeya!")}
+        this.$refs.clippy.showClippy(9000, "Here's that app you wanted, cheif!", "...okay! Seeya!")}
       else if(!localStorage.clippy){ 
         this.$refs.clippy.showClippy(30000, `Howdy, welcome! 
         Go ahead and double-click on anything over there to get started!`, "Okay, I guess I'll leave you to it!")}

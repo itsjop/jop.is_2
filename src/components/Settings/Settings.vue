@@ -4,19 +4,41 @@ section.settings
   hr
   .color
     .color-picker
-      label Color Picker
+      h1 Color Picker
       sketch-picker(v-model="color")
       span.credit All backgrounds provided by 
         a(href="https://www.transparenttextures.com/" target="_blank") transparenttextures.com
-    .wallpaper-picker
-      label Desktop Pattern
-      .select
+    transition-group.wallpaper-picker(name="fade")
+      h1(key="lavel") Desktop Pattern
+      .select(key="bg-picker")
         .option(v-for="(image, index) in images" @click="setWall(index)" :class="activeImg === image.name ? 'active':'' ")
           .bg(:style="{backgroundImage: ' url('+image.path+')'}")
           label {{image.name}}
-      .invert
+      .invert(key="invert")
         h4 Invert background?
         input(type="checkbox" v-model="invert")
+      .motion-picker(key="motion")
+        h4 Background Motion:
+        .radios
+          label(for="full") Dynamic
+            input(@change="setMotion('full')" type='radio' name='motion' id="full" value='full' v-model="motionSetting")
+          label(for="linear") Linear
+            input(@change="setMotion('linear')" type='radio' name='motion' id="linear" value='linear' v-model="motionSetting") 
+          label(for="none" @click="setMotion('none')") None
+            input(@change="setMotion('none')" type='radio' name='motion' id="none" value='none' v-model="motionSetting") 
+      .speed-picker(v-if="motionSetting==='linear'" key="angle")
+        h4 Background Angle:
+        .radios
+          label ⭮ 
+          input(@change="setAngle()" type="range" min="0" max="360" v-model="motionAngle" step="1" class="slider" id="myRange" )
+          label ⭯
+      .speed-picker(v-if="motionSetting!=='none'" key="speed")
+        h4 Background Speed:
+        .radios
+          label Slow
+          input(@change="setSpeed()" type="range" min="0" max="90" v-model="motionSpeed" step="1" class="slider" id="myRange" )
+          label Fast
+        
   //- h4 Gravity
   //- h4 OS toggle
 </template>
@@ -34,7 +56,10 @@ export default {
       color: getComputedStyle(document.documentElement).getPropertyValue('--primary'),
       activeImg:"Tasky",
       invert: false,
-      images: allImages
+      images: allImages,
+      motionSetting: "full",
+      motionSpeed: 15,
+      motionAngle: 315
 		}
 	},
 	watch: {
@@ -90,8 +115,20 @@ export default {
     setWall(index){
       localStorage.desktop_image = this.images[index].path
       this.activeImg = this.images[index].name
-      EventBus.$emit('i-got-clicked', this.images[index].path);
-    }
+      EventBus.$emit('update-bg', this.images[index].path);
+    },
+    setMotion(){
+      localStorage.motion_setting = this.motionSetting
+      EventBus.$emit('update-motion', this.motionSetting);
+    },
+    setSpeed(){
+      localStorage.motion_speed = this.motionSpeed/100
+      EventBus.$emit('update-speed', this.motionSpeed/100);
+    },
+    setAngle(){
+      localStorage.motion_speed = (Number(this.motionAngle) + 90)%360
+      EventBus.$emit('update-angle',(Number(this.motionAngle) + 90)%360)
+    },
   },
   created(){
     for (let i = this.images.length - 1; i > 0; i--) {
@@ -102,7 +139,11 @@ export default {
       if(this.activeImg === img){
         this.images.unshift(img)
       }; 
-    }) },
+    }) 
+  },
+  mounted(){
+    this.motionSetting = localStorage.motion_setting || "full"
+  },
 	components: {
     'sketch-picker': Sketch
 	}
@@ -110,6 +151,12 @@ export default {
 </script>
 
 <style scoped lang="stylus" scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 .settings
   padding 10px
   h2
@@ -118,8 +165,10 @@ export default {
     border-style inset
   .color
     display grid 
-    grid-template-columns repeat(auto-fit, minmax(200px, 1fr))
+    grid-template-columns repeat(auto-fit, minmax(300px, 1fr))
     grid-gap 20px
+    h1
+      margin 10px 0 0px
     .color-picker
       .vc-sketch
         background transparent
@@ -143,12 +192,23 @@ export default {
         a
           color var(--text-dark)
 
-        
+    .motion-picker, .speed-picker
+      display grid 
+      h4
+        margin 0 10px 0 0
+      .radios 
+        display flex
+        justify-content space-around
+        flex-grow 2
+        align-content center
+        align-items center
+        input 
+          margin-left 2px  
     .wallpaper-picker
       .invert
         display flex
         h4
-          margin 5px 10px
+          margin 5px 10px 5px 0
       .select
         width 100%
         height 250px

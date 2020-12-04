@@ -13,7 +13,7 @@
     "dom-to-image": "^2.6.0",
     "draggable-vue-directive": "^2.1.0",
     "git": "^0.1.5",
-    "highlight.js": "^9.18.1",
+    "highlight.js": "^10.4.1",
     "jquery": "^3.5.1",
     "normalize.css": "^8.0.1",
     "pug": "^2.0.4",
